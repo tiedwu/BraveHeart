@@ -58,7 +58,7 @@ Builder.load_string('''
 			size: self.size
 			pos: self.pos
 	Image:
-		source: 'icons/coin2-alpha.png'
+		source: 'icons/coin.png'
 		size: 80, 80
 		size_hint: None, None
 	GoldLabel:
