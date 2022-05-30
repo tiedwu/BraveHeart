@@ -100,7 +100,7 @@ Builder.load_string('''
 			pos: 0, root.wh // 15
 			size: root.ww, root.ww
 			#source: 'worldmap_480_480.png'
-			source: 'images/worldmap-resized-1.png'
+			source: 'images/worldmap.png'
 
 		Color:
 			rgba: utils.get_color_from_hex('#73B5D3')
