@@ -19,40 +19,47 @@
 # 大师大冒险家之剑: attack = 100 * QAC + 1.8 * LV, hp = 150 * QAC + 1.8 * LV
 # 数珠丸恒次: attack = 100 * QAC + 4 * LV
 # 埃苏莱布斯军刃: attack = 100 * QAC + 2.1 * LV, armor = 20 * QAC + 1.6 * LV, block = 10 * QAC + 1 * LV
-# 无名剑: attack = 100 * QAC + 2.7 * LV, crit (ref to quality) * 2.5
-# 死亡之刃: attack = 100 * QAC + 2 * LV, crit (ref to qulity) * 1.5, damage (ref to quality) * 1.3
-# 霜龙利刃: attack = 100 * QAC + 1.9 * LV, crit (ref to qulity) * 1.6, damage (ref to quality) * 1.3
-# 阿加雷斯血色巨剑: attack = 100 * QAC + 1.8 * LV, crit (ref to qulity) * 1.5, damage (ref to quality) * 1.4
-# 神龙纳格林之刃: attack = 100 * QAC + 2.8 * LV, damage (ref to quality) * 2
-# 六翼天使武刃: attack = 100 * QAC + 2.6 * LV, damage (ref to quality) * 1.2, armor = 20 * QAC + 1.1 * LV
+# 无名剑: attack = 100 * QAC + 2.7 * LV, crit (ref to quality) + 2.5
+# 死亡之刃: attack = 100 * QAC + 2 * LV, crit (ref to qulity) + 1.5, damage (ref to quality) + 1.3
+# 霜龙利刃: attack = 100 * QAC + 1.9 * LV, crit (ref to qulity) + 1.6, damage (ref to quality) + 1.3
+# 阿加雷斯血色巨剑: attack = 100 * QAC + 1.8 * LV, crit (ref to qulity) + 1.5, damage (ref to quality) + 1.4
+# 神龙纳格林之刃: attack = 100 * QAC + 2.8 * LV, damage (ref to quality) + 2
+# 六翼天使武刃: attack = 100 * QAC + 2.6 * LV, damage (ref to quality) + 1.2, armor = 20 * QAC + 1.1 * LV
 # 黑色冰虎刃: attack = 100 * QAC + 2 * LV, armor = 20 * QAC + 1.2 * LV, hp = 150 * QAC + 1.1 * LV
-# 繁星之剑: attack = 100 * QAC + 1.7 * LV, damage (ref to quality) * 1, hp = 150 * QAC + 1 * LV
-# 心碎瞬间短剑: attack = 100 * QAC * QAC + 2 * LV, damage (ref to qulity) * 1.4, armor = 20 * QAC + 0.9 * LV
+# 繁星之剑: attack = 100 * QAC + 1.7 * LV, damage (ref to quality) + 1, hp = 150 * QAC + 1 * LV
+# 心碎瞬间短剑: attack = 100 * QAC + 2 * LV, damage (ref to qulity) + 1.4, armor = 20 * QAC + 0.9 * LV
 
-# 新手铠甲: armor = 10 * QAC + 0.7 * LV
-# 战士重铠: armor = 13 * QAC + 0.8 * LV, hp = 140 * QAC + 1.1 * LV
-# 天权軽甲: armoa = 11 * QAC + 0.7 * LV, hp = 130 * QAC + 1.2 * LV, attack = 5 * QAC + 1 * LV
-# 赤柳血铠: armor = 13 * QAC + 0.8 * LV, hp = 140 * QAC + 1.3 * LV
-# 紫金守护胸甲 armor = 14 * QAC + 1 * LV, hp = 150 * QAC + 1.4 * LV
-# 哈皮毛毛连身衣: armor = 13 * QAC + 0.9 * LV, hp = 130 * 19 + 1.2 * 198 = 2840, attack =
+# 新手铠甲: armor = 20 * QAC + 0 * LV
+# 战士重铠: armor = 30 * QAC + 0.8 * LV, hp = 90 * QAC + 0.4 * LV
+# 天权軽甲: armoa = 25 * QAC + 0.7 * LV, hp = 80 * QAC + 0.2 * LV, attack = 7 * QAC + 1 * LV
+# 赤柳血铠: armor = 30 * QAC + 0.8 * LV, hp = 100 * QAC + 0.4 * LV
+# 紫金守护胸甲 armor = 36 * QAC + 1 * LV, hp = 110 * QAC + 0.5 * LV
+# 哈皮毛毛连身衣: armor = 30 * QAC + 0.9 * LV, hp = 90 * QAC + 0.4 * LV, attack = 6 * QAC + 0.8 * LV
 
-# 剑豪盔甲: armor = 15 * QAC + 2.1 * LV, hp = 200 * QAC + 2.6 * LV
-# 肃清者戎衣: hp = 200 * QAC + 1.8 * LV, attack = 16 * QAC + 2.5 * LV, block = 10 * QAC + 1.3 * LV
-# 红月的夜行衣: armor = 15 * QAC + 1.2 * LV, hp = 200 * QAC + 1.7 * LV, attack = 16 * QAC + 1.2 * LV
-# 隐武士铠甲: armor = 15 * QAC + 1.3 * LV, hp = 200 * QAC + 1.9 * LV, attack = 16 * QAC + 0.9 * LV
-# 芬萨里尔追踪者: armor = 15 * QAC + 1.1 * LV, damage (ref to quality) * 1.6, attack = 16 * QAC + 1.8 * LV
-# 黑镇月: armor = 15 * QAC + 2.6 * LV, hp = 200 * QAC + 2.1 * LV
-# 破坏者H-018: armor = 15 * QAC + 1.6 * LV, hp = 200 * QAC + 1.6 * LV, damage (ref to quality) * 1.6
-# 心化乱坠长袍: armor = 15 * QAC + 1.8 * LV, hp = 200 * QAC + 1.4 * LV, attack = 16 * QAC + 1.5 * LV
-# 法夜: armor = 15 * QAC + 1.2 * LV, hp = 200 * QAC + 0.6 * LV, damage (ref to quality) * 2.1
+# 剑豪盔甲: armor = 50 * QAC + 2.1 * LV, hp = 160 * QAC + 2.6 * LV
+# 肃清者戎衣: hp = 160 * 43 + 1.8 * 159 = 7003, attack = 16 * QAC + 2.5 * LV, block = 10 * 41 + 1.3 * 159 = 609
+# 红月的夜行衣: armor = 50 * QAC + 1.2 * LV, hp = 160 * QAC + 1.7 * LV, attack = 16 * QAC + 1.2 * LV
+# 隐武士铠甲: armor = 50 * QAC + 1.3 * LV, hp = 160 * QAC + 1.9 * LV, attack = 16 * QAC + 0.9 * LV
+# 芬萨里尔追踪者: armor = 50 * QAC + 1.1 * LV, damage (ref to quality) + 1.6, attack = 16 * QAC + 1.8 * LV
+# 黑镇月: armor = 50 * QAC + 2.6 * LV, hp = 160 * QAC + 2.1 * LV
+# 破坏者H-018: armor = 50 * QAC + 1.6 * LV, hp = 160 * QAC + 1.6 * LV, damage (ref to quality) + 1.6
+# 心化乱坠长袍: armor = 50 * QAC + 1.8 * LV, hp = 160 * QAC + 1.4 * LV, attack = 16 * QAC + 1.5 * LV
+# 法夜: armor = 50 * QAC + 1.2 * LV, hp = 160 * QAC + 0.6 * LV, damage (ref to quality) + 2.1
 
 # 新手项链: damage (ref to quality)
 # 冰龙凝雪: damage (ref to quality), crit (ref to quality), hp = 90 * QAC + 0.5 * LV
-# 银魄之眼: crit (ref to quality), hp = 100 * QAC + 0.5 * LV, attack = 70 * QAC + 0.6 * LV
-# 十字军项链: armor = 0.9 * QAC + 1.2 * LV, hp = 100 * QAC + 0.9 * LV, block = 0.9 * QAC + 1 * LV
+# 银魄之眼: crit (ref to quality), hp = 60 * QAC + 0.5 * LV, attack = 5 * QAC + 0.5 * LV
+# 十字军项链: armor = 15 * 19 + 0.5 * 200 = 378, hp = 60 * QAC + 0.5 * LV, block = 0.9 * QAC + 1 * LV
 
-# 伟大单身成员的项链: damage (refer to quality) * 1.1, block = 1 * QAC + 1.3 * LV, hp = 110 * QAC + 1 * LV
-# 十字旅团降魔项链: attack = 12 * QAC + 0.7 * LV, hp = 110 * QAC + 0.8 * LV, armor = 0.9
+# 伟大单身成员的项链: damage (refer to quality) + 1.1 * 21, block = 1 * QAC + 1.3 * LV, hp = 110 * QAC + 1 * LV
+# 十字旅团降魔项链: attack = 12 * QAC + 0.7 * LV, hp = 110 * QAC + 0.8 * LV, armor = 25 * QAC + 0.9 * LV
+# 进阶黑暗龙王项链: damage (refer to quality) + 1 * 21, crit (ref to quality) + 0.5, hp = 110 * QAC + 0.8 * LV
+# 魔族之翼展: damage (refer to quality) + 1.6 * 21, crit (ref to quality) + 1.6
+# 金色钥匙项链: hp = 110 * QAC + 0.6 * LV, damage (refer to quality) + 0.8 * 21, crit (refer to quality) + 0.5, gold * 1.3
+# 蓝色冰心骑士团项链: hp = 110 * QAC + 1.2 * LV, damage (refer to quality) + 1.6 * 21
+# 死神项链: hp = 110 * QAC + 0.8 * LV, damage (refer to quality) + 0.9 * 21, attack = 12 * QAC + 0.8 * LV
+# 失落之心毛毛项圈: hp = 110 * QAC + 1 * LV, damage (refer to quality) + 0.9 * 21, armor = 25 * QAC + 0.9 * LV
+# 强欲: damage (refer to quality) + 2.2 * 21
 
 # 新手指环: hp = 20 * QAC + 1 * LV
 # 毛毛指环: hp = 10 * QAC + 15.1 * LV, attack = 5 * QAC + 0.2 * LV, crit (ref to quality)
