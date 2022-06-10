@@ -1,5 +1,5 @@
 # 品质系数: QAC
-# rank: 破旧, 普通, 神器, 史诗, 独特, 不朽I, 不朽II
+# rank: 破旧(1), 普通(2), 神器(3), 史诗(4), 独特(5), 不朽I(6), 不朽II(7)
 # 品质: D, C, B, A, S, SS, SSS
 # Ex: 破旧 普通D 普通 C, QAC = 1, 普通 A, QAC = 5, 神器 D, QAC = 13, 神器 A, QAC = 19
 # Ex: 史诗 SS, QAC = 37, 史诗 A, QAC = 33, 史诗 C, QAC = 29
@@ -49,26 +49,26 @@ def empty_attr(attr):
     attr = {'attack': [0, 0], 'armor': [0, 0], 'hp': [0, 0], 'block': [0, 0], 'damage': [0, 0], 'crit': [0, 0], 'gold': [0]}
     return attr
 
-WP = [{'ID': '001', 'name': '新手剑', 'desc': '一把普通的剑', 'attr': ATTR_0},
-      {'ID': '002', 'name': '普通长剑', 'desc': '朴实无华的长剑，有的只有强力的攻击力', 'attr': ATTR_0},
-      {'ID': '003', 'name': '战士长剑', 'desc': '六级战士使用的长剑', 'attr': ATTR_0},
-      {'ID': '004', 'name': '毛毛的爪子', 'desc': '这? 这也是武器?', 'attr': ATTR_0},
-      {'ID': '005', 'name': '冰晶之刃', 'desc': '剑锋覆盖者冰晶, 碰到的敌人都会被冻住', 'attr': ATTR_0},
-      {'ID': '006', 'name': '赤柳血刃', 'desc': '似乎会给使用者提供生命气息', 'attr': ATTR_0},
-      {'ID': '007', 'name': '狱岩石太刀', 'desc': '用狱岩石制作的太刀, 据说拥有让使用者潜力爆发的神秘力量', 'attr': ATTR_0},
-      {'ID': '008', 'name': '紫炎波刃剑', 'desc': '传说中狂战士最喜爱的剑', 'attr': ATTR_0},
-      {'ID': '020', 'name': '大师大冒险家之剑', 'desc': '大师大冒险家之剑', 'attr': ATTR_0},
-      {'ID': '021', 'name': '数珠丸恒次', 'desc': '具体情况不明， 传说为日莲上人所有', 'attr': ATTR_0},
-      {'ID': '022', 'name': '埃苏莱布斯军刃', 'desc': '埃苏莱布斯军刃', 'attr': ATTR_0},
-      {'ID': '023', 'name': '无名剑', 'desc': '无名剑', 'attr': ATTR_0},
-      {'ID': '024', 'name': '死亡之刃', 'desc': '死亡之刃', 'attr': ATTR_0},
-      {'ID': '025', 'name': '霜龙利刃', 'desc': '霜龙利刃', 'attr': ATTR_0},
-      {'ID': '026', 'name': '阿加雷斯血色巨剑', 'desc': '阿加雷斯血色巨剑', 'attr': ATTR_0},
-      {'ID': '027', 'name': '神龙纳格林之刃', 'desc': '神龙纳格林之刃', 'attr': ATTR_0},
-      {'ID': '028', 'name': '六翼天使武刃', 'desc': '六翼天使武刃', 'attr': ATTR_0},
-      {'ID': '029', 'name': '黑色冰虎刃', 'desc': '黑色冰虎刃', 'attr': ATTR_0},
-      {'ID': '030', 'name': '繁星之剑', 'desc': '繁星之剑', 'attr': ATTR_0},
-      {'ID': '031', 'name': '心碎瞬间短剑', 'desc': '心碎瞬间短剑', 'attr': ATTR_0},
+WP = [{'ID': '001', 'name': '新手剑', 'desc': '一把普通的剑', 'rank': [1], 'attr': ATTR_0},
+      {'ID': '002', 'name': '普通长剑', 'desc': '朴实无华的长剑，有的只有强力的攻击力', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '003', 'name': '战士长剑', 'desc': '六级战士使用的长剑', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '004', 'name': '毛毛的爪子', 'desc': '这? 这也是武器?', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '005', 'name': '冰晶之刃', 'desc': '剑锋覆盖者冰晶, 碰到的敌人都会被冻住', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '006', 'name': '赤柳血刃', 'desc': '似乎会给使用者提供生命气息', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '007', 'name': '狱岩石太刀', 'desc': '用狱岩石制作的太刀, 据说拥有让使用者潜力爆发的神秘力量', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '008', 'name': '紫炎波刃剑', 'desc': '传说中狂战士最喜爱的剑', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '020', 'name': '大师大冒险家之剑', 'desc': '大师大冒险家之剑', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '021', 'name': '数珠丸恒次', 'desc': '具体情况不明， 传说为日莲上人所有', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '022', 'name': '埃苏莱布斯军刃', 'desc': '埃苏莱布斯军刃', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '023', 'name': '无名剑', 'desc': '无名剑', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '024', 'name': '死亡之刃', 'desc': '死亡之刃', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '025', 'name': '霜龙利刃', 'desc': '霜龙利刃', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '026', 'name': '阿加雷斯血色巨剑', 'desc': '阿加雷斯血色巨剑', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '027', 'name': '神龙纳格林之刃', 'desc': '神龙纳格林之刃', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '028', 'name': '六翼天使武刃', 'desc': '六翼天使武刃', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '029', 'name': '黑色冰虎刃', 'desc': '黑色冰虎刃', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '030', 'name': '繁星之剑', 'desc': '繁星之剑', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '031', 'name': '心碎瞬间短剑', 'desc': '心碎瞬间短剑', 'rank': [5], 'attr': ATTR_0},
       ]
 
 # 新手剑: attack = 50 * QAC + 0.9 * LV
@@ -219,21 +219,21 @@ WP[19]['attr'] = ATTR
 # 破坏者H-018: armor = 50 * QAC + 1.6 * LV, hp = 160 * QAC + 1.6 * LV, damage (ref to quality) + 1.6 * 21
 # 心花乱坠长袍: armor = 50 * QAC + 1.8 * LV, hp = 160 * QAC + 1.4 * LV, attack = 16 * QAC + 1.5 * LV
 # 法夜: armor = 50 * QAC + 1.2 * LV, hp = 160 * QAC + 0.6 * LV, damage (ref to quality) + 2.1 * 21
-ARMOR = [{'ID': '101', 'name': '新手铠甲', 'desc': '普通的衣甲', 'attr': ATTR_0},
-      {'ID': '102', 'name': '战士重铠', 'desc': '六级战士使用的重型铠甲', 'attr': ATTR_0},
-      {'ID': '103', 'name': '天权轻甲', 'desc': '舍弃防御性能的轻甲，因为更加轻便, 攻击性能更加突出', 'attr': ATTR_0},
-      {'ID': '104', 'name': '赤柳血铠', 'desc': '似乎会给使用者提供生命气息', 'attr': ATTR_0},
-      {'ID': '105', 'name': '紫金守护胸甲', 'desc': '够肉才能输出', 'attr': ATTR_0},
-      {'ID': '106', 'name': '哈皮毛毛连身衣', 'desc': '哈皮毛毛连身衣', 'attr': ATTR_0},
-      {'ID': '120', 'name': '剑豪盔甲', 'desc': '剑豪盔甲', 'attr': ATTR_0},
-      {'ID': '121', 'name': '肃清者戎衣', 'desc': '肃清者戎衣', 'attr': ATTR_0},
-      {'ID': '122', 'name': '红月的夜行衣', 'desc': '红月的夜行衣', 'attr': ATTR_0},
-      {'ID': '123', 'name': '隐武士铠甲', 'desc': '隐武士铠甲', 'attr': ATTR_0},
-      {'ID': '124', 'name': '芬萨里尔追踪者', 'desc': '芬萨里尔追踪者', 'attr': ATTR_0},
-      {'ID': '125', 'name': '黑镇月', 'desc': '黑镇月', 'attr': ATTR_0},
-      {'ID': '126', 'name': '破坏者H-018', 'desc': '破坏者H-018', 'attr': ATTR_0},
-      {'ID': '127', 'name': '心花乱坠长袍', 'desc': '心花乱坠长袍', 'attr': ATTR_0},
-      {'ID': '128', 'name': '法夜', 'desc': '法夜', 'attr': ATTR_0},
+ARMOR = [{'ID': '101', 'name': '新手铠甲', 'desc': '普通的衣甲', 'rank': [1], 'attr': ATTR_0},
+      {'ID': '102', 'name': '战士重铠', 'desc': '六级战士使用的重型铠甲', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '103', 'name': '天权轻甲', 'desc': '舍弃防御性能的轻甲，因为更加轻便, 攻击性能更加突出', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '104', 'name': '赤柳血铠', 'desc': '似乎会给使用者提供生命气息', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '105', 'name': '紫金守护胸甲', 'desc': '够肉才能输出', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '106', 'name': '哈皮毛毛连身衣', 'desc': '哈皮毛毛连身衣', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '120', 'name': '剑豪盔甲', 'desc': '剑豪盔甲', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '121', 'name': '肃清者戎衣', 'desc': '肃清者戎衣', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '122', 'name': '红月的夜行衣', 'desc': '红月的夜行衣', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '123', 'name': '隐武士铠甲', 'desc': '隐武士铠甲', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '124', 'name': '芬萨里尔追踪者', 'desc': '芬萨里尔追踪者', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '125', 'name': '黑镇月', 'desc': '黑镇月', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '126', 'name': '破坏者H-018', 'desc': '破坏者H-018', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '127', 'name': '心花乱坠长袍', 'desc': '心花乱坠长袍', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '128', 'name': '法夜', 'desc': '法夜', 'rank': [5], 'attr': ATTR_0},
       ]
 
 # 新手铠甲: armor = 20 * QAC + 0 * LV
@@ -355,19 +355,19 @@ ARMOR[14]['attr'] = ATTR
 # 死神项链: hp = 110 * QAC + 0.8 * LV, damage (refer to quality) + 0.9 * 21, attack = 12 * QAC + 0.8 * LV
 # 失落之心毛毛项圈: hp = 110 * QAC + 1 * LV, damage (refer to quality) + 0.9 * 21, armor = 25 * QAC + 0.9 * LV
 # 强欲: damage (refer to quality) + 2.2 * 21
-NECKLACE = [{'ID': '201', 'name': '新手项链', 'desc': '一条普通的项链', 'attr': ATTR_0},
-      {'ID': '202', 'name': '冰龙凝雪', 'desc': '冰龙凝雪', 'attr': ATTR_0},
-      {'ID': '203', 'name': '银魄之眼', 'desc': '银魄之眼', 'attr': ATTR_0},
-      {'ID': '204', 'name': '十字军项链', 'desc': '十字军佩戴的项链', 'attr': ATTR_0},
-      {'ID': '220', 'name': '伟大单身成员的项链', 'desc': '伟大单身成员的项链', 'attr': ATTR_0},
-      {'ID': '221', 'name': '十字旅团降魔项链', 'desc': '十字旅团降魔项链', 'attr': ATTR_0},
-      {'ID': '222', 'name': '进阶黑暗龙王项链', 'desc': '进阶黑暗龙王项链', 'attr': ATTR_0},
-      {'ID': '223', 'name': '魔族之翼展', 'desc': '魔族之翼展', 'attr': ATTR_0},
-      {'ID': '224', 'name': '金色钥匙项链', 'desc': '金色钥匙项链', 'attr': ATTR_0},
-      {'ID': '225', 'name': '蓝色冰心骑士团项链', 'desc': '蓝色冰心骑士团项链', 'attr': ATTR_0},
-      {'ID': '226', 'name': '死神项链', 'desc': '死神项链', 'attr': ATTR_0},
-      {'ID': '227', 'name': '失落之心毛毛项圈', 'desc': '失落之心毛毛项圈', 'attr': ATTR_0},
-      {'ID': '228', 'name': '强欲', 'desc': '强欲', 'attr': ATTR_0},
+NECKLACE = [{'ID': '201', 'name': '新手项链', 'desc': '一条普通的项链', 'rank': [1], 'attr': ATTR_0},
+      {'ID': '202', 'name': '冰龙凝雪', 'desc': '冰龙凝雪', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '203', 'name': '银魄之眼', 'desc': '银魄之眼', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '204', 'name': '十字军项链', 'desc': '十字军佩戴的项链', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '220', 'name': '伟大单身成员的项链', 'desc': '伟大单身成员的项链', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '221', 'name': '十字旅团降魔项链', 'desc': '十字旅团降魔项链', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '222', 'name': '进阶黑暗龙王项链', 'desc': '进阶黑暗龙王项链', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '223', 'name': '魔族之翼展', 'desc': '魔族之翼展', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '224', 'name': '金色钥匙项链', 'desc': '金色钥匙项链', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '225', 'name': '蓝色冰心骑士团项链', 'desc': '蓝色冰心骑士团项链', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '226', 'name': '死神项链', 'desc': '死神项链', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '227', 'name': '失落之心毛毛项圈', 'desc': '失落之心毛毛项圈', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '228', 'name': '强欲', 'desc': '强欲', 'rank': [5], 'attr': ATTR_0},
       ]
 
 # 新手项链: damage (ref to quality)
@@ -477,19 +477,19 @@ NECKLACE[12]['attr'] = ATTR
 # 金色幸运戒指: hp = 1800 * QAC + 0.7 * LV, damage (ref to quality) + 0.9 * 21, crit (ref to quality) + 0.5 * 21, gold * 1.3
 # 绿光森林戒指: hp = 1800 * QAC + 2.5 * LV, damage (ref to quality) + 0.8 * 21
 # 混沌: damage (ref to quality) + 2.2 * 21
-RING = [{'ID': '301', 'name': '新手指环', 'desc': '一个普通的指环', 'attr': ATTR_0},
-      {'ID': '302', 'name': '毛毛指环', 'desc': '喵喵戒指', 'attr': ATTR_0},
-      {'ID': '303', 'name': '生命指环', 'desc': '据说拥有增强佩戴者体质的神秘功效', 'attr': ATTR_0},
-      {'ID': '304', 'name': '御魂之戒', 'desc': '出来吧， 卡赞！吸纳所有彷徨的灵魂！--鬼剑士约翰', 'attr': ATTR_0},
-      {'ID': '320', 'name': '真毛毛指环', 'desc': '真毛毛指环', 'attr': ATTR_0},
-      {'ID': '321', 'name': '死神名片戒指', 'desc': '死神名片戒指', 'attr': ATTR_0},
-      {'ID': '322', 'name': '素盏鸣尊的意志', 'desc': '素盏鸣尊的意志', 'attr': ATTR_0},
-      {'ID': '323', 'name': '月夜见尊的意志', 'desc': '月夜见尊的意志', 'attr': ATTR_0},
-      {'ID': '324', 'name': '黑龙传说指环', 'desc': '黑龙传说指环', 'attr': ATTR_0},
-      {'ID': '325', 'name': '小小心戒指', 'desc': '小小心戒指', 'attr': ATTR_0},
-      {'ID': '326', 'name': '金色幸运戒指', 'desc': '金色幸运戒指', 'attr': ATTR_0},
-      {'ID': '327', 'name': '绿光森林戒指', 'desc': '绿光森林戒指', 'attr': ATTR_0},
-      {'ID': '328', 'name': '混沌', 'desc': '混沌', 'attr': ATTR_0},
+RING = [{'ID': '301', 'name': '新手指环', 'desc': '一个普通的指环', 'rank': [1], 'attr': ATTR_0},
+      {'ID': '302', 'name': '毛毛指环', 'desc': '喵喵戒指', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '303', 'name': '生命指环', 'desc': '据说拥有增强佩戴者体质的神秘功效', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '304', 'name': '御魂之戒', 'desc': '出来吧， 卡赞！吸纳所有彷徨的灵魂！--鬼剑士约翰', 'rank': [2, 3, 4], 'attr': ATTR_0},
+      {'ID': '320', 'name': '真毛毛指环', 'desc': '真毛毛指环', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '321', 'name': '死神名片戒指', 'desc': '死神名片戒指', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '322', 'name': '素盏鸣尊的意志', 'desc': '素盏鸣尊的意志', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '323', 'name': '月夜见尊的意志', 'desc': '月夜见尊的意志', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '324', 'name': '黑龙传说指环', 'desc': '黑龙传说指环', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '325', 'name': '小小心戒指', 'desc': '小小心戒指', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '326', 'name': '金色幸运戒指', 'desc': '金色幸运戒指', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '327', 'name': '绿光森林戒指', 'desc': '绿光森林戒指', 'rank': [5], 'attr': ATTR_0},
+      {'ID': '328', 'name': '混沌', 'desc': '混沌', 'rank': [5], 'attr': ATTR_0},
       ]
 
 # 新手指环: hp = 20 * QAC + 0.1 * LV
@@ -582,5 +582,3 @@ import json
 
 with open('eq.json', "w", encoding='utf-8') as f:
 	json.dump(EQ, f, indent=4, ensure_ascii=False)
-
-
