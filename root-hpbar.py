@@ -50,6 +50,7 @@ Builder.load_string('''
 				pos: self.size[0] * 0.1, self.size[1] * 0.8
 				size: self.size[0] * 0.5 * (self.hp_remain / 100), 30
 
+		# HP
 		Image:
 			size_hint: None, None
 			source: 'src/icons/hp.png'
@@ -71,13 +72,128 @@ Builder.load_string('''
 			halign: 'right'
 			valign: 'middle'
 
-		Button:
+		# ATTACK
+		Image:
 			size_hint: None, None
+			source: 'src/icons/attack.png'
+			pos_hint: {'x': 0, 'y': 0.6}
+			size: [top_left.window_width/(top_left.window_width/80),\
+				top_left.window_width/(top_left.window_width/80)]
+
+		Label:
+			id: show_attack
+			size_hint: None, None
+			size: top_left.size[0] * 0.2, 10
+			x: top_left.size[0] * 0.1
+			y: top_left.size[1] * 0.7 - 10
+			text_size: self.size
+			text: "1234"
+			halign: 'right'
+			valign: 'middle'
+
+		# critical damage
+		Image:
+			size_hint: None, None
+			source: 'src/icons/crit_dmg.png'
+			pos_hint: {'x': 0.3, 'y': 0.6}
+			size: [top_left.window_width/(top_left.window_width/80),\
+				top_left.window_width/(top_left.window_width/80)]
+
+		Label:
+			id: show_critdmg
+			size_hint: None, None
+			size: top_left.size[0] * 0.2, 10
+			x: top_left.size[0] * 0.4
+			y: top_left.size[1] * 0.7 - 10
+			text_size: self.size
+			text: "1234"
+			halign: 'right'
+			valign: 'middle'
+
+		# critical rate
+		Image:
+			size_hint: None, None
+			source: 'src/icons/crit_rate.png'
+			pos_hint: {'x': 0.3, 'y': 0.5}
+			size: [top_left.window_width/(top_left.window_width/80),\
+				top_left.window_width/(top_left.window_width/80)]
+
+		#Button:
+		Label:
+			id: show_critrate
+			size_hint: None, None
+			size: top_left.size[0] * 0.2, 10
+			x: top_left.size[0] * 0.4
+			y: top_left.size[1] * 0.6 - 10
+			text_size: self.size
+			text: "12.34%"
+			halign: 'right'
+			valign: 'middle'
+
+		# armor
+		Image:
+			size_hint: None, None
+			source: 'src/icons/armor.png'
+			pos_hint: {'x': 0, 'y': 0.5}
+			size: [top_left.window_width/(top_left.window_width/80),\
+				top_left.window_width/(top_left.window_width/80)]
+
+		Label:
+			id: show_armor
+			size_hint: None, None
+			size: top_left.size[0] * 0.2, 10
+			x: top_left.size[0] * 0.1
+			y: top_left.size[1] * 0.6 - 10
+			text_size: self.size
+			text: "1234"
+			halign: 'right'
+			valign: 'middle'
+
+		# block
+		Image:
+			size_hint: None, None
+			source: 'src/icons/block.png'
+			pos_hint: {'x': 0, 'y': 0.4}
+			size: [top_left.window_width/(top_left.window_width/80),\
+				top_left.window_width/(top_left.window_width/80)]
+
+		Label:
+			id: show_block
+			size_hint: None, None
+			size: top_left.size[0] * 0.2, 10
+			x: top_left.size[0] * 0.1
+			y: top_left.size[1] * 0.5 - 10
+			text_size: self.size
+			text: "1234"
+			halign: 'right'
+			valign: 'middle'
+
+		# profile
+		Image:
+			size_hint: None, None
+			source: 'src/icons/profile.png'
+			pos_hint: {'x': 0.3, 'y': 0.4}
+			size: [top_left.window_width/(top_left.window_width/80),\
+				top_left.window_width/(top_left.window_width/80)]
+
+		Label:
+			id: show_attack
+			size_hint: None, None
+			size: top_left.size[0] * 0.2, 10
+			x: top_left.size[0] * 0.4
+			y: top_left.size[1] * 0.5 - 10
+			text_size: self.size
+			text: "1234"
+			halign: 'right'
+			valign: 'middle'
+
+		#Button:
+		#	size_hint: None, None
 			#pos:top_left.size[0] * 0.5, top_left.size[1] * 0.5
-			pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-			size: [100, 30]
-			text: "Fight"
-			on_press: root.press_me()
+		#	pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+		#	size: [100, 30]
+		#	text: "Fight"
+		#	on_press: root.press_me()
 
 		# slider
 		Slider:
