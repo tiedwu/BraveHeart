@@ -10,7 +10,7 @@
 DAMAGE = {'D': [70, 75], 'C': [75, 80], 'B': [80, 85], 'A': [85, 90],
 			'S': [90, 95], 'SS': [95, 100], 'SSS': [100, 105]}
 
-CRIT = {'D': [11, 11], 'C': [12, 12], 'B': [13, 13], 'A': [14, 14],
+CRIT = {'D': [11, 12], 'C': [12, 13], 'B': [13, 14], 'A': [14, 15],
 			'S': [15, 17], 'SS': [18, 20], 'SSS': [21, 23]}
 
 # 随机属性
@@ -42,6 +42,10 @@ Quality = {'D': 1, 'C': 2, 'B': 3, 'A': 4, 'S': 5, 'SS': 6, 'SSS': 7}
 import json
 import random
 file = 'src/data/eq.json'
+
+def get_qac(rank, qual):
+	key = f'{rank}#{Quality[qual]}'
+	return QAC[key]
 
 def obtain_implicit_attrs(count, level):
 	result = []
@@ -76,12 +80,32 @@ class ItemManager():
 	def set_kinds(self, kinds):
 		self.kinds = kinds
 
+	def get_attrs(self, rank, lv, attr):
+		attrs = {}
+		for key in attr.keys():
+			attrs[key] = attr[key]
+			qac = get_qac(rank, attrs[key]['class'])
+			base = attrs[key]['value'][0]
+			addition = attrs[key]['value'][1]
+			if key not in ['damage', 'crit']:
+				value = str(int(base * qac + addition * lv))
+				attrs[key]['value'] = value
+			else:
+				min, max = 0, 0 # set default
+				if key == 'damage':
+					min, max = DAMAGE['D'][0], DAMAGE['D'][1]
+				elif key == 'crit':
+					min, max = CRIT['D'][0], CRIT['D'][1]
+				v = random.choice(list(range(min, max)))
+				attrs[key]['value'] = f'{v + (base * addition)}%'
+		return attrs
+
 	def get_init_eq(self, kind):
 		item = self.eq_list[kind][0].copy()
 
 		# set rank to 1
 		item['rank'] = 1
-
+		item['lv'] = 1
 		# skip zero attrs
 		attr = item['attr']
 		attrs = {}
@@ -90,17 +114,9 @@ class ItemManager():
 				attrs[key] = attr[key]
 				# set to "D"
 				attrs[key]['class'] = 'D'
-				if key not in ['damage', 'crit']:
-					print(attrs[key]['value'])
-					base, addition = attrs[key]['value'][0], attrs[key]['value'][1]
-					print(base, addition)
-					value = str(int(base * 1 + addition * 1))
-					attrs[key]['value'] = value
-				else:
-					print(attrs[key]['value'])
-					attrs[key]['value'] = f'{50 + (21 * 0)}%'
 
-		item['attr'] = attrs
+		item['attr'] = self.get_attrs(item['rank'], item['lv'], attrs)
+		#item['attr'] = attrs
 
 		# set implicit
 		selected = obtain_implicit_attrs(count=1, level=1)
@@ -136,27 +152,28 @@ class ItemManager():
 					attr_class = random.choice(attr[key]['class'])
 					#print(attr_class)
 					attrs[key]['class'] = attr_class
-			#print(attrs)
-			item['attr'] = attrs
-
-			implicit = obtain_implicit_attrs(rank, level)
-			item['implicit'] = implicit
-
-			result.append(item)
 
 			# set level
 			levels = list(range(level, level+self.limit))
 			select = random.choice(levels)
 			item['lv'] = select
 
+			#print(attrs)
+			item['attr'] = self.get_attrs(item['rank'], item['lv'], attrs)
+
+			implicit = obtain_implicit_attrs(item['rank'], item['lv'])
+			item['implicit'] = implicit
+
+			result.append(item)
+
 		return result
 
 
 if __name__ == '__main__':
 	im = ItemManager(db=file)
-	print(im.get_init_eq('necklace'))
+	#print(im.get_init_eq('necklace'))
 	res = im.random_eq(['weapon', 'armor'], 120)
-	#print(res)
+	print(res)
 
 	a = []
 	a.append(1)
@@ -188,3 +205,7 @@ if __name__ == '__main__':
 	print(str1.find("IOT"))
 
 	print(random.randint(10, 11))
+
+	a = 3
+	b = 3
+	print(list(range(a, b)))
