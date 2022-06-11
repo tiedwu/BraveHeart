@@ -41,7 +41,7 @@ Quality = {'D': 1, 'C': 2, 'B': 3, 'A': 4, 'S': 5, 'SS': 6, 'SSS': 7}
 
 import json
 import random
-file = 'src/data/eq.json'
+file = 'src/data/item.json'
 
 def get_qac(rank, qual):
 	key = f'{rank}#{Quality[qual]}'
@@ -171,41 +171,11 @@ class ItemManager():
 
 if __name__ == '__main__':
 	im = ItemManager(db=file)
-	#print(im.get_init_eq('necklace'))
+	print(im.get_init_eq('weapon'))
+	print(im.get_init_eq('armor'))
+	print(im.get_init_eq('necklace'))
+	print(im.get_init_eq('ring'))
+
 	res = im.random_eq(['weapon', 'armor'], 120)
-	print(res)
+	#print(res)
 
-	a = []
-	a.append(1)
-	a.append(2)
-	b = a + [3, 4]
-	random.shuffle(b)
-	print(b[1:])
-	print(len(b))
-
-	c = [0, 1, 23, 4, 5]
-	a = c.copy()
-	for each in a:
-		if each == 0:
-			a.pop(each)
-
-	print(a, c)
-
-	n = 5
-	na = []
-	if n <= 5:
-		na  = list(range(n, n+5))
-	else:
-		na = list(range(n - 5, n+ 5))
-	print(na)
-
-	str = "Hello_IOT"
-	str1 = "Hello"
-	print(str.find('IOT'))
-	print(str1.find("IOT"))
-
-	print(random.randint(10, 11))
-
-	a = 3
-	b = 3
-	print(list(range(a, b)))
