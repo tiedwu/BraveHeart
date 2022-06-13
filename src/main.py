@@ -261,6 +261,58 @@ Builder.load_string('''
 			halign: 'right'
 			valign: 'middle'
 
+<EQWidget@BoxLayout>:
+	#size: root.ww * 0.5, root.wh * 0.18 // 4
+	size_hint: 1, None
+	Image:
+		canvas:
+			Color:
+				rgba: 1, 0, 0, 1
+			Line:
+				width: 2
+				rectangle: self.x, self.y, self.width, self.height
+		size_hint: None, None
+		source: 'icons/sword.jpg'
+		#size: 80, 80
+		pos: 2, self.y
+
+	Label:
+		text: 'sword'
+
+	Button:
+		text: ''
+		backgound_color: 0, 0, 0, 0
+		Image:
+			size_hint: None, None
+			source: 'icons/upgrade.jpg'
+			#size: 80, 80
+			pos: self.x, self.y
+
+<EQBox>:
+	size: root.ww * 0.5, root.wh * 0.185
+	#padding: 20
+	canvas.before:
+		Color:
+			rgba: utils.get_color_from_hex('#33322F7F')
+		Rectangle:
+			size: self.size
+			pos: self.pos
+	BoxLayout:
+		#size: root.ww * 0.5, root.wh * 0.185
+		orientation: 'vertical'
+		EQWidget:
+		#Button:
+			id: sword
+		EQWidget:
+		#Button:
+			id: armor
+		EQWidget:
+		#Button
+			id: necklace
+		EQWidget:
+		#Button:
+			id: ring
+
 <RootWidget>:
 	canvas:
 		Color:
@@ -304,8 +356,18 @@ Builder.load_string('''
 		y: 0.75 * root.wh
 		size_hint: 0.5, 0.18 
 
+	EQBox:
+		x: 0
+		y: 0.56 * root.wh
+		size_hint: 0.5, 0.185
 
 ''')
+
+#class EQWidget(Widget):
+#	ww, wh = Window.size
+
+class EQBox(BoxLayout):
+	ww, wh = Window.size
 
 class PFBox(BoxLayout):
 	ww, wh = Window.size
