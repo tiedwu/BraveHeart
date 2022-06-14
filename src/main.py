@@ -6,6 +6,9 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
+from kivy.utils import platform
+from kivy.properties import ObjectProperty
+import json
 
 ratio = 1
 
@@ -15,7 +18,6 @@ mw, mh = map_size = 480, 480
 
 Builder.load_string('''
 #:import utils kivy.utils
-
 
 <LVLabel@Label,GoldLabel@Label,CELabel@Label>:
 	#font_name: 'fonts/JetBrainsMono-Regular.ttf'
@@ -30,6 +32,7 @@ Builder.load_string('''
 			size: self.size
 			pos: self.pos
 	LVLabel:
+		id: lv_label
 		#font_size: 28
 		color: (244/255, 252/255, 3/255, 1)
 		text: ' '* 5 + 'LV ' + '196' + ' ' * 5
@@ -62,6 +65,7 @@ Builder.load_string('''
 		size: 80, 80
 		size_hint: None, None
 	GoldLabel:
+		id: gold_label
 		text: "68.61亿" + "  "
 		text_size: self.size
 		halign: 'right'
@@ -261,57 +265,73 @@ Builder.load_string('''
 			halign: 'right'
 			valign: 'middle'
 
-<EQWidget@BoxLayout>:
-	#size: root.ww * 0.5, root.wh * 0.18 // 4
+<EQLabel@Label>:
+	font_name : 'fonts/DroidSansFallback.ttf'
+
+<EQWidget>:
+	size: root.ww * 0.5, (root.wh * 0.185 - 40 ) // 4
 	size_hint: 1, None
+	ltext: ''
+	item_id: ''
+	item_image: ''
+	Label:
+		size_hint: 0.05, 1
+		text: ''
 	Image:
 		canvas:
 			Color:
 				rgba: 1, 0, 0, 1
 			Line:
-				width: 2
+				width: 3
 				rectangle: self.x, self.y, self.width, self.height
 		size_hint: None, None
-		source: 'icons/sword.jpg'
-		#size: 80, 80
-		pos: 2, self.y
+		source: root.item_image
+		#source: 'icons/weapon.jpg'
+		size: 80, 80
+		#pos: 2, self.y
+		pos_hint: {'center_y': 0.5}
 
-	Label:
-		text: 'sword'
+	EQLabel:
+		text: root.ltext
+		#text: 'sword'
 
 	Button:
+		size_hint: 0.2, 0.8
+		center_x: self.parent.center_x
+		center_y: self.parent.center_y
 		text: ''
-		backgound_color: 0, 0, 0, 0
+		background_color: 0, 0, 0, 0
+		on_press: root.show_on(root.item_id)
 		Image:
 			size_hint: None, None
 			source: 'icons/upgrade.jpg'
-			#size: 80, 80
-			pos: self.x, self.y
+			size: 80, 80
+			center_x: self.parent.center_x
+			center_y: self.parent.center_y
 
 <EQBox>:
-	size: root.ww * 0.5, root.wh * 0.185
-	#padding: 20
+	#weapon: weapon
+	#suit: suit
+	#necklace: necklace
+	#ring: ring
+	#size: root.ww * 0.5, root.wh * 0.185
+	padding: 20
+	orientation: 'vertical'
 	canvas.before:
 		Color:
-			rgba: utils.get_color_from_hex('#33322F7F')
+			#rgba: utils.get_color_from_hex('#33322F7F')
+			rgba: 0, 0, 0, 1
 		Rectangle:
 			size: self.size
 			pos: self.pos
-	BoxLayout:
-		#size: root.ww * 0.5, root.wh * 0.185
-		orientation: 'vertical'
-		EQWidget:
-		#Button:
-			id: sword
-		EQWidget:
-		#Button:
-			id: armor
-		EQWidget:
-		#Button
-			id: necklace
-		EQWidget:
-		#Button:
-			id: ring
+	EQWidget:
+		id: weapon
+	EQWidget:
+		id: suit
+	EQWidget:
+		id: necklace
+	EQWidget:
+		id: ring
 
 <RootWidget>:
 	canvas:
@@ -357,17 +377,30 @@ Builder.load_string('''
 		size_hint: 0.5, 0.18 
 
 	EQBox:
+		id: eq_box
 		x: 0
 		y: 0.56 * root.wh
 		size_hint: 0.5, 0.185
 
 ''')
 
-#class EQWidget(Widget):
-#	ww, wh = Window.size
+class EQWidget(BoxLayout):
+	def __init__(self, **kwargs):
+		super().__init__(**kwargs)
+		self.ww, self.wh = Window.size
+
+	def show_on(self, item):
+		print("show_on(): ", item)
 
 class EQBox(BoxLayout):
-	ww, wh = Window.size
+	#ww, wh = Window.size
+	#weapon = ObjectProperty(None)
+	#suit = ObjectProperty(None)
+	#necklace = ObjectProperty(None)
+	#ring = ObjectProperty(None)
+
+	def __init__(self, **kwargs):
+		super().__init__(**kwargs)
 
 class PFBox(BoxLayout):
 	ww, wh = Window.size
@@ -376,20 +409,83 @@ class CEBox(BoxLayout):
 	pass
 
 class LVBox(BoxLayout):
-	pass
+	def __init__(self, **kwargs):
+		super().__init__(**kwargs)
+		print("LVBox: ", self.ids)
 
 class GoldBox(BoxLayout):
-	pass
+	def __init__(self, **kwargs):
+		super().__init__(**kwargs)
+		print("GoldBox: ", self.ids)
 
-class SubWidget(Widget):
-	ww, wh = Window.size
-	mw, mh = 480, 480
-	pass
+#class SubWidget(Widget):
+#	ww, wh = Window.size
+#	mw, mh = 480, 480
+#	pass
 
 class RootWidget(Screen):
 	ww, wh = Window.size
 	mw, mh = 480, 480
-	pass
+	def __init__(self, **kwargs):
+		super().__init__(**kwargs)
+		print("RootWidget: ", self.ids.eq_box.ids)
+
+		self.init_items()
+
+	def init_items(self):
+
+		self.item_data = self.load_data()['equipped']
+		print(self.item_data)
+
+		item_weapon_data = self.item_data['weapon']
+		item_weapon = self.ids.eq_box.ids.weapon
+		item_weapon.ltext = item_weapon_data['name']
+		item_weapon.item_id = item_weapon_data['ID']
+		item_weapon.item_image = 'icons/weapon.jpg'
+
+		item_suit_data = self.item_data['suit']
+		item_suit = self.ids.eq_box.ids.suit
+		item_suit.ltext = item_suit_data['name']
+		item_suit.item_id = item_suit_data['ID']
+		item_suit.item_image = 'icons/suit.jpg'
+
+		item_necklace_data = self.item_data['necklace']
+		item_necklace = self.ids.eq_box.ids.necklace
+		item_necklace.ltext = item_necklace_data['name']
+		item_necklace.item_id = item_necklace_data['ID']
+		item_necklace.item_image = 'icons/necklace.png'
+
+		item_ring_data = self.item_data['ring']
+		item_ring = self.ids.eq_box.ids.ring
+		item_ring.ltext = item_ring_data['name']
+		item_ring.item_id = item_ring_data['ID']
+		item_ring.item_image = 'icons/ring.jfif'
+
+		#item_suit = self.item_data['suit']
+		#self.ids.suit.ltext = item_suit['name']
+		#self.ids.suit.item_id = item_suitn['ID']
+		#self.ids.suit.item_image = 'src/icons/suit.jpg'
+
+		#item_necklace = self.item_data['necklace']
+		#self.ids.necklace.ltext = item_necklace['name']
+		#self.ids.necklace.item_id = item_neclace['ID']
+		#self.ids.necklace.item_image = 'src/icons/necklace.jpg'
+
+		#item_ring = self.item_data['ring']
+		#self.ids.ring.ltext = item_ring['name']
+		#self.ids.ring.item_id = item_ring['ID']
+		#self.ids.ring.item_image = 'src/icons/ring.jfif'
+
+	def load_data(self):
+		data = {}
+
+		file = 'data/profile.json'
+		if platform == 'andoid':
+			file = 'file'
+
+		with open(file, 'r') as f:
+			data = json.load(f)
+		return data
 
 class TestApp(App):
 	ww, wh = Window.size
