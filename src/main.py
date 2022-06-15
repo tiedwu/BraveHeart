@@ -10,6 +10,10 @@ from kivy.utils import platform
 from kivy.properties import ObjectProperty
 import json
 
+# import osc
+from oscpy.client import OSCClient
+from oscpy.server import OSCThreadServer
+
 ratio = 1
 
 Window.size = 1440 // ratio, 2911 // ratio
@@ -481,7 +485,9 @@ class RootWidget(Screen):
 
 		file = 'data/profile.json'
 		if platform == 'andoid':
-			file = 'file'
+			import os
+			from android.storage import app_storage_path
+			file = os.path.join(app_storage_path(),'profile.json')
 
 		with open(file, 'r') as f:
 			data = json.load(f)
@@ -490,6 +496,11 @@ class RootWidget(Screen):
 class TestApp(App):
 	ww, wh = Window.size
 	def build(self):
+
+		self.server = server = OSCThreadServer()
+		server.listen(address=b'localhost', port=3102, default=True)
+		self.client = OSCClient(b'localhost', 3100)
+
 		return RootWidget()
 
 if __name__ == '__main__':
