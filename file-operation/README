@@ -1,0 +1,8 @@
+i. create the directory
+2. write file
+3. copy file
+
+and verifying...
+
+4. adb pull file
+5. done. 
