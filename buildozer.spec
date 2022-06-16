@@ -4,7 +4,7 @@
 title = 勇者征程
 
 # (str) Package name
-package.name = BraveHeart
+package.name = brave_heart
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.kivy
@@ -13,7 +13,7 @@ package.domain = org.kivy
 source.dir = src
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,json,wav,ttf
+source.include_exts = py,png,jpg,jfif,kv,atlas,json,wav,ttf
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -56,7 +56,7 @@ orientation = portrait
 
 # (list) List of service to declare
 #services = NAME:ENTRYPOINT_TO_PY,NAME2:ENTRYPOINT2_TO_PY
-#services = Empire:service.py:foreground
+services = Brave:service.py:foreground
 
 #
 # OSX Specific

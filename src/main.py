@@ -14,6 +14,10 @@ import json
 from oscpy.client import OSCClient
 from oscpy.server import OSCThreadServer
 
+# data init
+import init_data
+
+
 ratio = 1
 
 Window.size = 1440 // ratio, 2911 // ratio
@@ -422,11 +426,6 @@ class GoldBox(BoxLayout):
 		super().__init__(**kwargs)
 		print("GoldBox: ", self.ids)
 
-#class SubWidget(Widget):
-#	ww, wh = Window.size
-#	mw, mh = 480, 480
-#	pass
-
 class RootWidget(Screen):
 	ww, wh = Window.size
 	mw, mh = 480, 480
@@ -437,6 +436,8 @@ class RootWidget(Screen):
 		self.init_items()
 
 	def init_items(self):
+
+		init_data.check()
 
 		self.item_data = self.load_data()['equipped']
 		print(self.item_data)
@@ -465,21 +466,6 @@ class RootWidget(Screen):
 		item_ring.item_id = item_ring_data['ID']
 		item_ring.item_image = 'icons/ring.jfif'
 
-		#item_suit = self.item_data['suit']
-		#self.ids.suit.ltext = item_suit['name']
-		#self.ids.suit.item_id = item_suitn['ID']
-		#self.ids.suit.item_image = 'src/icons/suit.jpg'
-
-		#item_necklace = self.item_data['necklace']
-		#self.ids.necklace.ltext = item_necklace['name']
-		#self.ids.necklace.item_id = item_neclace['ID']
-		#self.ids.necklace.item_image = 'src/icons/necklace.jpg'
-
-		#item_ring = self.item_data['ring']
-		#self.ids.ring.ltext = item_ring['name']
-		#self.ids.ring.item_id = item_ring['ID']
-		#self.ids.ring.item_image = 'src/icons/ring.jfif'
-
 	def load_data(self):
 		data = {}
 
@@ -495,8 +481,36 @@ class RootWidget(Screen):
 
 class TestApp(App):
 	ww, wh = Window.size
-	def build(self):
 
+	def __init__(self, **kwargs):
+		super().__init__(**kwargs)
+
+		if platform == 'android':
+			self.start_service()
+		elif platform in ('linux', 'win'):
+			from runpy import run_path
+			from threading import Thread
+			self.service = Thread(
+				target=run_path,
+				args=['service.py'],
+				kwargs={'run_name': '__main__'},
+				daemon=True
+			)
+			self.service.start()
+		else:
+			raise NotImplementedError(
+				"service start not implemented on this platform"
+			)
+
+	@staticmethod
+	def start_service():
+		from jnius import autoclass
+		service = autoclass('org.kivy.brave_heart.ServiceBrave')
+		mActivity = autoclass('org.kivy.android.PythonActivity').mActivity
+		service.start(mActivity, "")
+		return service
+
+	def build(self):
 		self.server = server = OSCThreadServer()
 		server.listen(address=b'localhost', port=3102, default=True)
 		self.client = OSCClient(b'localhost', 3100)

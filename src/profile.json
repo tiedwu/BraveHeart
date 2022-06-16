@@ -14,7 +14,7 @@
             "lv": 1,
             "implicit": [
                 {
-                    "HP": "9"
+                    "HP_RATE": "30.76%"
                 }
             ]
         },
@@ -32,7 +32,7 @@
             "lv": 1,
             "implicit": [
                 {
-                    "HP_RATE": "36.82%"
+                    "ARMOR_RATE": "36.22%"
                 }
             ]
         },
@@ -44,13 +44,13 @@
             "attr": {
                 "damage": {
                     "class": "D",
-                    "value": "70%"
+                    "value": "71%"
                 }
             },
             "lv": 1,
             "implicit": [
                 {
-                    "CRIT_RATE": "24.77%"
+                    "DAMAGE_RATE": "23.22%"
                 }
             ]
         },
@@ -68,7 +68,7 @@
             "lv": 1,
             "implicit": [
                 {
-                    "ATTACK": "5"
+                    "ATTACK_RATE": "20.49%"
                 }
             ]
         }
