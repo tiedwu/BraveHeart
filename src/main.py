@@ -341,6 +341,53 @@ Builder.load_string('''
 	EQWidget:
 		id: ring
 
+<LOGLabel@Label>:
+	font_size: '14sp'
+	font_name: 'fonts/DroidSansFallback.ttf'
+
+<LOGBox>:
+	orientation: 'vertical'
+	canvas.before:
+		Color:
+			rgba: 240/255, 166/255, 29/255, 0.2
+		Rectangle:
+			pos: self.pos
+			size: self.size
+
+	BoxLayout:
+		size_hint_y: None
+		height: 64
+
+		canvas.before:
+			Color:
+				rgba: 3/255, 3/255, 2/255, 0.8
+			Rectangle:
+				pos: self.pos
+				size: self.size
+
+		Image:
+			size_hint: None, None
+			source: 'icons/info.png'
+			size: 64, 64
+
+		LOGLabel:
+			text: '系统信息'
+			text_size: self.size
+			valign: 'middle'
+			halign: 'center'
+
+	ScrollView:
+		scroll_type: ['bars', 'content']
+		bar_width: 10
+		LOGLabel:
+			id: log_label
+			markup: True
+			size_hint_y: None
+			height: self.texture_size[1]
+			text_size: self.width, None
+			text: '系统: 获得了: 金币 [color=00ff00]7154[/color]'
+			padding: 5, 5
+
 <RootWidget>:
 	canvas:
 		Color:
@@ -377,7 +424,7 @@ Builder.load_string('''
 	CEBox:
 		x: 0.73 * root.ww + 10
 		y: 0.95 * root.wh
-		size_hint: 0.24, 0.03
+		size_hint: 0.255, 0.03
 
 	PFBox:
 		x: 0
@@ -390,7 +437,16 @@ Builder.load_string('''
 		y: 0.56 * root.wh
 		size_hint: 0.5, 0.185
 
+	LOGBox:
+		id: log_box
+		x: 0.5 *  root.ww + 5
+		y: 0.6 * root.wh
+		#size: 300, 500
+		size_hint: 0.49, 0.345
 ''')
+
+class LOGBox(BoxLayout):
+	ww, wh = Window.size
 
 class EQWidget(BoxLayout):
 	def __init__(self, **kwargs):
@@ -431,7 +487,7 @@ class RootWidget(Screen):
 	mw, mh = 480, 480
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
-		print("RootWidget: ", self.ids.eq_box.ids)
+		#print("RootWidget: ", self.ids.eq_box.ids)
 
 		self.init_items()
 
