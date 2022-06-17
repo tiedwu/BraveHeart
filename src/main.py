@@ -388,6 +388,46 @@ Builder.load_string('''
 			text: '系统: 获得了: 金币 [color=00ff00]7154[/color]'
 			padding: 5, 5
 
+<BeadLabel@Label>:
+	font_size: '14sp'
+	font_name: 'fonts/DroidSansFallback.ttf'
+
+<BeadButton@ToggleButton>:
+	group: 'bead_select'
+	size_hint: None, None
+	size: 60, 60
+	pos_hint: {'center_y': 0.5}
+
+<BeadBox>:
+	canvas.before:
+		Color:
+			rgba: 2/255, 2/255, 2/255, 0.8
+		Rectangle:
+			pos:self.pos
+			size: self.size
+
+	spacing: 30
+	padding: 20, 0
+	Image:
+		source: 'icons/bead.png'
+		size_hint: None, None
+		#size: 80, 80
+		center_y: self.parent.center_y
+
+	BeadLabel:
+		text: '切换'
+		text_size: self.size
+		halign: 'left'
+		valign: 'middle'
+
+	BeadButton:
+		text: '1'
+		state: 'down'
+	BeadButton:
+		text: '2'
+	BeadButton:
+		text: '3'
+
 <RootWidget>:
 	canvas:
 		Color:
@@ -443,7 +483,16 @@ Builder.load_string('''
 		y: 0.6 * root.wh
 		#size: 300, 500
 		size_hint: 0.49, 0.345
+
+	BeadBox:
+		id: bead_box
+		x: 0.5 * root.ww + 5
+		y: 0.56 * root.wh
+		size_hint: 0.49, 0.037
 ''')
+
+class BeadBox(BoxLayout):
+	ww, wh = Window.size
 
 class LOGBox(BoxLayout):
 	ww, wh = Window.size
