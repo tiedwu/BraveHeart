@@ -575,11 +575,13 @@ class RootWidget(Screen):
 		data = {}
 
 		file = 'data/profile.json'
-		if platform == 'andoid':
+		if platform == 'android':
 			import os
-			from android.storage import app_storage_path
-			file = os.path.join(app_storage_path(),'profile.json')
+			from android.storage import primary_external_storage_path
+			file = os.path.join(primary_external_storage_path(),
+				'BraveHeart/data/profile.json')
 
+		print(f'loading file: {file}')
 		with open(file, 'r') as f:
 			data = json.load(f)
 		return data
