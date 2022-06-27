@@ -8,6 +8,11 @@ from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.utils import platform
 from kivy.properties import ObjectProperty
+
+from kivy.config import Config
+
+Config.set('graphics', 'resizable', True)
+
 import json
 
 # import osc
@@ -16,6 +21,8 @@ from oscpy.server import OSCThreadServer
 
 # data init
 import init_data
+
+
 
 
 ratio = 1
@@ -428,46 +435,56 @@ Builder.load_string('''
 	BeadButton:
 		text: '3'
 
+<MenuLabel@Label>:
+	font_size: '12sp'
+	font_name: 'fonts/DroidSansFallback.ttf'
+
 <FuncButton@ToggleButton>:
 	group: 'func_select'
 	size_hint: None, None
 	size: 140, 160
 	pos_hint: {'center_y': 0.5}
 	background_color: 0, 0, 0, 1
-	btn_image: 'icons/menu/clear.png'
+	btn_image: 'icons/menu/bag.png'
 	btn_text: ''
 	BoxLayout:
 		orientation: 'vertical'
+		#orientation: 'tb-lr'
 		pos: self.parent.pos
 		size: self.parent.size
 		Image:
 			source: root.btn_image
-			size_hint_x: None
-			width: 140
-		Label:
-			size_hint_x: None
+			size_hint_y: 0.7
+			#width: 100
+			#height: 100
+			#size: 115, 122
+			allow_stretch: True
+		MenuLabel:
+			size_hint_y: 0.3
 			width: 140
 			text: root.btn_text
+			text_size: self.size
+			halign: 'center'
 
 <FuncBtnBox>:
 	padding: 50, 5
 	spacing: 60
 	FuncButton:
-		btn_text: 'btn1'
+		btn_text: '背包'
 		#center_y: self.parent.center_y
 		#background_color: 0, 0, 0, 1
 	FuncButton:
-		btn_text: 'btn2'
+		btn_text: '精气珠'
 	FuncButton:
-		btn_text: 'btn3'
+		btn_text: '宠物'
 	FuncButton:
-		btn_text: 'btn4'
+		btn_text: '商店'
 	FuncButton:
-		btn_text: 'btn5'
+		btn_text: '转生'
 	FuncButton:
-		btn_text: 'btn6'
+		btn_text: '成就'
 	FuncButton:
-		btn_text: 'btn7'
+		btn_text: '图鉴'
 
 <RootWidget>:
 	canvas:
