@@ -428,6 +428,47 @@ Builder.load_string('''
 	BeadButton:
 		text: '3'
 
+<FuncButton@ToggleButton>:
+	group: 'func_select'
+	size_hint: None, None
+	size: 140, 160
+	pos_hint: {'center_y': 0.5}
+	background_color: 0, 0, 0, 1
+	btn_image: 'icons/menu/clear.png'
+	btn_text: ''
+	BoxLayout:
+		orientation: 'vertical'
+		pos: self.parent.pos
+		size: self.parent.size
+		Image:
+			source: root.btn_image
+			size_hint_x: None
+			width: 140
+		Label:
+			size_hint_x: None
+			width: 140
+			text: root.btn_text
+
+<FuncBtnBox>:
+	padding: 50, 5
+	spacing: 60
+	FuncButton:
+		btn_text: 'btn1'
+		#center_y: self.parent.center_y
+		#background_color: 0, 0, 0, 1
+	FuncButton:
+		btn_text: 'btn2'
+	FuncButton:
+		btn_text: 'btn3'
+	FuncButton:
+		btn_text: 'btn4'
+	FuncButton:
+		btn_text: 'btn5'
+	FuncButton:
+		btn_text: 'btn6'
+	FuncButton:
+		btn_text: 'btn7'
+
 <RootWidget>:
 	canvas:
 		Color:
@@ -446,10 +487,17 @@ Builder.load_string('''
 			source: 'images/worldmap.png'
 
 		Color:
-			rgba: utils.get_color_from_hex('#73B5D3')
+			rgba: utils.get_color_from_hex('#615D51')
 		Rectangle:
 			pos: 0, (root.wh // 15 + root.ww)
 			size: root.ww, root.wh - root.wh // 15 - root.ww
+
+		Color:
+			#rgba: utils.get_color_from_hex('#615D51')
+			rgba: 179.255, 156/255, 93/255, 1
+		Rectangle:
+			pos: 0, 0
+			size: root.ww, root.wh * 0.065
 
 	LVBox:
 		x: 0
@@ -489,7 +537,19 @@ Builder.load_string('''
 		x: 0.5 * root.ww + 5
 		y: 0.56 * root.wh
 		size_hint: 0.49, 0.037
+
+	FuncBtnBox:
+		id: func_box
+		#pos_hint: {'x': 0, 'center_y': 0.025}
+		#size_hint: 1, root.wh - root.wh // 15 - root.ww
+		#x: 0
+		#y: 10
+		size_hint: 1, 0.065
+
 ''')
+
+class FuncBtnBox(BoxLayout):
+	pass
 
 class BeadBox(BoxLayout):
 	ww, wh = Window.size
