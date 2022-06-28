@@ -8,10 +8,14 @@ from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.utils import platform
 from kivy.properties import ObjectProperty
-
 from kivy.config import Config
 
 Config.set('graphics', 'resizable', True)
+
+# import os to show gif?
+import os
+os.environ["KIVY_IMAGE"] = "pil"
+import kivy
 
 import json
 
@@ -21,6 +25,8 @@ from oscpy.server import OSCThreadServer
 
 # data init
 import init_data
+
+from dungeon import Dungeon
 
 ratio = 1
 
@@ -719,7 +725,10 @@ class TestApp(App):
 		server.listen(address=b'localhost', port=3102, default=True)
 		self.client = OSCClient(b'localhost', 3100)
 
-		return RootWidget()
+		root = RootWidget()
+		dungeon = Dungeon()
+		root.add_widget(dungeon)
+		return root
 
 if __name__ == '__main__':
 	TestApp().run()
