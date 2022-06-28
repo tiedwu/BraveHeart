@@ -22,9 +22,6 @@ from oscpy.server import OSCThreadServer
 # data init
 import init_data
 
-
-
-
 ratio = 1
 
 Window.size = 1440 // ratio, 2911 // ratio
@@ -439,8 +436,8 @@ Builder.load_string('''
 	font_size: '12sp'
 	font_name: 'fonts/DroidSansFallback.ttf'
 
-<FuncButton@ToggleButton>:
-	group: 'func_select'
+<MenuButton@ToggleButton>:
+	group: 'menu_select'
 	size_hint: None, None
 	size: 140, 160
 	pos_hint: {'center_y': 0.5}
@@ -466,25 +463,40 @@ Builder.load_string('''
 			text_size: self.size
 			halign: 'center'
 
-<FuncBtnBox>:
+<MenuBox>:
 	padding: 50, 5
 	spacing: 60
-	FuncButton:
+	MenuButton:
 		btn_text: '背包'
 		#center_y: self.parent.center_y
 		#background_color: 0, 0, 0, 1
-	FuncButton:
+	MenuButton:
 		btn_text: '精气珠'
-	FuncButton:
+		btn_image: 'icons/menu/mbead.png'
+	MenuButton:
 		btn_text: '宠物'
-	FuncButton:
+		btn_image: 'icons/menu/pet.png'
+	MenuButton:
 		btn_text: '商店'
-	FuncButton:
+		btn_image: 'icons/menu/store.png'
+	MenuButton:
 		btn_text: '转生'
-	FuncButton:
+		btn_image: 'icons/menu/reincarnate.png'
+	MenuButton:
 		btn_text: '成就'
-	FuncButton:
+		btn_image: 'icons/menu/achievement.png'
+	MenuButton:
 		btn_text: '图鉴'
+		btn_image: 'icons/menu/illustrate.png'
+
+<FuncBox>:
+	ToggleButton:
+		group: 'func_select'
+		text: ''
+		background_normal: 'icons/func/setting.png'
+		background_down: 'icons/func/setting.png'
+		size_hint: None, None
+		size: 100, 100
 
 <RootWidget>:
 	canvas:
@@ -555,17 +567,25 @@ Builder.load_string('''
 		y: 0.56 * root.wh
 		size_hint: 0.49, 0.037
 
-	FuncBtnBox:
-		id: func_box
+	MenuBox:
+		id: menu_box
 		#pos_hint: {'x': 0, 'center_y': 0.025}
 		#size_hint: 1, root.wh - root.wh // 15 - root.ww
 		#x: 0
 		#y: 10
 		size_hint: 1, 0.065
 
+	FuncBox:
+		id: func_box
+		size_hint: 0.1, 0.05
+		pos_hint: {'center_x': 0.95, 'center_y': 0.1}
+
 ''')
 
-class FuncBtnBox(BoxLayout):
+class FuncBox(BoxLayout):
+	pass
+
+class MenuBox(BoxLayout):
 	pass
 
 class BeadBox(BoxLayout):
