@@ -14,7 +14,7 @@ Config.set('graphics', 'resizable', True)
 
 # import os to show gif?
 import os
-os.environ["KIVY_IMAGE"] = "pil"
+os.environ["KIVY_IMAGE"] = "pil,sdl2"
 import kivy
 
 import json

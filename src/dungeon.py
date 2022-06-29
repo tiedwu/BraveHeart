@@ -5,12 +5,12 @@ from kivy.core.window import Window
 from kivy.uix.widget import Widget
 
 Window.clearcolor = [1, 1, 1, 1]
-Window.size = [800, 1000]
+Window.size = [1440, 2911]
 
 Builder.load_string('''
-#:set ms 83
-#:set bs 83
-#:set ps 83
+#:set ms 180
+#:set bs 160
+#:set ps 160
 <Mob>:
 	Image:
 		source: 'gif/mob.gif'
@@ -32,34 +32,30 @@ Builder.load_string('''
 <Dungeon>:
 	Widget:
 		size: root.dw, root.dh
+		#dungeon_y: root.wh * 0.3
 		canvas.before:
 			Color:
 				rgba: 1, 1, 1, 1
 			Rectangle:
-				pos: root.ww * 0.05, root.wh * 0.5
+				pos: root.ww * 0.05, root.dungeon_y
 				size: root.dw, root.dh
 				source: 'images/dungeon.png'
 
 		Mob:
-			pos: root.ww * 0.05 + (root.dw * 1 / 6), root.wh * 0.5 + ms * 0.5
-
+			pos: root.ww * 0.05 + (root.dw * 1 / 6), root.mob_y
 		Mob:
-			pos: root.ww * 0.05 + (root.dw * 2 / 6), root.wh * 0.5 + ms * 0.5
+			pos: root.ww * 0.05 + (root.dw * 2 / 6), root.mob_y
 		Mob:
-			pos: root.ww * 0.05 + (root.dw * 2 / 6), root.wh * 0.5 + ms * 0.5
-
+			pos: root.ww * 0.05 + (root.dw * 2 / 6), root.mob_y
 		Mob:
-			pos: root.ww * 0.05 + (root.dw * 3 / 6), root.wh * 0.5 + ms * 0.5
-
+			pos: root.ww * 0.05 + (root.dw * 3 / 6), root.mob_y
 		Mob:
-			pos: root.ww * 0.05 + (root.dw * 4 / 6), root.wh * 0.5 + ms * 0.5
-
+			pos: root.ww * 0.05 + (root.dw * 4 / 6), root.mob_y
 		Boss:
-			pos: root.ww * 0.05 + (root.dw * 5 / 6), root.wh * 0.5 + bs * 0.5
-
+			pos: root.ww * 0.05 + (root.dw * 5 / 6), root.dungeon_y + (bs * 0.5)
 
 		Hero:
-			pos: root.ww * 0.05, root.wh * 0.5 + ps * 0.55
+			pos: root.ww * 0.05, root.dungeon_y + (ps * 0.55)
 ''')
 
 class Hero(Widget):
@@ -73,7 +69,13 @@ class Mob(Widget):
 
 class Dungeon(Widget):
 	ww, wh = Window.size[0], Window.size[1]
-	dw, dh = ww * 0.9, wh * 0.25
+	dw, dh = ww * 0.9, wh * 0.15
+	dungeon_y = wh * 0.4
+
+	# mob size
+	mob_size = 180
+	mob_y = dungeon_y + ((mob_size / 3) * 1)
+
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
 		print('screen size: ', self.ww, self.wh)
