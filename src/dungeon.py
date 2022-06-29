@@ -29,6 +29,11 @@ Builder.load_string('''
 		pos: root.pos
 		size: ps, ps
 
+<DungeonButton@Button>:
+	font_name: 'fonts/DroidSansFallback.ttf'
+	background_color: 230/255, 162/255, 73/255, 1
+	size: 220, 150
+
 <Dungeon>:
 	Widget:
 		size: root.dw, root.dh
@@ -56,6 +61,12 @@ Builder.load_string('''
 
 		Hero:
 			pos: root.ww * 0.05, root.dungeon_y + (ps * 0.55)
+	DungeonButton:
+		id: dungeon_exit
+		pos: root.ww * 0.05 + (root.dw * 5 / 6), root.dungeon_y - 170
+		text: 'click me'
+		#size: self.texture_size
+		#on_release: print('click me')
 ''')
 
 class Hero(Widget):

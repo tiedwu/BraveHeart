@@ -643,6 +643,14 @@ class RootWidget(Screen):
 
 		self.init_items()
 
+		# add dungeon for test
+		self.dungeon = Dungeon()
+		self.dungeon.ids.dungeon_exit.bind(on_press=self.exit_dungeon)
+		self.add_widget(self.dungeon)
+
+	def exit_dungeon(self, instance):
+		self.remove_widget(self.dungeon)
+
 	def init_items(self):
 
 		init_data.check()
@@ -726,8 +734,8 @@ class TestApp(App):
 		self.client = OSCClient(b'localhost', 3100)
 
 		root = RootWidget()
-		dungeon = Dungeon()
-		root.add_widget(dungeon)
+		#dungeon = Dungeon()
+		#root.add_widget(dungeon)
 		return root
 
 if __name__ == '__main__':

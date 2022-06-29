@@ -13,7 +13,7 @@ package.domain = org.kivy
 source.dir = src
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,jfif,kv,atlas,json,wav,ttf
+source.include_exts = py,png,jpg,jfif,kv,atlas,json,wav,ttf,gif,zip
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -39,7 +39,7 @@ version.filename = %(source.dir)s/main.py
 # comma separated e.g. requirements = sqlite3,kivy
 requirements = python3,kivy==2.1.0,
   /home/kivydev/test/plyer-master,
-  oscpy
+  oscpy,pillow
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
