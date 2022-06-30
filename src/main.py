@@ -27,6 +27,7 @@ from oscpy.server import OSCThreadServer
 import init_data
 
 from dungeon import Dungeon
+from home import HomeWidget
 
 ratio = 1
 
@@ -647,6 +648,9 @@ class RootWidget(Screen):
 		self.dungeon = Dungeon()
 		self.dungeon.ids.dungeon_exit.bind(on_press=self.exit_dungeon)
 		self.add_widget(self.dungeon)
+
+		#self.home = HomeWidget()
+		#self.add_widget(self.home)
 
 	def exit_dungeon(self, instance):
 		self.remove_widget(self.dungeon)
