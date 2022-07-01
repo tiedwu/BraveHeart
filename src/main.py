@@ -10,6 +10,8 @@ from kivy.utils import platform
 from kivy.properties import ObjectProperty
 from kivy.config import Config
 
+from kivy.clock import Clock
+
 Config.set('graphics', 'resizable', True)
 
 # import os to show gif?
@@ -701,7 +703,10 @@ class RootWidget(Screen):
 			data = json.load(f)
 		return data
 
-class TestApp(App):
+	def update(self, dt):
+		self.dungeon.ids.hero.move()
+
+class GameApp(App):
 	ww, wh = Window.size
 
 	def __init__(self, **kwargs):
@@ -736,11 +741,9 @@ class TestApp(App):
 		self.server = server = OSCThreadServer()
 		server.listen(address=b'localhost', port=3102, default=True)
 		self.client = OSCClient(b'localhost', 3100)
-
 		root = RootWidget()
-		#dungeon = Dungeon()
-		#root.add_widget(dungeon)
+		Clock.schedule_interval(root.update, 1.0/60.0)
 		return root
 
 if __name__ == '__main__':
-	TestApp().run()
+	GameApp().run()

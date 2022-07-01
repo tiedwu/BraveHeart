@@ -4,6 +4,11 @@ from kivy.uix.screenmanager import Screen
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
 
+from kivy.properties import StringProperty, NumericProperty
+from kivy.properties import ReferenceListProperty
+
+from kivy.vector import Vector
+
 Window.clearcolor = [1, 1, 1, 1]
 Window.size = [1440, 2911]
 
@@ -25,7 +30,9 @@ Builder.load_string('''
 
 <Hero>:
 	Image:
-		source: 'gif/hero.gif'
+		#source: 'gif/hero.gif'
+		source: root.hero_img
+		anim_delay: 0.12
 		pos: root.pos
 		size: ps, ps
 
@@ -60,6 +67,7 @@ Builder.load_string('''
 			pos: root.ww * 0.05 + (root.dw * 5 / 6), root.dungeon_y + (bs * 0.5)
 
 		Hero:
+			id: hero
 			pos: root.ww * 0.05, root.dungeon_y + (ps * 0.55)
 	DungeonButton:
 		id: dungeon_exit
@@ -70,7 +78,29 @@ Builder.load_string('''
 ''')
 
 class Hero(Widget):
-	pass
+	hero_img = StringProperty('gif/hero.gif')
+
+	velocity_x = NumericProperty(0)
+	velocity_y = NumericProperty(0)
+	velocity = ReferenceListProperty(velocity_x, velocity_y)
+
+	def __init__(self, **kwargs):
+		super().__init__(**kwargs)
+		self.velocity = [1, 0]
+
+	def move(self):
+		print('moving')
+		self.pos = Vector(*self.velocity) + self.pos
+
+		# mark for next game in the future
+		if self.velocity == [0, 1]:
+			self.hero_img = 'gif/hero.gif'
+		elif self.velocity == [0, -1]:
+			self.hero_img = 'gif/hero.gif'
+		elif self.velocity == [-1, 0]:
+			self.hero_img = 'gif/hero.gif'
+		elif self.velocity == [1, 0]:
+			self.hero_img = 'gif/hero.gif' 
 
 class Boss(Widget):
 	pass
