@@ -649,10 +649,15 @@ class RootWidget(Screen):
 		# add dungeon for test
 		self.dungeon = Dungeon()
 		self.dungeon.ids.dungeon_exit.bind(on_press=self.exit_dungeon)
+
+		# set hide and disabed
+		self.dungeon.opacity = 0
+		self.dungeon.disabled = True
+
 		self.add_widget(self.dungeon)
 
-		#self.home = HomeWidget()
-		#self.add_widget(self.home)
+		self.home = HomeWidget()
+		self.add_widget(self.home)
 
 	def exit_dungeon(self, instance):
 		self.remove_widget(self.dungeon)
@@ -705,6 +710,7 @@ class RootWidget(Screen):
 
 	def update(self, dt):
 		self.dungeon.ids.hero.move()
+		self.dungeon.check_collision()
 
 class GameApp(App):
 	ww, wh = Window.size

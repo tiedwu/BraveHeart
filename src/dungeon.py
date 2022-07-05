@@ -4,13 +4,14 @@ from kivy.uix.screenmanager import Screen
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
 
-from kivy.properties import StringProperty, NumericProperty
+from kivy.properties import StringProperty, NumericProperty, ObjectProperty
 from kivy.properties import ReferenceListProperty
 
 from kivy.vector import Vector
 
 Window.clearcolor = [1, 1, 1, 1]
 Window.size = [1440, 2911]
+#Window.size = [800, 1000]
 
 Builder.load_string('''
 #:set ms 180
@@ -42,6 +43,14 @@ Builder.load_string('''
 	size: 220, 150
 
 <Dungeon>:
+	mob1: mob1
+	mob2: mob2
+	mob3: mob3
+	mob4: mob4
+	mob5: mob5
+	boss: boss
+	hero: hero
+
 	Widget:
 		size: root.dw, root.dh
 		#dungeon_y: root.wh * 0.3
@@ -54,16 +63,22 @@ Builder.load_string('''
 				source: 'images/dungeon.png'
 
 		Mob:
+			id: mob1
 			pos: root.ww * 0.05 + (root.dw * 1 / 6), root.mob_y
 		Mob:
+			id: mob2
 			pos: root.ww * 0.05 + (root.dw * 2 / 6), root.mob_y
 		Mob:
+			id: mob3
 			pos: root.ww * 0.05 + (root.dw * 2 / 6), root.mob_y
 		Mob:
+			id: mob4
 			pos: root.ww * 0.05 + (root.dw * 3 / 6), root.mob_y
 		Mob:
+			id: mob5
 			pos: root.ww * 0.05 + (root.dw * 4 / 6), root.mob_y
 		Boss:
+			id: boss
 			pos: root.ww * 0.05 + (root.dw * 5 / 6), root.dungeon_y + (bs * 0.5)
 
 		Hero:
@@ -72,7 +87,7 @@ Builder.load_string('''
 	DungeonButton:
 		id: dungeon_exit
 		pos: root.ww * 0.05 + (root.dw * 5 / 6), root.dungeon_y - 170
-		text: 'click me'
+		text: '结束挑战'
 		#size: self.texture_size
 		#on_release: print('click me')
 ''')
@@ -84,13 +99,27 @@ class Hero(Widget):
 	velocity_y = NumericProperty(0)
 	velocity = ReferenceListProperty(velocity_x, velocity_y)
 
+	ww, wh = Window.size[0], Window.size[1]
+	dw, dh = ww * 0.9, wh * 0.15
+
+	bs = 160
+	ps = 160
+	hero_y = wh * 0.4 + (ps * 0.55)
+	turnover = False
+
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
 		self.velocity = [1, 0]
 
 	def move(self):
-		print('moving')
-		self.pos = Vector(*self.velocity) + self.pos
+		#print('moving')
+		bound = self.ww * 0.05 + self.dw - (self.bs * 0.9)
+		if self.pos[0] >= bound:
+			self.pos = self.ww * 0.05, self.hero_y
+			self.turnover = True
+		else:
+			self.pos = Vector(*self.velocity) + self.pos
+			#self.turnover = False
 
 		# mark for next game in the future
 		if self.velocity == [0, 1]:
@@ -117,10 +146,48 @@ class Dungeon(Widget):
 	mob_size = 180
 	mob_y = dungeon_y + ((mob_size / 3) * 1)
 
+	# enemy list
+	#mob1 = ObjectProperty(None)
+	#mob2 = ObjectProperty(None)
+	#mob3 = ObjectProperty(None)
+	#mob4 = ObjectProperty(None)
+	#mob5 = ObjectProperty(None)
+	#boss = ObjectProperty(None)
+	#enemies = [mob1, mob2, mob3, mob4, mob5, boss]
+
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
 		print('screen size: ', self.ww, self.wh)
 		print('map size: ', self.dw, self.dh)
+		self.enemies = [self.mob1, self.mob2, self.mob3, self.mob4, 
+				self.mob5, self.boss]
+
+
+	def check_collision(self):
+		#print(self.ids.hero, self.enemies)
+		#self.remove_widget(self.ids.mob1)
+		#self.ids.mob1.opacity = 0
+		#self.ids.mob1.disabled = True
+		if self.hero.turnover:
+			self.reset_enemies()
+			self.hero.turnover = False
+
+		for e in self.enemies:
+			if self.hero.pos >= e.pos:
+			#if self.hero.collide_widget(e):
+				e.opacity = 0
+				e.disabled = True
+
+	def enemy_die(self, enemy_id):
+		self.enemies[enemy_id].opacity = 0
+		self.enemies[enemy_id].disabled = True
+		#self.mob1.opacity = 0
+		#self.mob1.disabled = True
+
+	def reset_enemies(self):
+		for e in self.enemies:
+			e.opacity = 1
+			e.disabled = False
 
 class AwesomeApp(App):
 	def build(self):
