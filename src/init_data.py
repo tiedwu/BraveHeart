@@ -86,8 +86,37 @@ def check():
 		necklace = im.get_init_eq('necklace')
 		ring = im.get_init_eq('ring')
 
-		profile_data = {'equipped': {'weapon': weapon, 'suit': suit,
-						'necklace': necklace, 'ring': ring}}
+		profile_data = {
+						'level': 0, # 等级
+						'samsara': 0, # 轮回
+						'reincarnation': 0, # 转生
+						'bhp': 0, 'hp': 0, # 基础生命值(base health point) bhp 生命值(health point) hp
+						'bap': 0, 'ap': 0, # 基础攻击力(base attack point) bap，攻击力(attack point) ap
+						'bcc': 0, 'cc': 0, # 基础暴击(base crit chance) bcc， 暴击(crit chance) cc
+						'bcd': 0, 'cd': 0, # 基础暴伤(base crit damage) bcd， 暴伤(crit damage) cd
+						'bav': 0, 'av': 0, # 基础护甲值(base armor value) bav， 护甲值(armor value) av
+						'bbv': 0, 'bv': 0, # 基础格挡值(base block value) bbv， 格挡值(block value) bv
+						'eec': 0, # 强化概率额外加成(enforce extra chance) eec
+						'bie': 0, # 装备初始强化等级(base item enforce) bie
+						'hprps': 0, # 每秒生命回复(health point recover per second) hprps
+						'goc': 0, # 金币获取率(gold obtain chance) goc
+						'ioc': 0, # 装备爆率(item obtain change) ioc
+						'rptr': 0, # 转生点获取倍率(reincarnation point transformation ratio) rptr
+						'paff': 0, # 宠物杀敌属性获取(pet attributes from fighting) paff
+						'fdi': 0, # 最终伤害提升(final damage increment) fdi
+						'cs': 0, # 挑战速度加快(challenge speedup) cs
+						'apir': 0, # 攻击提升百分比(attack point increment ratio) apir
+						'avir': 0, # 护甲提升百分比(armor value increment ratio) avir
+						'hpir': 0, # 生命提升百分比(health point increment ratio) hpir
+						'bvir': 0, # 格挡提升百分比(block value increment ratio) bvir
+						'drp': 0, # 减伤比例(damage reduce proportion) drp
+						'dops': 0, # 每秒输出伤害(damage output per second) dops
+						'ce': 0, # 战斗力(combat effectiveness) ce
+						'gold': 0,
+						'equipped': {'weapon': weapon, 'suit': suit,
+						'necklace': necklace, 'ring': ring},
+						'bag': [],
+						}
 
 		print('profile_file: ', profile_file)
 		with open(profile_file, 'w', encoding='utf-8') as f:

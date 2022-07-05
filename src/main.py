@@ -60,6 +60,7 @@ Builder.load_string('''
 	BoxLayout:
 		LVLabel:
 			#font_size: 24
+			id: samsara
 			text_size: self.size
 			text: u' 轮回 1 次'
 			halign: 'left'
@@ -67,6 +68,7 @@ Builder.load_string('''
 			color: (3/255, 252/255, 240/255, 1)
 			#color: (3/255, 198/255, 252/255, 1)
 		LVLabel:
+			id: reincarnation
 			#font_size: 24
 			text_size: self.size
 			text: u'转生 3 次 '
