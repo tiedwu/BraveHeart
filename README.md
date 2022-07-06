@@ -35,6 +35,12 @@
 ##### *新手指环
 #### 背包
 
+## 伤害计算
+### 格挡: 完全格挡
+### 护甲值: 提供 90% 伤害吸收
+### 伤害 = ((攻击点 - 护甲值 * 0.9) - 格挡) + 最终伤害
+### 伤害最小为 1
+
 ## which properties set from service
 ### items from instance fighting
 ### gold

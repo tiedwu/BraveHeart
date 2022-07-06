@@ -1,4 +1,36 @@
 {
+    "level": 0,
+    "samsara": 0,
+    "reincarnation": 0,
+    "bhp": 32668,
+    "hp": 0,
+    "bap": 0,
+    "ap": 0,
+    "bcc": 0,
+    "cc": 0,
+    "bcd": 0,
+    "cd": 0,
+    "bav": 0,
+    "av": 0,
+    "bbv": 0,
+    "bv": 0,
+    "eec": 0,
+    "bie": 0,
+    "hprps": 0,
+    "goc": 0,
+    "ioc": 0,
+    "rptr": 0,
+    "paff": 0,
+    "fdi": 0,
+    "cs": 0,
+    "apir": 0,
+    "avir": 0,
+    "hpir": 0,
+    "bvir": 0,
+    "drp": 0,
+    "dops": 0,
+    "ce": 0,
+    "gold": 0,
     "equipped": {
         "weapon": {
             "ID": "001",
@@ -8,13 +40,13 @@
             "attr": {
                 "attack": {
                     "class": "D",
-                    "value": "50"
+                    "value": 50
                 }
             },
             "lv": 1,
             "implicit": [
                 {
-                    "HP": "9"
+                    "HP_RATE": 26.89
                 }
             ]
         },
@@ -26,13 +58,13 @@
             "attr": {
                 "armor": {
                     "class": "D",
-                    "value": "20"
+                    "value": 20
                 }
             },
             "lv": 1,
             "implicit": [
                 {
-                    "HP_RATE": "36.82%"
+                    "ATTACK_RATE": 35.49
                 }
             ]
         },
@@ -44,13 +76,13 @@
             "attr": {
                 "damage": {
                     "class": "D",
-                    "value": "70%"
+                    "value": 71
                 }
             },
             "lv": 1,
             "implicit": [
                 {
-                    "CRIT_RATE": "24.77%"
+                    "ARMOR": 3
                 }
             ]
         },
@@ -62,15 +94,17 @@
             "attr": {
                 "hp": {
                     "class": "D",
-                    "value": "20"
+                    "value": 20
                 }
             },
             "lv": 1,
             "implicit": [
                 {
-                    "ATTACK": "5"
+                    "ATTACK": 3
                 }
             ]
         }
-    }
+    },
+    "bag": [],
+    "crystal": 0
 }

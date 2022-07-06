@@ -90,7 +90,7 @@ def check():
 						'level': 0, # 等级
 						'samsara': 0, # 轮回
 						'reincarnation': 0, # 转生
-						'bhp': 0, 'hp': 0, # 基础生命值(base health point) bhp 生命值(health point) hp
+						'bhp': 32668, 'hp': 0, # 基础生命值(base health point) bhp 生命值(health point) hp
 						'bap': 0, 'ap': 0, # 基础攻击力(base attack point) bap，攻击力(attack point) ap
 						'bcc': 0, 'cc': 0, # 基础暴击(base crit chance) bcc， 暴击(crit chance) cc
 						'bcd': 0, 'cd': 0, # 基础暴伤(base crit damage) bcd， 暴伤(crit damage) cd
@@ -116,6 +116,7 @@ def check():
 						'equipped': {'weapon': weapon, 'suit': suit,
 						'necklace': necklace, 'ring': ring},
 						'bag': [],
+						'crystal': 0,
 						}
 
 		print('profile_file: ', profile_file)

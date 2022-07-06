@@ -45,6 +45,9 @@ Builder.load_string('''
 	font_name: 'fonts/DroidSansFallback.ttf'
 	#font_name: 'fonts/sarasa-ui-cl-regular.ttf'
 <LVBox>:
+	player_level: 0
+	samsara: 0
+	reincarnation: 0
 	orientation: 'vertical'
 	canvas.before:
 		Color:
@@ -56,13 +59,13 @@ Builder.load_string('''
 		id: lv_label
 		#font_size: 28
 		color: (244/255, 252/255, 3/255, 1)
-		text: ' '* 5 + 'LV ' + '196' + ' ' * 5
+		text: ' '* 5 + 'LV ' + str(root.player_level) + ' ' * 5
 	BoxLayout:
 		LVLabel:
 			#font_size: 24
 			id: samsara
 			text_size: self.size
-			text: u' 轮回 1 次'
+			text: u' 轮回 ' + str(root.samsara) + u' 次'
 			halign: 'left'
 			valign: 'bottom'
 			color: (3/255, 252/255, 240/255, 1)
@@ -71,7 +74,7 @@ Builder.load_string('''
 			id: reincarnation
 			#font_size: 24
 			text_size: self.size
-			text: u'转生 3 次 '
+			text: u'转生 ' + str(root.reincarnation) + ' 次 '
 			halign: 'right'
 			valign: 'bottom'
 			color: (3/255, 252/255, 240/255, 1)
@@ -510,6 +513,7 @@ Builder.load_string('''
 		size: 100, 100
 
 <RootWidget>:
+	lv_box: lv_box
 	canvas:
 		Color:
 			rgba: utils.get_color_from_hex('#6B6863')
@@ -540,21 +544,25 @@ Builder.load_string('''
 			size: root.ww, root.wh * 0.065
 
 	LVBox:
+		id: lv_box
 		x: 0
 		y: 0.935 * root.wh
 		size_hint: 0.5, 0.05
 
 	GoldBox:
+		id: gold_box
 		x: 0.5 * root.ww + 5
 		y: 0.95 * root.wh
 		size_hint: 0.23, 0.03
 
 	CEBox:
+		id: ce_box
 		x: 0.73 * root.ww + 10
 		y: 0.95 * root.wh
 		size_hint: 0.255, 0.03
 
 	PFBox:
+		id: pf_box
 		x: 0
 		y: 0.75 * root.wh
 		size_hint: 0.5, 0.18 
@@ -646,7 +654,7 @@ class RootWidget(Screen):
 		super().__init__(**kwargs)
 		#print("RootWidget: ", self.ids.eq_box.ids)
 
-		self.init_items()
+		self.init_player_data()
 
 		# add dungeon for test
 		self.dungeon = Dungeon()
@@ -661,15 +669,31 @@ class RootWidget(Screen):
 		self.home = HomeWidget()
 		self.add_widget(self.home)
 
+	def init_player_data(self):
+		init_data.check()
+
+		self.player_data = self.load_data()
+
+		# set lv_box
+		self.lv_box.player_level = self.player_data['level']
+		self.lv_box.samsara = self.player_data['samsara']
+		self.lv_box.reincarnation = self.player_data['reincarnation']
+
+		self.item_data = self.player_data['equipped']
+		self.init_items()
+
+		# set hp = bhp + hp from items
+		#self.hp = self.player_data['bhp'] + 
+
 	def exit_dungeon(self, instance):
 		self.remove_widget(self.dungeon)
 
 	def init_items(self):
 
-		init_data.check()
+		#init_data.check()
 
-		self.item_data = self.load_data()['equipped']
-		print(self.item_data)
+		#self.item_data = self.load_data()['equipped']
+		#print(self.item_data)
 
 		item_weapon_data = self.item_data['weapon']
 		item_weapon = self.ids.eq_box.ids.weapon

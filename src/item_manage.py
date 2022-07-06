@@ -55,11 +55,14 @@ def obtain_implicit_attrs(count, level):
 		l, h = IMPLICIT[select][0], IMPLICIT[select][1]
 		value = random.randint(l, h) / 100
 		if select.find('RATE') < 0:
-			text = str(int(value * level))
+			#text = str(int(value * level))
+			v = int(value * level)
 		else:
-			text = f'{value}%'
+			#text = f'{value}%'
+			v = value
 		#print(select, text)
-		e = {select: text}
+		#e = {select: text}
+		e = {select: v}
 		result.append(e)
 	return result
 
@@ -88,8 +91,9 @@ class ItemManager():
 			base = attrs[key]['value'][0]
 			addition = attrs[key]['value'][1]
 			if key not in ['damage', 'crit']:
-				value = str(int(base * qac + addition * lv))
-				attrs[key]['value'] = value
+				#value = str(int(base * qac + addition * lv))
+				value = (base * qac) + (addition * lv)
+				attrs[key]['value'] = int(value)
 			else:
 				min, max = 0, 0 # set default
 				if key == 'damage':
@@ -97,7 +101,8 @@ class ItemManager():
 				elif key == 'crit':
 					min, max = CRIT['D'][0], CRIT['D'][1]
 				v = random.choice(list(range(min, max)))
-				attrs[key]['value'] = f'{v + (base * addition)}%'
+				#attrs[key]['value'] = f'{v + (base * addition)}%'
+				attrs[key]['value'] = v + (base * addition)
 		return attrs
 
 	def get_init_eq(self, kind):
