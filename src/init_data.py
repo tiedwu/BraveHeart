@@ -48,6 +48,8 @@ def check():
 				dir = os.path.join(dir, 'data')
 				os.mkdir(dir)
 				Logger.info(f'created directory {dir}')
+			else:
+				dir = os.path.join(dir, 'data')
 
 			# copy item.json
 			import shutil
@@ -87,15 +89,15 @@ def check():
 		ring = im.get_init_eq('ring')
 
 		profile_data = {
-						'level': 0, # 等级
+						'level': 1, # 等级
 						'samsara': 0, # 轮回
 						'reincarnation': 0, # 转生
 						'bhp': 32668, 'hp': 0, # 基础生命值(base health point) bhp 生命值(health point) hp
-						'bap': 0, 'ap': 0, # 基础攻击力(base attack point) bap，攻击力(attack point) ap
+						'bap': 11671, 'ap': 0, # 基础攻击力(base attack point) bap，攻击力(attack point) ap
 						'bcc': 0, 'cc': 0, # 基础暴击(base crit chance) bcc， 暴击(crit chance) cc
 						'bcd': 0, 'cd': 0, # 基础暴伤(base crit damage) bcd， 暴伤(crit damage) cd
-						'bav': 0, 'av': 0, # 基础护甲值(base armor value) bav， 护甲值(armor value) av
-						'bbv': 0, 'bv': 0, # 基础格挡值(base block value) bbv， 格挡值(block value) bv
+						'bav': 2113, 'av': 0, # 基础护甲值(base armor value) bav， 护甲值(armor value) av
+						'bbv': 4120, 'bv': 0, # 基础格挡值(base block value) bbv， 格挡值(block value) bv
 						'eec': 0, # 强化概率额外加成(enforce extra chance) eec
 						'bie': 0, # 装备初始强化等级(base item enforce) bie
 						'hprps': 0, # 每秒生命回复(health point recover per second) hprps
@@ -119,6 +121,6 @@ def check():
 						'crystal': 0,
 						}
 
-		print('profile_file: ', profile_file)
+		print('creating profile_file: ', profile_file)
 		with open(profile_file, 'w', encoding='utf-8') as f:
 			json.dump(profile_data, f, indent=4, ensure_ascii=False)

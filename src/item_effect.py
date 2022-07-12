@@ -11,7 +11,7 @@ class ItemEffect():
 
 		for k in self.items.keys():
 			attrs = self.items[k]['attr']
-			print("ATTRS: ", attrs)
+			#print("ATTRS: ", attrs)
 			for attr in attrs.keys():
 				if attr == 'hp':
 					akey = 'hp'
@@ -31,7 +31,7 @@ class ItemEffect():
 				effect[akey] += attrs[attr]['value']
 
 			implicits = self.items[k]['implicit']
-			print("IMPLICITS: ", implicits)
+			#print("IMPLICITS: ", implicits)
 			for implicit in implicits:
 				for k in implicit.keys():
 					if k == 'HP':
@@ -55,6 +55,11 @@ class ItemEffect():
 
 					effect[ikey] += implicit[k]
 
+		# make float to two decimal points
+		for k in effect.keys():
+			if not isinstance(effect[k], int):
+				effect[k] = float(f'{effect[k]:.2f}')
+
 		return effect
 
 if __name__ == '__main__':
@@ -73,4 +78,16 @@ if __name__ == '__main__':
 		print(d['b'])
 	else:
 		print('key not found')
+
+	n1 = 74
+	n2 = 33.23
+	#n = float(f'{n1:.2f}') + float(f'{n2:.2f}')
+	n = n1 + n2
+	n = float(f'{n:.2f}')
+	print(n)
+
+	n3 = 107.2299999
+	n = f'{n3:.2f}'
+	nf = float(n)
+	print(type(nf), nf)
 

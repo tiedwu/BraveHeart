@@ -7,7 +7,7 @@ from kivy.uix.widget import Widget
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.utils import platform
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, NumericProperty
 from kivy.config import Config
 
 from kivy.clock import Clock
@@ -27,6 +27,7 @@ from oscpy.server import OSCThreadServer
 
 # data init
 import init_data
+import item_effect
 
 from dungeon import Dungeon
 from home import HomeWidget
@@ -120,6 +121,16 @@ Builder.load_string('''
 	font_name: 'fonts/DroidSansFallback.ttf'
 
 <PFBox>:
+
+	max_hp: self.parent.max_hp
+	current_hp: self.parent.current_hp
+	ap: self.parent.ap
+	crit_chance: self.parent.crit_chance
+	crit_damage: self.parent.crit_damage
+	av: self.parent.av
+	bv: self.parent.bv
+	av_ratio: self.parent.av_ratio
+
 	padding: 20
 	canvas.before:
 		Color:
@@ -174,7 +185,7 @@ Builder.load_string('''
 			size: top_left.size[0] * 0.6, self.size[1]
 			pos_hint: {'x': 0.4, 'y': 0.73}
 			text_size: self.size
-			text: "45979/45979"
+			text: f'{root.current_hp}/{root.max_hp}'
 			halign: 'right'
 			valign: 'middle'
 
@@ -194,7 +205,7 @@ Builder.load_string('''
 			x: top_left.size[0] * 0.1
 			y: top_left.size[1] * 0.55
 			text_size: self.size
-			text: "45808"
+			text: f'{root.ap}'
 			halign: 'right'
 			valign: 'middle'
 
@@ -214,7 +225,7 @@ Builder.load_string('''
 			y: top_left.size[1] * 0.55
 			#font_size: '12sp'
 			text_size: self.size
-			text: "102%"
+			text: f'{root.crit_chance}%'
 			halign: 'right'
 			valign: 'middle'
 
@@ -232,7 +243,7 @@ Builder.load_string('''
 			x: top_left.size[0] * 0.1
 			y: top_left.size[1] * 0.3
 			text_size: self.size
-			text: "1124%"
+			text: f'{root.crit_damage}%'
 			halign: 'right'
 			valign: 'middle'
 
@@ -250,7 +261,7 @@ Builder.load_string('''
 			y: top_left.size[1] * 0.3
 			font_size: '11sp'
 			text_size: self.size
-			text: "4648\\n(94.85%) "
+			text: f'{root.av}\\n({root.av_ratio}%) '
 			halign: 'right'
 			valign: 'middle'
 
@@ -269,7 +280,7 @@ Builder.load_string('''
 			x: top_left.size[0] * 0.1
 			y: top_left.size[1] * 0.05
 			text_size: self.size
-			text: "4128"
+			text: f'{root.bv}'
 			halign: 'right'
 			valign: 'middle'
 
@@ -633,6 +644,9 @@ class EQBox(BoxLayout):
 
 class PFBox(BoxLayout):
 	ww, wh = Window.size
+	def __init__(self, **kwargs):
+		super().__init__(**kwargs)
+		#self.max_hp = 123
 
 class CEBox(BoxLayout):
 	pass
@@ -650,9 +664,30 @@ class GoldBox(BoxLayout):
 class RootWidget(Screen):
 	ww, wh = Window.size
 	mw, mh = 480, 480
+
+	# define
+	max_hp = NumericProperty(0)
+	current_hp = NumericProperty(0)
+	ap = NumericProperty(0)
+	crit_chance = NumericProperty(0)
+	crit_damage = NumericProperty(0)
+	av = NumericProperty(0)
+	av_ratio = NumericProperty(0)
+	bv = NumericProperty(0)
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
 		#print("RootWidget: ", self.ids.eq_box.ids)
+
+		# init attributes
+		self.max_hp = 0
+		self.current_hp = 0
+		self.ap = 0
+		self.crit_chance = 0
+		self.crit_damage = 0
+		self.av = 0
+		self.bv = 0
+
+		self.av_ratio = 0
 
 		self.init_player_data()
 
@@ -680,10 +715,39 @@ class RootWidget(Screen):
 		self.lv_box.reincarnation = self.player_data['reincarnation']
 
 		self.item_data = self.player_data['equipped']
+		print("EQUIPPED: ", self.item_data)
 		self.init_items()
 
+		self.ie = item_effect.ItemEffect(self.item_data)
+		effect = self.ie.calc_effect()
+		print("ITEM EFFECT: ", effect)
+
 		# set hp = bhp + hp from items
-		#self.hp = self.player_data['bhp'] + 
+		self.max_hp = self.player_data['bhp'] + effect['hp']
+		self.max_hp = int(self.max_hp * (1 + effect['hp_ratio'] / 100))
+		self.current_hp = self.max_hp
+		print(f'MAX_HP: {self.max_hp}, CUR_HP: {self.current_hp}')
+
+		# set ap = bap + ap from items
+		self.ap = self.player_data['bap'] + effect['ap']
+		self.ap = int(self.ap * (1 + effect['ap_ratio'] / 100))
+		print(f'ATTACK POWER: {self.ap}')
+
+		# set critical chance and damage
+		self.crit_chance = self.player_data['bcc'] + effect['cc']
+		self.crit_damage = self.player_data['bcd'] + effect['cd']
+		print(f'CRITICAL CHANCE: {self.crit_chance}%')
+		print(f'CRITICAL DAMAGE: {self.crit_damage}%')
+
+		# set armor value
+		self.av = self.player_data['bav'] + effect['av']
+		self.av_ratio = effect['av_ratio']
+		self.av = int(self.av * (1 + self.av_ratio / 100))
+		print(f'ARMOR VALUE: {self.av}')
+
+		# set block value
+		self.bv = self.player_data['bbv'] + effect['bv']
+		print(f'BLOCK VALUE: {self.bv}')
 
 	def exit_dungeon(self, instance):
 		self.remove_widget(self.dungeon)
@@ -774,6 +838,8 @@ class GameApp(App):
 		server.listen(address=b'localhost', port=3102, default=True)
 		self.client = OSCClient(b'localhost', 3100)
 		root = RootWidget()
+		#root.max_hp = 12334
+		#root.current_hp = 123
 		Clock.schedule_interval(root.update, 1.0/60.0)
 		return root
 

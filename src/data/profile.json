@@ -1,18 +1,18 @@
 {
-    "level": 0,
+    "level": 1,
     "samsara": 0,
     "reincarnation": 0,
     "bhp": 32668,
     "hp": 0,
-    "bap": 0,
+    "bap": 11671,
     "ap": 0,
     "bcc": 0,
     "cc": 0,
     "bcd": 0,
     "cd": 0,
-    "bav": 0,
+    "bav": 2113,
     "av": 0,
-    "bbv": 0,
+    "bbv": 4120,
     "bv": 0,
     "eec": 0,
     "bie": 0,
@@ -46,7 +46,7 @@
             "lv": 1,
             "implicit": [
                 {
-                    "HP_RATE": 26.89
+                    "DAMAGE_RATE": 33.39
                 }
             ]
         },
@@ -64,7 +64,7 @@
             "lv": 1,
             "implicit": [
                 {
-                    "ATTACK_RATE": 35.49
+                    "HP_RATE": 27.46
                 }
             ]
         },
@@ -76,7 +76,7 @@
             "attr": {
                 "damage": {
                     "class": "D",
-                    "value": 71
+                    "value": 72
                 }
             },
             "lv": 1,
@@ -100,7 +100,7 @@
             "lv": 1,
             "implicit": [
                 {
-                    "ATTACK": 3
+                    "HP_RATE": 20.02
                 }
             ]
         }
