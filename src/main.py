@@ -81,6 +81,7 @@ Builder.load_string('''
 			color: (3/255, 252/255, 240/255, 1)
 
 <GoldBox>:
+	gold: self.parent.gold
 	canvas.before:
 		Color:
 			rgba: utils.get_color_from_hex('#33322F7F')
@@ -93,12 +94,13 @@ Builder.load_string('''
 		size_hint: None, None
 	GoldLabel:
 		id: gold_label
-		text: "68.61亿" + "  "
+		text: f'{root.gold}'
 		text_size: self.size
 		halign: 'right'
 		valign: 'middle'
 
 <CEBox>:
+	ce: self.parent.ce
 	canvas.before:
 		Color:
 			rgba: utils.get_color_from_hex('#33322F7F')
@@ -114,7 +116,7 @@ Builder.load_string('''
 		text_size: self.size
 		halign: 'right'
 		valign: 'middle'
-		text: "227636.06" + " "
+		text: f'{root.ce} '
 
 <PFLabel@Label>:
 	font_size: '14sp'
@@ -665,7 +667,7 @@ class RootWidget(Screen):
 	ww, wh = Window.size
 	mw, mh = 480, 480
 
-	# define
+	# define attributes
 	max_hp = NumericProperty(0)
 	current_hp = NumericProperty(0)
 	ap = NumericProperty(0)
@@ -674,6 +676,13 @@ class RootWidget(Screen):
 	av = NumericProperty(0)
 	av_ratio = NumericProperty(0)
 	bv = NumericProperty(0)
+
+	# define combat effectiveness
+	ce = NumericProperty(0)
+
+	# define gold
+	gold = NumericProperty(0)
+
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
 		#print("RootWidget: ", self.ids.eq_box.ids)
@@ -689,6 +698,9 @@ class RootWidget(Screen):
 
 		self.av_ratio = 0
 
+		self.ce = 0
+		self.gold = 0
+
 		self.init_player_data()
 
 		# add dungeon for test
@@ -702,6 +714,7 @@ class RootWidget(Screen):
 		self.add_widget(self.dungeon)
 
 		self.home = HomeWidget()
+		self.home.random_generate(level=1)
 		self.add_widget(self.home)
 
 	def init_player_data(self):
@@ -748,6 +761,17 @@ class RootWidget(Screen):
 		# set block value
 		self.bv = self.player_data['bbv'] + effect['bv']
 		print(f'BLOCK VALUE: {self.bv}')
+
+		# calculate combat effectiveness
+		# AP = 0.75 * ap * (1 + (cc / 100)) * (1 + (cd / 100))
+		# HP = 0.12 * max_hp
+		# AV = 1 * av + 1.1 * bv 
+		W1, W2 = 1.5, 2.0
+		self.ce = 0.12 * self.max_hp + \
+			(1.2 * self.ap * (W1 + self.crit_chance / 100) * (W2 + self.crit_damage / 100)) + \
+			(0.9 * self.av) + (1 * self.bv)
+		self.ce = float(f'{self.ce:.2f}')
+		print(f'COMBAT EFFECTIVENESS: {self.ce}')
 
 	def exit_dungeon(self, instance):
 		self.remove_widget(self.dungeon)

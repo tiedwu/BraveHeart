@@ -5,6 +5,8 @@ from kivy.uix.widget import Widget
 from kivy.core.window import Window
 from kivy.uix.button import Button
 
+import zone_info
+
 import random
 
 Window.size = [1440, 2911]
@@ -19,12 +21,12 @@ def get_distance(p, q):
 	return distance
 
 Builder.load_string('''
-
 <ZoneWidget>:
 	size_hint: None, None
 	pos: self.pos
 	size: self.size
 	label_text: ''
+	level: 1
 	img_path: 'icons/main/flag_yellow.png'
 	Button:
 		canvas.before:
@@ -37,6 +39,7 @@ Builder.load_string('''
 		size_hint: None, None
 		size: self.parent.size
 		pos: self.parent.pos
+		on_press: root.show_instance_info()
 		BoxLayout:
 			orientation: 'vertical'
 			pos: self.parent.pos
@@ -44,7 +47,7 @@ Builder.load_string('''
 			Image:
 				source: root.img_path
 			Label:
-				text: root.label_text
+				text: str(root.level)
 
 <HomeLabel@Label>:
 	font_name: 'fonts/DroidSansFallback.ttf'
@@ -107,15 +110,20 @@ Builder.load_string('''
 
 class ZoneWidget(Widget):
 	#label_text = ''
-	def __init__(self, label_text, **kwargs):
+	def __init__(self, level, **kwargs):
 		super(ZoneWidget, self).__init__(**kwargs)
-		self.label_text = label_text
+		self.level = level
 		#print(self.level_text)
+
+	def show_instance_info(self):
+		print(self.level, self.parent.parent)
+		self.parent.parent.show_instance_info(self.level)
 
 class HomeWidget(Widget):
 	ww, wh = Window.size[0], Window.size[1]
-	btn_size = int(ww * 100 / 1400)
-	rtop = int(wh * 0.5 - btn_size - btn_size)
+	btn_size = int(ww * 120 / 1440)
+	rtop = int(wh * 0.5 - btn_size)
+	#rtop = int(wh * 0.5 - 2 * btn_size)
 	rbottom = int(wh * 0.2)
 	rleft = int(ww * 0.15)
 	rright = int(ww * 0.85)
@@ -125,10 +133,21 @@ class HomeWidget(Widget):
 		self.zone_widget = Widget()
 		self.add_widget(self.zone_widget)
 
+		# setup zone info widget
+		self.zone_info = zone_info.ZoneInfo()
+		self.zone_info.disable = True
+		self.zone_info.opacity = 0
+		self.add_widget(self.zone_info)
+
+	def show_instance_info(self, lv):
+		print('Hello', lv)
+		self.zone_info.opacity = 1
+		self.zone_info.disable = False
+
 	def create_zone(self, coordinates, r, lv):
 		n = lv
 		for x, y in coordinates:
-			zone = ZoneWidget(pos=(x - r, y - r), size=(r, r), label_text=str(n))
+			zone = ZoneWidget(pos=(x - r, y - r), size=(r, r), level=n)
 			n += 1
 			self.zone_widget.add_widget(zone)
 
@@ -149,7 +168,7 @@ class HomeWidget(Widget):
 			collision = False
 			if len(coordinates) > 0:
 				for coord in coordinates:
-					if get_distance(coord, p) < self.btn_size + diff:
+					if get_distance(coord, p) < self.btn_size * 1.44 + diff:
 						collision = True
 						break
 			if not collision:
