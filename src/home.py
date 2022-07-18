@@ -6,6 +6,8 @@ from kivy.core.window import Window
 from kivy.uix.button import Button
 
 import zone_info
+#import dungeon
+#import zone_info2
 
 import random
 
@@ -121,7 +123,7 @@ class ZoneWidget(Widget):
 
 class HomeWidget(Widget):
 	ww, wh = Window.size[0], Window.size[1]
-	btn_size = int(ww * 120 / 1440)
+	btn_size = int(ww * 100 / 1440)
 	rtop = int(wh * 0.5 - btn_size)
 	#rtop = int(wh * 0.5 - 2 * btn_size)
 	rbottom = int(wh * 0.2)
@@ -139,8 +141,16 @@ class HomeWidget(Widget):
 		self.zone_info.opacity = 0
 		self.add_widget(self.zone_info)
 
+		# setup dungeon
+		#self.dungeon = dungeon.Dungeon()
+		#self.dungeon.disable = True
+		#self.dungeon.opacity = 0
+		#self.add_widget(self.dungeon)
+		#self.dungeon.
+
 	def show_instance_info(self, lv):
 		print('Hello', lv)
+		self.zone_info.level = lv
 		self.zone_info.opacity = 1
 		self.zone_info.disable = False
 

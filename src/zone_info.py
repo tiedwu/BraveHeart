@@ -6,10 +6,12 @@ from kivy.core.window import Window
 from kivy.properties import ListProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.relativelayout import RelativeLayout
+from kivy.uix.widget import Widget
 
 Builder.load_string('''
 
 <InfoLabel@Label>:
+	font_size: '13sp'
 	font_name: 'fonts/DroidSansFallback.ttf'
 	size_hint: None, None
 	size: self.texture_size
@@ -20,19 +22,14 @@ Builder.load_string('''
 	font_name: 'fonts/DroidSansFallback.ttf'
 
 <ZoneInfo>:
-	#orientation: 'vertical'
-	#size_hint: None, None
-	#size: self.size
-	#size_hint: 0.8, 0.4
-	size_hint: 0.3, 0.2
-	#exit_btn_size: self.exit_btn_size
-	pos_hint: {'center_x': 0.5, 'center_y': 0.3}
-	#exit_btn_size: [96, 96]
+	size_hint: None, None
+	size: root.ww * 0.6, root.wh * 0.3
+	pos: [root.ww * 0.2, root.wh * 0.15]
+
+	level: 0
 
 	canvas.before:
 		Color:
-			#rgba: 92/255, 90/255, 84/255, 1
-			#rgba: 1, 0, 0, 1
 			rgba: 59/255, 56/255, 53/255, 1
 		Rectangle:
 			pos: self.pos
@@ -51,22 +48,20 @@ Builder.load_string('''
 		background_normal: ''
 		background_color: 1, 1, 1, 0
 		pos_hint: {'right': 0.95, 'center_y': 0.9}
-		size: root.exit_btn_size
+		width: root.width * 0.05
+		height: root.width * 0.05
+		on_press: root.hide_me()
 
 	InfoLabel:
-		#size_hint: None, None
-		text: '当前副本: lv2_普通'
+		text: f'当前副本: lv{root.level}_普通'
 		pos_hint: {'x': 0.05, 'y': 0.8}
 	InfoLabel:
-		#size_hint: None, None
 		text: '推荐战力: 17.87'
 		pos_hint: {'x': 0.05, 'y': 0.6}
 	InfoLabel:
-		#size_hint: None, None
-		text: '副本等级: 2'
+		text: f'副本等级: {root.level}'
 		pos_hint: {'x': 0.6, 'y': 0.6}
 	InfoLabel:
-		#size_hint: None, None
 		text: '当前副本难度等级: 普通'
 		pos_hint: {'x': 0.05, 'y': 0.5}
 	InfoLabel:
@@ -81,39 +76,35 @@ Builder.load_string('''
 			Color:
 				rgba: 1, 1, 1, 1
 			Rectangle:
-			#pos: self.ww * 0.1, self.wh * 0.1
-			#pos: self.ww * 0.4, self.wh * 0.3
-				#pos: self.sw * 0.2 + self.ww * 0.1, self.sh * 0.15 + self.wh * 0.1
-				#size: root.ckb_size
 				pos: self.pos
 				size: self.size
 		size_hint: None, None
-		size: self.parent.ckb_size
-		pos: self.parent.ckb_pos
-		#pos: self.sw * 0.2 + self.ww * 0.1, self.sh * 0.15 + self.wh * 0.1
-
-		background_checkbox_normal: 'images/uncheck.png'
-		background_checkbox_down: 'images/checked.png'
+		#size: root.ckb_size
+		width: root.width * 0.05
+		height: root.height * 0.05
+		#pos: root.ckb_pos
+		pos: [root.x + root.width * 0.05, root.y + root.height * 0.1]
+		on_active: root.repeat(self, self.active)
+		#background_checkbox_normal: 'images/uncheck.png'
+		#background_checkbox_down: 'images/checked.png'
 
 	InfoLabel:
-		#size_hint: None, None
 		text: '重复挑战'
 		pos_hint: {'x': 0.13, 'center_y': 0.125}
 
 	InfoButton:
+		id: btn_challenge
 		canvas.before:
 			Color:
 				rgba: 1, 1, 1, 1
 			Rectangle:
 				size: self.size
 				pos:self.pos
-		#size_hint: None, None
 		size_hint: 0.4, 0.15 
-		#size: [self.parent.size[0] * 0.4, size.parent.size[1] *  0.15]
-		#size: self.parent.start_btn_size
 		pos_hint: {'right': 0.95, 'center_y': 0.125}
 		text: '开始挑战'
 		background_color: 230/255, 220/255, 209/255, 1
+		#on_press: print(root.height, root.width)
 
 <Root>:
 	ZoneInfo:
@@ -121,28 +112,23 @@ Builder.load_string('''
 ''')
 
 class ZoneInfo(FloatLayout):
-#class ZoneInfo(RelativeLayout):
-	sw, sh = Window.size[0], Window.size[1]
-	ww, wh = Window.size[0] * 0.6, Window.size[1] * 0.7
-	#ckb_size = ListProperty()
-	exit_btn_size = [ww * 0.05, ww * 0.05]
-	ckb_size = [ww * 0.05, ww * 0.05]
-	ckb_pos_x = sw * 0.2 + ww * 0.05
-	ckb_pos_y = sh * 0.15 + wh * 0.1
-	ckb_pos = [ckb_pos_x, ckb_pos_y]
+
+	ww, wh = Window.size[0], Window.size[1]
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
-		self.size = [self.ww, self.wh]
-		#self.exit_btn_size = [self.ww * 0.05, self.ww * 0.05]
-		#self.ckb_size = [self.ww * 0.05, self.ww * 0.05]
-		#self.ckb_pos = [self.sw * 0.2 + self.ww * 0.05, 
-		#	self.sh * 0.15 + self.wh * 0.1]
-		#self.start_btn_size = [self.ww * 0.4, self.wh * 0.15]
-		print(self.exit_btn_size)
+		self.run_once = True
 
 	def on_size(self, *args):
 		print(self.size)
 		print(self.pos)
+
+	def hide_me(self):
+		self.opacity = 0
+		self.disable = True
+
+	def repeat(self, instance, value):
+		print(value)
+		self.run_once = not value
 
 class Root(Screen):
 	pass

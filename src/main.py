@@ -601,10 +601,6 @@ Builder.load_string('''
 
 	MenuBox:
 		id: menu_box
-		#pos_hint: {'x': 0, 'center_y': 0.025}
-		#size_hint: 1, root.wh - root.wh // 15 - root.ww
-		#x: 0
-		#y: 10
 		size_hint: 1, 0.065
 
 	FuncBox:
@@ -703,19 +699,38 @@ class RootWidget(Screen):
 
 		self.init_player_data()
 
-		# add dungeon for test
+		# add dungeon
 		self.dungeon = Dungeon()
 		self.dungeon.ids.dungeon_exit.bind(on_press=self.exit_dungeon)
 
 		# set hide and disabed
 		self.dungeon.opacity = 0
-		self.dungeon.disabled = True
+		self.dungeon.disable = True
 
 		self.add_widget(self.dungeon)
 
 		self.home = HomeWidget()
 		self.home.random_generate(level=1)
 		self.add_widget(self.home)
+
+		# bind button calls
+		self.home.zone_info.ids.btn_challenge.bind(
+			on_press=self.instance_challenge)
+
+	def instance_challenge(self, instance):
+		print(self.home.zone_info.level)
+		self.home.opacity = 0
+		self.home.disable = True
+
+		self.home.zone_info.opacity = 0
+		self.home.zone_info.disable = True
+
+		# check run once
+		self.dungeon.run_once = self.home.zone_info.run_once
+		print(self.dungeon.run_once)
+		self.dungeon.start()
+		self.dungeon.opacity = 1
+		self.dungeon.disable = False
 
 	def init_player_data(self):
 		init_data.check()
@@ -774,7 +789,14 @@ class RootWidget(Screen):
 		print(f'COMBAT EFFECTIVENESS: {self.ce}')
 
 	def exit_dungeon(self, instance):
-		self.remove_widget(self.dungeon)
+		print("removed dungeon")
+		self.dungeon.opacity = 0
+		self.dungeon.disable = True
+		self.home.opacity = 1
+		self.home.disable = False
+		self.home.zone_info.opacity = 0
+		self.home.zone_info.disable = True
+		#self.remove_widget(self.dungeon)
 
 	def init_items(self):
 
