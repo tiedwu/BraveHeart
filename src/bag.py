@@ -249,14 +249,16 @@ class AwesomeApp(App):
 
 		im = item_manage.ItemManager(db=db)
 		item = im.random_eq(['weapon'], 120, 1)
+		item[0]['kind'] = 'weapon'
 		#print(item)
 		bag_data = []
 		bag_data.append(item)
 
 		item2 = im.random_eq(['suit'], 120, 1)
+		item2[0]['kind'] = 'suit'
 		bag_data.append(item2)
 
-		print(bag_data)
+		print("BAG: ", bag_data)
 		root.ids.bag_widget.ids.bag.init_bag(bag_data)
 		#root.ids.bag_widget.ids.bag.add_item(item)
 
