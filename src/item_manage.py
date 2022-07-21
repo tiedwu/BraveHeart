@@ -71,7 +71,7 @@ class ItemManager():
 		self.kind = 'weapon'
 		self.kinds = []
 		self.db_file = db
-		self.limit = 5
+		self.limit = 10
 		# read database
 		with open(self.db_file) as f:
 			self.eq_list = json.load(f)
@@ -130,8 +130,10 @@ class ItemManager():
 		item['implicit'] = selected
 		return item
 
-	def random_eq(self, kinds, level):
-		amount = 4
+	def random_eq(self, kinds, level, amount):
+		#amount = 4
+		# amount = 4 for store
+		# amount = 0 for drop
 		eqs = []
 		for k in kinds:
 			eqs = eqs + self.eq_list[k][1:]
@@ -150,10 +152,12 @@ class ItemManager():
 
 			# 选择属性品质 （SSS, SS, S, A, B, C, D）
 			attr = item['attr']
+			#print('debug see ID:', item['ID'])
 			attrs = {}
 			for key in attr.keys():
+				#print("debug see key: ", key)
 				if attr[key]['value'][0] != 0:
-					attrs[key] = attr[key]
+					attrs[key] = attr[key].copy()
 					attr_class = random.choice(attr[key]['class'])
 					#print(attr_class)
 					attrs[key]['class'] = attr_class
@@ -177,10 +181,10 @@ class ItemManager():
 if __name__ == '__main__':
 	im = ItemManager(db=file)
 	print(im.get_init_eq('weapon'))
-	print(im.get_init_eq('armor'))
+	print(im.get_init_eq('suit'))
 	print(im.get_init_eq('necklace'))
 	print(im.get_init_eq('ring'))
 
-	res = im.random_eq(['weapon', 'armor'], 120)
-	#print(res)
+	res = im.random_eq(['weapon', 'suit'], 120, 5)
+	print(res)
 

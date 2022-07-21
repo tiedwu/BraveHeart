@@ -90,15 +90,17 @@ Builder.load_string('''
 		size: [self.texture_size[0], root.btn_size]
 
 	TextInput:
+		id: instance_level
 		text_hint: ''
 		pos: root.ww * 0.7, root.wh * 0.505
 		size: [150, 80]
 
 	HomeButton:
+		id: gen_instance
 		btn_image: 'icons/main/random_generate.png'
 		pos: root.ww * 0.82, root.wh * 0.5
 		btn_size: root.btn_size
-		on_release: root.random_generate()
+		#on_release: root.random_generate()
 
 	HomeButton:
 		btn_image: 'icons/main/fight.png'
@@ -162,6 +164,12 @@ class HomeWidget(Widget):
 			self.zone_widget.add_widget(zone)
 
 	def random_generate(self, level=1):
+
+		#if self.ids.instance_level.text == '':
+			#print(self.parent)
+			#level = self.parent.lv_box.player_level
+		#else:
+			#level = int(self.ids.instance_level.text)
 
 		if self.zone_widget:
 			print('removed!')

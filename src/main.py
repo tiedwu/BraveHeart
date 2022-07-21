@@ -684,6 +684,7 @@ class RootWidget(Screen):
 		#print("RootWidget: ", self.ids.eq_box.ids)
 
 		# init attributes
+		self.player_level = 0
 		self.max_hp = 0
 		self.current_hp = 0
 		self.ap = 0
@@ -713,9 +714,20 @@ class RootWidget(Screen):
 		self.home.random_generate(level=1)
 		self.add_widget(self.home)
 
-		# bind button calls
+		# bind zone_info button calls
 		self.home.zone_info.ids.btn_challenge.bind(
 			on_press=self.instance_challenge)
+
+		# bind home button calls
+		self.home.ids.gen_instance.bind(on_release=self.generate_instance)
+
+
+	def generate_instance(self, instance):
+		if self.home.ids.instance_level.text == '':
+			level = self.lv_box.player_level
+		else:
+			level = int(self.home.ids.instance_level.text)
+		self.home.random_generate(level=level)
 
 	def instance_challenge(self, instance):
 		print(self.home.zone_info.level)
