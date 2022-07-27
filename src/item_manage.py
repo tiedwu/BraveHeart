@@ -43,6 +43,12 @@ import json
 import random
 file = 'data/item.json'
 
+def is_include(y, x):
+		for i in y:
+			if i not in x:
+				return False
+		return True
+
 def get_qac(rank, qual):
 	key = f'{rank}#{Quality[qual]}'
 	return QAC[key]
@@ -87,22 +93,25 @@ class ItemManager():
 		attrs = {}
 		for key in attr.keys():
 			attrs[key] = attr[key]
-			qac = get_qac(rank, attrs[key]['class'])
-			base = attrs[key]['value'][0]
-			addition = attrs[key]['value'][1]
-			if key not in ['damage', 'crit']:
-				#value = str(int(base * qac + addition * lv))
-				value = (base * qac) + (addition * lv)
-				attrs[key]['value'] = int(value)
+			if key in ['gold']:
+				attrs[key]['value'] = attrs[key]['value'][0]
 			else:
-				min, max = 0, 0 # set default
-				if key == 'damage':
-					min, max = DAMAGE['D'][0], DAMAGE['D'][1]
-				elif key == 'crit':
-					min, max = CRIT['D'][0], CRIT['D'][1]
-				v = random.choice(list(range(min, max)))
-				#attrs[key]['value'] = f'{v + (base * addition)}%'
-				attrs[key]['value'] = v + (base * addition)
+				qac = get_qac(rank, attrs[key]['class'])
+				base = attrs[key]['value'][0]
+				addition = attrs[key]['value'][1]
+				if key not in ['damage', 'crit']:
+					#value = str(int(base * qac + addition * lv))
+					value = (base * qac) + (addition * lv)
+					attrs[key]['value'] = int(value)
+				else:
+					min, max = 0, 0 # set default
+					if key == 'damage':
+						min, max = DAMAGE['D'][0], DAMAGE['D'][1]
+					elif key == 'crit':
+						min, max = CRIT['D'][0], CRIT['D'][1]
+					v = random.choice(list(range(min, max)))
+					#attrs[key]['value'] = f'{v + (base * addition)}%'
+					attrs[key]['value'] = v + (base * addition)
 		return attrs
 
 	def get_init_eq(self, kind):
@@ -130,13 +139,27 @@ class ItemManager():
 		item['implicit'] = selected
 		return item
 
-	def random_eq(self, kinds, level, amount):
-		#amount = 4
-		# amount = 4 for store
-		# amount = 0 for drop
+	def random_eq(self, kinds, level, amount, ranks):
+		#amount = 5
+		# amount = 5 for store
+		# amount = 1 for drop
 		eqs = []
+
 		for k in kinds:
-			eqs = eqs + self.eq_list[k][1:]
+			for obj in self.eq_list[k]:
+				obj['kind'] = k
+				if ranks == [2, 3, 4, 5]:
+					if obj['rank'] == [2, 3, 4] or obj['rank'] == [5]:
+						eqs.append(obj)
+				elif ranks == [5] or ranks == [6] or ranks == [7]:
+					if obj['rank'] == [5]:
+						eqs.append(obj)
+
+			#print(self.eq_list[k])
+			#eqs = eqs + self.eq_list[k][1:]
+			#for obj in self.eq_list[k]:
+				#if is_include(ranks, obj['rank']):
+					#eqs.append(obj)
 
 		random.shuffle(eqs)
 
@@ -167,7 +190,7 @@ class ItemManager():
 			select = random.choice(levels)
 			item['lv'] = select
 
-			#print(attrs)
+			print(item['desc'], attrs)
 			item['attr'] = self.get_attrs(item['rank'], item['lv'], attrs)
 
 			implicit = obtain_implicit_attrs(item['rank'], item['lv'])
@@ -180,11 +203,29 @@ class ItemManager():
 
 if __name__ == '__main__':
 	im = ItemManager(db=file)
-	print(im.get_init_eq('weapon'))
-	print(im.get_init_eq('suit'))
-	print(im.get_init_eq('necklace'))
-	print(im.get_init_eq('ring'))
+	#print(im.get_init_eq('weapon'))
+	#print(im.get_init_eq('suit'))
+	#print(im.get_init_eq('necklace'))
+	#print(im.get_init_eq('ring'))
 
-	res = im.random_eq(['weapon', 'suit'], 120, 5)
-	print(res)
+	# rank = [1], rank = [2, 3, 4, 5], rank = [5], rank = [6], rank[7]
+	#res = im.random_eq(['weapon'], 10, 1, [2, 3, 4, 5])
+	for i in range(200):
+		res = im.random_eq(['ring'], 10, 1, [2, 3, 4, 5])
+		print(res)
 
+	x = [2, 3, 4, 5]
+	y = [2, 5, 6]
+
+	def is_include(y, x):
+		for i in y:
+			if i not in x:
+				return False
+		return True
+
+	print(is_include(y, x))
+
+	print(list(set(x) & set(y)))
+
+	A = ['a' ,'b', 'c']
+	print('a' in A)

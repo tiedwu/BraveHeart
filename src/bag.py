@@ -31,8 +31,8 @@ Builder.load_string('''
 		Image:
 			size_hint: None, None
 			size: self.parent.size
-			source: 'icons/item/weapon/003.png'
-			#source: root.item_image
+			#source: 'icons/item/weapon/003.png'
+			source: root.item_image
 			allow_stretch: True
 			center_x: self.parent.center_x
 			center_y: self.parent.center_y
@@ -198,8 +198,11 @@ class Bag(Widget):
 		if insert:
 			pos_index -= 1
 
+		item_image = f'icons/item/{item[0]["kind"]}/{item[0]["ID"]}.jpg'
+
+
 		self.add_widget(BagItem(pos=self.bag_storage[pos_index], \
-						item_image='icons/item/weapon/003.png'))
+						item_image=item_image))
 
 		# send to server to update json in main.py
 
@@ -239,30 +242,41 @@ class AwesomeApp(App):
 		super().__init__(**kwargs)
 		self.window_size = [800, 1000]
 
-	def build(self):
-		root = Root()
+	def build_data_from_profile(self):
 
-		# read items
+		import json
+		profile = 'data/profile.json'
+		with open(profile, "r") as f:
+			data = json.load(f)
+		bag_data = data['bag']
+
+		return bag_data
+
+	def build_data_from_item(self):
 		import json
 		import item_manage
-		db = 'data/item.json'
+		item_file = 'data/item.json'
 
-		im = item_manage.ItemManager(db=db)
-		item = im.random_eq(['weapon'], 120, 1)
-		item[0]['kind'] = 'weapon'
-		#print(item)
+		im = item_manage.ItemManager(db=item_file)
+		item = im.random_eq(['weapon'], 120, 1, [5])
 		bag_data = []
 		bag_data.append(item)
 
-		item2 = im.random_eq(['suit'], 120, 1)
-		item2[0]['kind'] = 'suit'
+		item2 = im.random_eq(['suit'], 120, 1, [5])
 		bag_data.append(item2)
 
-		print("BAG: ", bag_data)
+		return bag_data
+
+	def build(self):
+		root = Root()
+
+		#bag_data = self.build_data_from_item()
+		bag_data = self.build_data_from_profile()
+
 		root.ids.bag_widget.ids.bag.init_bag(bag_data)
 		#root.ids.bag_widget.ids.bag.add_item(item)
 
-		root.ids.bag_widget.ids.bag.remove_item(1)
+		#root.ids.bag_widget.ids.bag.remove_item(1)
 		return root
 
 if __name__ == '__main__':

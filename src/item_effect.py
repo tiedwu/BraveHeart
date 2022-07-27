@@ -5,6 +5,9 @@ class ItemEffect():
 	def __init__(self, items):
 		self.items = items
 
+	def set_items(self, items):
+		self.items = items
+
 	def calc_effect(self):
 		effect = {'hp': 0, 'ap': 0, 'cc': 0, 'cd': 0, 'av': 0, 'bv': 0, 
 			'gold': 0, 'hp_ratio': 0, 'ap_ratio': 0, 'av_ratio': 0}

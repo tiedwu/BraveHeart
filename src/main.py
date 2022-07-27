@@ -349,11 +349,6 @@ Builder.load_string('''
 			center_y: self.parent.center_y
 
 <EQBox>:
-	#weapon: weapon
-	#suit: suit
-	#necklace: necklace
-	#ring: ring
-	#size: root.ww * 0.5, root.wh * 0.185
 	padding: 20
 	orientation: 'vertical'
 	canvas.before:
@@ -631,11 +626,6 @@ class EQWidget(BoxLayout):
 		print("show_on(): ", item)
 
 class EQBox(BoxLayout):
-	#ww, wh = Window.size
-	#weapon = ObjectProperty(None)
-	#suit = ObjectProperty(None)
-	#necklace = ObjectProperty(None)
-	#ring = ObjectProperty(None)
 
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
@@ -744,6 +734,8 @@ class RootWidget(Screen):
 		self.dungeon.opacity = 1
 		self.dungeon.disable = False
 
+		self.service_instance_challenge(self.home.zone_info.level)
+
 	def init_player_data(self):
 		init_data.check()
 
@@ -756,9 +748,14 @@ class RootWidget(Screen):
 
 		self.item_data = self.player_data['equipped']
 		print("EQUIPPED: ", self.item_data)
-		self.init_items()
+		self.show_items()
 
 		self.ie = item_effect.ItemEffect(self.item_data)
+		self.make_effect()
+
+	def make_effect(self):
+		#self.ie = item_effect.ItemEffect(self.item_data)
+		self.ie.set_items(self.player_data['equipped'])
 		effect = self.ie.calc_effect()
 		print("ITEM EFFECT: ", effect)
 
@@ -789,6 +786,12 @@ class RootWidget(Screen):
 		self.bv = self.player_data['bbv'] + effect['bv']
 		print(f'BLOCK VALUE: {self.bv}')
 
+		# set fdi
+		self.fdi = self.player_data['fdi']
+
+		# sync to service player
+		self.service_set_player()
+
 		# calculate combat effectiveness
 		# AP = 0.75 * ap * (1 + (cc / 100)) * (1 + (cd / 100))
 		# HP = 0.12 * max_hp
@@ -800,6 +803,9 @@ class RootWidget(Screen):
 		self.ce = float(f'{self.ce:.2f}')
 		print(f'COMBAT EFFECTIVENESS: {self.ce}')
 
+		# set gold
+		self.gold = self.player_data['gold']
+
 	def exit_dungeon(self, instance):
 		print("removed dungeon")
 		self.dungeon.opacity = 0
@@ -810,7 +816,7 @@ class RootWidget(Screen):
 		self.home.zone_info.disable = True
 		#self.remove_widget(self.dungeon)
 
-	def init_items(self):
+	def show_items(self):
 
 		#init_data.check()
 
@@ -856,9 +862,44 @@ class RootWidget(Screen):
 			data = json.load(f)
 		return data
 
+	def service_instance_challenge(self, instance_level):
+
+		level_str = str(instance_level).encode('utf8')
+		hp_str = str(self.current_hp).encode('utf8')
+		App.get_running_app().client.send_message(\
+			b'/instance_challenge', [hp_str, level_str])
+
+	def service_set_player(self):
+		max_hp = str(self.max_hp).encode('utf8')
+		cur_hp = str(self.current_hp).encode('utf8')
+
+		ap = str(self.ap).encode('utf8')
+		av = str(self.av).encode('utf8')
+		bv = str(self.bv).encode('utf8')
+		fdi = str(self.fdi).encode('utf8')
+		cc = str(self.crit_chance).encode('utf8')
+		cd = str(self.crit_damage).encode('utf8')
+
+		App.get_running_app().client.send_message(\
+			b'/set_player', [max_hp, cur_hp, ap, av, bv, fdi, cc, cd])
+
+	def service_try_gold(self):
+		App.get_running_app().client.send_message(\
+			b'/try_gold', [])
+
+	def fight_report(self, gold, hp):
+		gold_decode = int(gold.decode('utf8'))
+		self.gold = gold_decode
+
+		cur_hp_decode = int(hp.decode('utf8'))
+		self.current_hp = cur_hp_decode
+
 	def update(self, dt):
 		self.dungeon.ids.hero.move()
 		self.dungeon.check_collision()
+
+		# update gold
+		#self.service_try_gold()
 
 class GameApp(App):
 	ww, wh = Window.size
@@ -895,7 +936,11 @@ class GameApp(App):
 		self.server = server = OSCThreadServer()
 		server.listen(address=b'localhost', port=3102, default=True)
 		self.client = OSCClient(b'localhost', 3100)
+
 		root = RootWidget()
+		# bind triggers
+		server.bind(b'/fight_report', root.fight_report)
+
 		#root.max_hp = 12334
 		#root.current_hp = 123
 		Clock.schedule_interval(root.update, 1.0/60.0)

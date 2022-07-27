@@ -84,7 +84,7 @@ def check():
 	if INIT:
 		im = ItemManager(db=item_file)
 		weapon = im.get_init_eq('weapon')
-		suit = im.get_init_eq('armor')
+		suit = im.get_init_eq('suit')
 		necklace = im.get_init_eq('necklace')
 		ring = im.get_init_eq('ring')
 
@@ -119,6 +119,9 @@ def check():
 						'necklace': necklace, 'ring': ring},
 						'bag': [],
 						'crystal': 0,
+						'current_hp': 0,
+						'current_instance': '',
+						'current_instance_level': 0,
 						}
 
 		print('creating profile_file: ', profile_file)
