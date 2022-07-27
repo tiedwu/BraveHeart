@@ -7,7 +7,7 @@ from kivy.uix.widget import Widget
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.utils import platform
-from kivy.properties import ObjectProperty, NumericProperty
+from kivy.properties import ObjectProperty, NumericProperty, StringProperty
 from kivy.config import Config
 
 from kivy.clock import Clock
@@ -372,6 +372,8 @@ Builder.load_string('''
 	font_name: 'fonts/DroidSansFallback.ttf'
 
 <LOGBox>:
+	log_text: self.parent.log_text
+	#log_text: '系统: 获得了: 金币 [color=00ff00]7154[/color]'
 	orientation: 'vertical'
 	canvas.before:
 		Color:
@@ -411,7 +413,8 @@ Builder.load_string('''
 			size_hint_y: None
 			height: self.texture_size[1]
 			text_size: self.width, None
-			text: '系统: 获得了: 金币 [color=00ff00]7154[/color]'
+			#text: '系统: 获得了: 金币 [color=00ff00]7154[/color]'
+			text: root.log_text
 			padding: 5, 5
 
 <BeadLabel@Label>:
@@ -669,6 +672,9 @@ class RootWidget(Screen):
 	# define gold
 	gold = NumericProperty(0)
 
+	# define log text
+	log_text = StringProperty('')
+
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
 		#print("RootWidget: ", self.ids.eq_box.ids)
@@ -711,6 +717,11 @@ class RootWidget(Screen):
 		# bind home button calls
 		self.home.ids.gen_instance.bind(on_release=self.generate_instance)
 
+		# set log
+		self.log_text = '系统: [color=0000ff]游戏进度已经保存[/color]\n'
+		self.log_text += '系统: [color=0000ff]读取存档成功[/color]\n'
+		self.log_text += '[color=f16b07]欢迎你勇士, 点击地图上的副本开始战斗[/color]\n'
+		self.log_text += '[color=f16b07]系统地图右上角可以刷新当前副本[/color]\n'
 
 	def generate_instance(self, instance):
 		if self.home.ids.instance_level.text == '':
@@ -889,10 +900,14 @@ class RootWidget(Screen):
 
 	def fight_report(self, gold, hp):
 		gold_decode = int(gold.decode('utf8'))
-		self.gold = gold_decode
+		self.gold += gold_decode
 
 		cur_hp_decode = int(hp.decode('utf8'))
 		self.current_hp = cur_hp_decode
+		self.log_text += '系统: [color=f16b07]你已进入无尽 (lv=32)[/color]\n'
+		self.log_text += '系统: [color=ff0000]你遭遇了小幽灵(lv=32), 正在战斗中...[/color]\n'
+		self.log_text += f'系统: [color=00ff00]]获得了: 金币 {gold_decode}[/color]\n'
+		self.log_text += '系统: [color=0000ff]击杀了小幽灵(无尽层数:32), 受到1点伤害[/color]\n'
 
 	def update(self, dt):
 		self.dungeon.ids.hero.move()

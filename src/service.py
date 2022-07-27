@@ -144,7 +144,7 @@ class GameService(OSCThreadServer):
 		self.player.set_hp(result['hp'])
 
 		hp = str(result['hp']).encode('utf8')
-		gold = str(self.profile_data['gold']).encode('utf8')
+		gold = str(result['gold']).encode('utf8')
 		CLIENT.send_message(b'/fight_report', [gold, hp])
 
 	def check_data(self):
