@@ -126,12 +126,8 @@ class Hero(Widget):
 		if self.pos[0] >= bound:
 			self.pos = self.ww * 0.05, self.hero_y
 			self.turnover = True
-			#if self.run_once:
-			#	self.opacity = 0
-			#	self.disable = False
 		else:
 			self.pos = Vector(*self.velocity) + self.pos
-			#self.turnover = False
 
 		# mark for next game in the future
 		if self.velocity == [0, 1]:
@@ -177,10 +173,10 @@ class Dungeon(Widget):
 
 			if self.run_once:
 				self.opacity = 0
-				self.disable = True
+				self.disabled = True
 
 				self.parent.home.opacity = 1
-				self.parent.home.disable = False
+				self.parent.home.disabled = False
 			else:
 				self.reset_enemies()
 			self.hero.turnover = False
@@ -192,12 +188,20 @@ class Dungeon(Widget):
 
 	def enemy_die(self, enemy_id):
 		self.enemies[enemy_id].opacity = 0
-		self.enemies[enemy_id].disable = True
+		self.enemies[enemy_id].disabled = True
 
 	def reset_enemies(self):
 		for e in self.enemies:
 			e.opacity = 1
-			e.disable = False
+			e.disabled = False
+
+	def active_me(self):
+		self.opacity = 1
+		self.disabled = False
+
+	def hide_me(self):
+		self.opacity = 0
+		self.disabled = True
 
 class AwesomeApp(App):
 	def build(self):

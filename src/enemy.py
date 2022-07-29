@@ -14,12 +14,16 @@ class Enemy():
 		self.av = self.lv * 5
 		self.bv = self.lv * 0
 		self.fdi = self.lv * 0
+		self.name = '小幽灵'
 
 	def set_lv(self, lv):
 		self.lv = lv
 
 	def reset(self):
 		self.current_hp = self.max_hp
+
+	def get_name(self):
+		return self.name
 
 class Boss(Enemy):
 	def __init__(self, lv=1):
@@ -31,6 +35,7 @@ class Boss(Enemy):
 		self.av = self.lv * 10
 		self.bv = self.lv * 5
 		#self.fdi = self.lv * 0
+		self.name = '幽灵队长'
 
 class Enemy_Westfall(Enemy):
 	def __init__(self, lv=1):
@@ -43,6 +48,7 @@ class Enemy_Westfall(Enemy):
 		self.ap = self.lv * 12
 		self.av = self.lv * 7
 		self.bv = self.lv * 3
+		self.name = '荒野幽灵'
 		#self.fdi = self.lv * 0
 
 class Enemy_Trial(Enemy):
@@ -56,6 +62,7 @@ class Enemy_Trial(Enemy):
 		self.ap = self.lv * 20
 		self.av = self.lv * 10
 		self.bv = self.lv * 5
+		self.name = '试炼幽灵'
 		#self.fdi = self.lv * 0
 
 class Enemy_Starship(Enemy):
@@ -70,6 +77,7 @@ class Enemy_Starship(Enemy):
 		self.av = self.lv * 20
 		self.bv = self.lv * 15
 		self.fdi = self.lv * 2
+		self.name = '星舰幽灵'
 
 class Boss_Westfall(Boss):
 	def __init__(self, lv=1):
@@ -83,6 +91,7 @@ class Boss_Westfall(Boss):
 		self.av = self.lv * 10
 		self.bv = self.lv * 10
 		self.fdi = self.lv * 1
+		self.name = '荒野幽灵队长'
 
 class Boss_Trial(Boss):
 	def __init__(self, lv=1):
@@ -95,6 +104,7 @@ class Boss_Trial(Boss):
 		self.av = self.lv * 25
 		self.bv = self.lv * 15
 		self.fdi = self.lv * 10
+		self.name = '试炼幽灵队长'
 
 class Boss_Starship(Boss):
 	def __init__(self, lv=1):
@@ -108,7 +118,8 @@ class Boss_Starship(Boss):
 		self.av = self.lv * 30
 		self.bv = self.lv * 20
 		self.fdi = self.lv * 7
+		self.name = '星舰幽灵队长'
 
 if __name__ == '__main__':
 	boss = Boss_Starship(lv=100)
-	print(boss.ap)
+	print(boss.get_name())

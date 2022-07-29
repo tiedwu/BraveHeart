@@ -51,17 +51,22 @@ def check():
 			else:
 				dir = os.path.join(dir, 'data')
 
-			# copy item.json
-			import shutil
-			origin = 'data/item.json'
-			shutil.copy(origin, dir)
-			Logger.info(f'item data copied')
+			# show item_file, profile_file
+			#print(f'item file: {dir}/{item_file}')
+			#print(f'profile file: {dir}/{profile_file}')
 
-			# set profile_file, item_file
 			item_file = os.path.join(dir, item_file)
 			profile_file = os.path.join(dir, profile_file)
 
-			INIT = True
+			if not os.path.exists(item_file):
+				# copy item.json
+				import shutil
+				origin = 'data/item.json'
+				shutil.copy(origin, dir)
+				Logger.info(f'item data copied')
+
+			if not os.path.exists(profile_file):
+				INIT = True
 
 		except:
 			Logger.info('missing permissions?')

@@ -61,8 +61,10 @@ class Combat():
 		self.im = im
 
 	def calc(self):
-		result = {'hp': 0, 'gold': 0, 'items': []}
+		result = {'damage': 0, 'gold': 0, 'items': []}
 		win = True
+		total_damage = 0
+		cur_hp = self.player.current_hp
 		while True:
 
 			# hit from me to enemy
@@ -75,6 +77,7 @@ class Combat():
 
 			if self.enemy.current_hp <= 0:
 				win = True
+				total_damage = 1
 				break
 
 			# hit from enemy to me
@@ -82,17 +85,21 @@ class Combat():
 				self.player.bv + self.enemy.fdi/100 * self.enemy.ap
 
 			me_damage = 1 if me_damage < 1 else int(me_damage)
+			total_damage += me_damage
 			print("hit point from enemy: ", me_damage)
-			self.player.current_hp = self.player.current_hp - me_damage
+			#self.player.current_hp = self.player.current_hp - me_damage
+			cur_hp -= me_damage
 
-			if self.player.current_hp <= 0:
+			if cur_hp <= 0:
 				win = False
 				break
 
-		self.player.current_hp -= 1 
-		result['hp'] = int(self.player.current_hp)
-		if result['hp'] < 0:
-			result['hp'] = 0
+		self.player.current_hp -= int(total_damage)
+
+		if self.player.current_hp < 0:
+			self.player.current_hp = 0
+
+		result['damage'] = int(total_damage)
 
 		if win:
 			# instance: gold + drops
@@ -118,6 +125,8 @@ class Combat():
 					ranks = [6]
 				item = self.im.random_eq(all, self.enemy.lv, 1, ranks)
 				result['items'].append(item)
+
+		print(win)
 		return result
 
 	def get_chance(self):
@@ -139,3 +148,16 @@ if __name__ == '__main__':
 	#combat_model.set_player(player)
 	#combat_model.set_enemy(enemy)
 	print(combat_model.calc()) 
+
+	n = -1
+	n_str = str(n).encode('utf8')
+	n_int = int(n_str.decode('utf8'))
+	print(n_int)
+
+	ar = [1, 2, 3]
+	print(len(ar))
+
+	mn = [{'a': 1, 'b': 2, 'c': 3}]
+	mn_str = str(mn)
+	mn_list = list(mn_str)
+	print(mn_list)

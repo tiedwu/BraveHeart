@@ -30,7 +30,7 @@
     "drp": 0,
     "dops": 0,
     "ce": 0,
-    "gold": 1056956,
+    "gold": 2984155,
     "equipped": {
         "weapon": {
             "ID": "001",
@@ -108,385 +108,160 @@
     "bag": [
         [
             {
-                "ID": "227",
-                "name": "失落之心毛毛项圈",
-                "desc": "失落之心毛毛项圈",
+                "ID": "325",
+                "name": "小小心戒指",
+                "desc": "小小心戒指",
                 "rank": 5,
                 "attr": {
-                    "armor": {
-                        "class": "SSS",
-                        "value": 1510
+                    "attack": {
+                        "class": "C",
+                        "value": 2294
                     },
                     "hp": {
-                        "class": "SSS",
-                        "value": 6036
+                        "class": "S",
+                        "value": 88364
                     },
                     "damage": {
+                        "class": "C",
+                        "value": 91
+                    },
+                    "crit": {
                         "class": "D",
-                        "value": 91.9
+                        "value": 21.5
                     }
                 },
                 "lv": 206,
+                "kind": "ring",
+                "implicit": [
+                    {
+                        "ARMOR_RATE": 29.41
+                    },
+                    {
+                        "HP_RATE": 29.35
+                    },
+                    {
+                        "BLOCK": 447
+                    },
+                    {
+                        "ARMOR": 741
+                    },
+                    {
+                        "BLOCK": 780
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "322",
+                "name": "素盏鸣尊的意志",
+                "desc": "素盏鸣尊的意志",
+                "rank": 5,
+                "attr": {
+                    "attack": {
+                        "class": "SS",
+                        "value": 2799
+                    },
+                    "damage": {
+                        "class": "SSS",
+                        "value": 103.6
+                    }
+                },
+                "lv": 208,
+                "kind": "ring",
+                "implicit": [
+                    {
+                        "HP": 2225
+                    },
+                    {
+                        "ATTACK_RATE": 24.41
+                    },
+                    {
+                        "BLOCK": 800
+                    },
+                    {
+                        "ARMOR_RATE": 30.61
+                    },
+                    {
+                        "HP_RATE": 29.69
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "221",
+                "name": "十字旅团降魔项链",
+                "desc": "十字旅团降魔项链",
+                "rank": 5,
+                "attr": {
+                    "attack": {
+                        "class": "D",
+                        "value": 637
+                    },
+                    "armor": {
+                        "class": "B",
+                        "value": 1312
+                    },
+                    "hp": {
+                        "class": "D",
+                        "value": 4676
+                    }
+                },
+                "lv": 208,
                 "kind": "necklace",
                 "implicit": [
                     {
-                        "ARMOR_RATE": 32.6
+                        "HP_RATE": 27.06
                     },
                     {
-                        "HP_RATE": 25.55
+                        "CRIT_RATE": 24.28
                     },
                     {
-                        "CRIT_RATE": 19.13
+                        "HP": 1799
                     },
                     {
-                        "ARMOR_RATE": 36.6
+                        "ARMOR_RATE": 29.46
                     },
                     {
-                        "ARMOR_RATE": 21.72
+                        "CRIT_RATE": 23.53
                     }
                 ]
             }
         ],
         [
             {
-                "ID": "125",
-                "name": "黑镇月",
-                "desc": "黑镇月",
+                "ID": "323",
+                "name": "月夜见尊的意志",
+                "desc": "月夜见尊的意志",
                 "rank": 5,
                 "attr": {
-                    "armor": {
-                        "class": "B",
-                        "value": 2785
-                    },
                     "hp": {
-                        "class": "C",
-                        "value": 7312
-                    }
-                },
-                "lv": 206,
-                "kind": "suit",
-                "implicit": [
-                    {
-                        "ARMOR": 653
-                    },
-                    {
-                        "ATTACK": 1188
-                    },
-                    {
-                        "ATTACK": 962
-                    },
-                    {
-                        "CRIT_RATE": 19.71
-                    },
-                    {
-                        "ATTACK": 953
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "020",
-                "name": "大师大冒险家之剑",
-                "desc": "大师大冒险家之剑",
-                "rank": 5,
-                "attr": {
-                    "attack": {
                         "class": "B",
-                        "value": 4860
+                        "value": 81250
                     },
-                    "hp": {
+                    "damage": {
                         "class": "D",
-                        "value": 6510
-                    }
-                },
-                "lv": 200,
-                "kind": "weapon",
-                "implicit": [
-                    {
-                        "BLOCK": 474
-                    },
-                    {
-                        "ATTACK": 628
-                    },
-                    {
-                        "ARMOR": 726
-                    },
-                    {
-                        "CRIT_RATE": 20.29
-                    },
-                    {
-                        "ARMOR": 770
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "008",
-                "name": "紫炎波刃剑",
-                "desc": "传说中狂战士最喜爱的剑",
-                "rank": 4,
-                "attr": {
-                    "attack": {
-                        "class": "SS",
-                        "value": 3766
-                    }
-                },
-                "lv": 206,
-                "kind": "weapon",
-                "implicit": [
-                    {
-                        "HP": 2228
-                    },
-                    {
-                        "ATTACK_RATE": 25.92
-                    },
-                    {
-                        "DAMAGE_RATE": 28.09
-                    },
-                    {
-                        "CRIT_RATE": 18.83
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "029",
-                "name": "黑色冰虎刃",
-                "desc": "黑色冰虎刃",
-                "rank": 5,
-                "attr": {
-                    "attack": {
-                        "class": "A",
-                        "value": 5106
-                    },
-                    "armor": {
-                        "class": "A",
-                        "value": 1183
-                    },
-                    "hp": {
-                        "class": "SSS",
-                        "value": 8173
-                    }
-                },
-                "lv": 203,
-                "kind": "weapon",
-                "implicit": [
-                    {
-                        "ARMOR": 698
-                    },
-                    {
-                        "BLOCK": 446
-                    },
-                    {
-                        "ATTACK_RATE": 24.01
-                    },
-                    {
-                        "ARMOR_RATE": 29.09
-                    },
-                    {
-                        "ATTACK_RATE": 35.7
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "127",
-                "name": "心花乱坠长袍",
-                "desc": "心花乱坠长袍",
-                "rank": 5,
-                "attr": {
-                    "attack": {
-                        "class": "SS",
-                        "value": 1129
-                    },
-                    "armor": {
-                        "class": "C",
-                        "value": 2526
-                    },
-                    "hp": {
-                        "class": "B",
-                        "value": 7492
+                        "value": 103.5
                     }
                 },
                 "lv": 209,
-                "kind": "suit",
+                "kind": "ring",
                 "implicit": [
                     {
-                        "ARMOR": 664
+                        "ATTACK": 921
                     },
                     {
-                        "DAMAGE_RATE": 39.66
+                        "ARMOR_RATE": 39.56
                     },
                     {
-                        "CRIT_RATE": 23.06
+                        "ARMOR_RATE": 29.15
                     },
                     {
-                        "ARMOR": 785
+                        "HP": 1697
                     },
                     {
-                        "HP_RATE": 22.06
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "203",
-                "name": "银魄之眼",
-                "desc": "银魄之眼",
-                "rank": 3,
-                "attr": {
-                    "attack": {
-                        "class": "C",
-                        "value": 175
-                    },
-                    "hp": {
-                        "class": "SSS",
-                        "value": 1600
-                    },
-                    "crit": {
-                        "class": "S",
-                        "value": 11
-                    }
-                },
-                "lv": 200,
-                "kind": "necklace",
-                "implicit": [
-                    {
-                        "BLOCK": 562
-                    },
-                    {
-                        "CRIT_RATE": 18.04
-                    },
-                    {
-                        "ARMOR": 700
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "227",
-                "name": "失落之心毛毛项圈",
-                "desc": "失落之心毛毛项圈",
-                "rank": 5,
-                "attr": {
-                    "armor": {
-                        "class": "C",
-                        "value": 1262
-                    },
-                    "hp": {
-                        "class": "B",
-                        "value": 5158
-                    },
-                    "damage": {
-                        "class": "S",
-                        "value": 92.9
-                    }
-                },
-                "lv": 208,
-                "kind": "necklace",
-                "implicit": [
-                    {
-                        "ATTACK_RATE": 37.69
-                    },
-                    {
-                        "BLOCK": 434
-                    },
-                    {
-                        "BLOCK": 832
-                    },
-                    {
-                        "DAMAGE_RATE": 20.62
-                    },
-                    {
-                        "BLOCK": 744
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "128",
-                "name": "法夜",
-                "desc": "法夜",
-                "rank": 5,
-                "attr": {
-                    "armor": {
-                        "class": "A",
-                        "value": 2591
-                    },
-                    "hp": {
-                        "class": "SSS",
-                        "value": 8600
-                    },
-                    "damage": {
-                        "class": "C",
-                        "value": 114.1
-                    }
-                },
-                "lv": 201,
-                "kind": "suit",
-                "implicit": [
-                    {
-                        "HP": 2012
-                    },
-                    {
-                        "CRIT_RATE": 22.06
-                    },
-                    {
-                        "DAMAGE_RATE": 38.76
-                    },
-                    {
-                        "ATTACK_RATE": 28.41
-                    },
-                    {
-                        "ATTACK_RATE": 31.84
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "126",
-                "name": "破坏者H-018",
-                "desc": "破坏者H-018",
-                "rank": 5,
-                "attr": {
-                    "armor": {
-                        "class": "SS",
-                        "value": 2882
-                    },
-                    "hp": {
-                        "class": "C",
-                        "value": 7212
-                    },
-                    "damage": {
-                        "class": "SSS",
-                        "value": 106.6
-                    }
-                },
-                "lv": 208,
-                "kind": "suit",
-                "implicit": [
-                    {
-                        "ARMOR": 698
-                    },
-                    {
-                        "ARMOR": 744
-                    },
-                    {
-                        "DAMAGE_RATE": 24.5
-                    },
-                    {
-                        "BLOCK": 640
-                    },
-                    {
-                        "DAMAGE_RATE": 39.92
+                        "HP_RATE": 37.0
                     }
                 ]
             }
@@ -499,111 +274,148 @@
                 "rank": 5,
                 "attr": {
                     "attack": {
-                        "class": "A",
-                        "value": 5048
+                        "class": "C",
+                        "value": 4655
                     },
                     "hp": {
-                        "class": "A",
-                        "value": 7255
+                        "class": "SS",
+                        "value": 7859
                     },
                     "damage": {
-                        "class": "SS",
-                        "value": 93
+                        "class": "S",
+                        "value": 95
                     }
                 },
-                "lv": 205,
+                "lv": 209,
                 "kind": "weapon",
                 "implicit": [
                     {
-                        "HP": 1965
+                        "BLOCK": 576
                     },
                     {
-                        "BLOCK": 428
+                        "HP_RATE": 35.29
                     },
                     {
-                        "CRIT_RATE": 19.14
+                        "HP_RATE": 38.19
                     },
                     {
-                        "ARMOR": 615
+                        "CRIT_RATE": 16.95
                     },
                     {
-                        "ARMOR": 703
+                        "HP": 2217
                     }
                 ]
             }
         ],
         [
             {
-                "ID": "103",
-                "name": "天权轻甲",
-                "desc": "舍弃防御性能的轻甲，因为更加轻便, 攻击性能更加突出",
+                "ID": "321",
+                "name": "死神名片戒指",
+                "desc": "死神名片戒指",
+                "rank": 5,
+                "attr": {
+                    "hp": {
+                        "class": "SSS",
+                        "value": 95580
+                    },
+                    "damage": {
+                        "class": "D",
+                        "value": 91
+                    },
+                    "crit": {
+                        "class": "SS",
+                        "value": 23.6
+                    }
+                },
+                "lv": 201,
+                "kind": "ring",
+                "implicit": [
+                    {
+                        "ATTACK": 695
+                    },
+                    {
+                        "ARMOR_RATE": 21.28
+                    },
+                    {
+                        "ARMOR": 607
+                    },
+                    {
+                        "CRIT_RATE": 20.98
+                    },
+                    {
+                        "ATTACK_RATE": 20.67
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "321",
+                "name": "死神名片戒指",
+                "desc": "死神名片戒指",
+                "rank": 5,
+                "attr": {
+                    "hp": {
+                        "class": "SS",
+                        "value": 91980
+                    },
+                    "damage": {
+                        "class": "SS",
+                        "value": 91
+                    },
+                    "crit": {
+                        "class": "SSS",
+                        "value": 23.6
+                    }
+                },
+                "lv": 200,
+                "kind": "ring",
+                "implicit": [
+                    {
+                        "ATTACK": 630
+                    },
+                    {
+                        "DAMAGE_RATE": 37.24
+                    },
+                    {
+                        "DAMAGE_RATE": 37.05
+                    },
+                    {
+                        "ARMOR": 738
+                    },
+                    {
+                        "ATTACK": 946
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "003",
+                "name": "战士长剑",
+                "desc": "六级战士使用的长剑",
                 "rank": 3,
                 "attr": {
                     "attack": {
                         "class": "SSS",
-                        "value": 376
+                        "value": 2051
                     },
                     "armor": {
-                        "class": "B",
-                        "value": 565
-                    },
-                    "hp": {
-                        "class": "SS",
-                        "value": 1880
+                        "class": "SSS",
+                        "value": 355
                     }
                 },
                 "lv": 201,
-                "kind": "suit",
+                "kind": "weapon",
                 "implicit": [
                     {
-                        "ARMOR": 659
+                        "ATTACK_RATE": 37.76
                     },
                     {
-                        "ARMOR": 759
+                        "DAMAGE_RATE": 29.51
                     },
                     {
-                        "HP_RATE": 22.98
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "222",
-                "name": "进阶黑暗龙王项链",
-                "desc": "进阶黑暗龙王项链",
-                "rank": 5,
-                "attr": {
-                    "hp": {
-                        "class": "S",
-                        "value": 5555
-                    },
-                    "damage": {
-                        "class": "B",
-                        "value": 91
-                    },
-                    "crit": {
-                        "class": "S",
-                        "value": 21.5
-                    }
-                },
-                "lv": 207,
-                "kind": "necklace",
-                "implicit": [
-                    {
-                        "BLOCK": 565
-                    },
-                    {
-                        "CRIT_RATE": 19.24
-                    },
-                    {
-                        "DAMAGE_RATE": 32.5
-                    },
-                    {
-                        "ARMOR": 656
-                    },
-                    {
-                        "HP_RATE": 20.8
+                        "ATTACK_RATE": 25.21
                     }
                 ]
             }
@@ -616,557 +428,188 @@
                 "rank": 5,
                 "attr": {
                     "attack": {
-                        "class": "S",
-                        "value": 5461
+                        "class": "B",
+                        "value": 5042
                     },
                     "crit": {
                         "class": "A",
                         "value": 63.5
                     }
                 },
-                "lv": 208,
-                "kind": "weapon",
-                "implicit": [
-                    {
-                        "ATTACK": 1106
-                    },
-                    {
-                        "ATTACK_RATE": 30.2
-                    },
-                    {
-                        "DAMAGE_RATE": 31.62
-                    },
-                    {
-                        "ATTACK_RATE": 24.58
-                    },
-                    {
-                        "CRIT_RATE": 24.86
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "020",
-                "name": "大师大冒险家之剑",
-                "desc": "大师大冒险家之剑",
-                "rank": 5,
-                "attr": {
-                    "attack": {
-                        "class": "C",
-                        "value": 4676
-                    },
-                    "hp": {
-                        "class": "SSS",
-                        "value": 8326
-                    }
-                },
-                "lv": 209,
-                "kind": "weapon",
-                "implicit": [
-                    {
-                        "ATTACK_RATE": 22.34
-                    },
-                    {
-                        "CRIT_RATE": 18.03
-                    },
-                    {
-                        "BLOCK": 503
-                    },
-                    {
-                        "DAMAGE_RATE": 34.92
-                    },
-                    {
-                        "BLOCK": 482
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "124",
-                "name": "芬萨里尔追踪者",
-                "desc": "芬萨里尔追踪者",
-                "rank": 5,
-                "attr": {
-                    "attack": {
-                        "class": "A",
-                        "value": 1113
-                    },
-                    "armor": {
-                        "class": "D",
-                        "value": 2271
-                    },
-                    "damage": {
-                        "class": "C",
-                        "value": 106.6
-                    }
-                },
-                "lv": 201,
-                "kind": "suit",
-                "implicit": [
-                    {
-                        "ATTACK": 607
-                    },
-                    {
-                        "HP": 1712
-                    },
-                    {
-                        "HP": 2038
-                    },
-                    {
-                        "ARMOR_RATE": 29.71
-                    },
-                    {
-                        "ARMOR_RATE": 26.94
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "102",
-                "name": "战士重铠",
-                "desc": "六级战士使用的重型铠甲",
-                "rank": 4,
-                "attr": {
-                    "armor": {
-                        "class": "A",
-                        "value": 1151
-                    },
-                    "hp": {
-                        "class": "SSS",
-                        "value": 3590
-                    }
-                },
-                "lv": 202,
-                "kind": "suit",
-                "implicit": [
-                    {
-                        "ARMOR": 781
-                    },
-                    {
-                        "BLOCK": 466
-                    },
-                    {
-                        "BLOCK": 547
-                    },
-                    {
-                        "HP_RATE": 32.42
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "204",
-                "name": "十字军项链",
-                "desc": "十字军佩戴的项链",
-                "rank": 4,
-                "attr": {
-                    "armor": {
-                        "class": "B",
-                        "value": 568
-                    },
-                    "hp": {
-                        "class": "D",
-                        "value": 1723
-                    },
-                    "block": {
-                        "class": "B",
-                        "value": 234
-                    }
-                },
-                "lv": 207,
-                "kind": "necklace",
-                "implicit": [
-                    {
-                        "HP_RATE": 38.08
-                    },
-                    {
-                        "CRIT_RATE": 17.73
-                    },
-                    {
-                        "ARMOR": 784
-                    },
-                    {
-                        "ARMOR": 805
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "020",
-                "name": "大师大冒险家之剑",
-                "desc": "大师大冒险家之剑",
-                "rank": 5,
-                "attr": {
-                    "attack": {
-                        "class": "B",
-                        "value": 4861
-                    },
-                    "hp": {
-                        "class": "S",
-                        "value": 7711
-                    }
-                },
                 "lv": 201,
                 "kind": "weapon",
                 "implicit": [
                     {
-                        "BLOCK": 649
+                        "ARMOR": 799
                     },
                     {
-                        "DAMAGE_RATE": 34.58
+                        "ATTACK_RATE": 31.17
                     },
                     {
-                        "CRIT_RATE": 23.25
+                        "BLOCK": 675
                     },
                     {
-                        "ATTACK_RATE": 35.64
+                        "ARMOR": 677
                     },
                     {
-                        "CRIT_RATE": 20.77
+                        "DAMAGE_RATE": 36.4
                     }
                 ]
             }
         ],
         [
             {
-                "ID": "030",
-                "name": "繁星之剑",
-                "desc": "繁星之剑",
+                "ID": "128",
+                "name": "法夜",
+                "desc": "法夜",
                 "rank": 5,
                 "attr": {
-                    "attack": {
-                        "class": "C",
-                        "value": 4645
+                    "armor": {
+                        "class": "D",
+                        "value": 2293
                     },
                     "hp": {
-                        "class": "SS",
-                        "value": 7853
+                        "class": "D",
+                        "value": 6681
                     },
                     "damage": {
-                        "class": "C",
-                        "value": 95
+                        "class": "SSS",
+                        "value": 115.1
                     }
                 },
                 "lv": 203,
-                "kind": "weapon",
+                "kind": "suit",
                 "implicit": [
                     {
-                        "ATTACK": 1081
+                        "ATTACK": 613
                     },
                     {
-                        "DAMAGE_RATE": 30.14
+                        "BLOCK": 452
                     },
                     {
-                        "HP": 2046
+                        "HP_RATE": 27.83
                     },
                     {
-                        "BLOCK": 586
+                        "ATTACK": 653
                     },
                     {
-                        "DAMAGE_RATE": 37.88
+                        "ARMOR": 765
                     }
                 ]
             }
         ],
         [
             {
-                "ID": "027",
-                "name": "神龙纳格林之刃",
-                "desc": "神龙纳格林之刃",
-                "rank": 5,
+                "ID": "302",
+                "name": "毛毛指环",
+                "desc": "喵喵戒指",
+                "rank": 4,
                 "attr": {
                     "attack": {
-                        "class": "SSS",
-                        "value": 5876
+                        "class": "A",
+                        "value": 365
                     },
-                    "damage": {
+                    "hp": {
                         "class": "B",
-                        "value": 112
-                    }
-                },
-                "lv": 206,
-                "kind": "weapon",
-                "implicit": [
-                    {
-                        "ATTACK_RATE": 22.24
-                    },
-                    {
-                        "ATTACK_RATE": 35.44
-                    },
-                    {
-                        "ATTACK": 718
-                    },
-                    {
-                        "ATTACK_RATE": 22.55
-                    },
-                    {
-                        "ATTACK_RATE": 31.98
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "007",
-                "name": "狱岩石太刀",
-                "desc": "用狱岩石制作的太刀, 据说拥有让使用者潜力爆发的神秘力量",
-                "rank": 3,
-                "attr": {
-                    "attack": {
-                        "class": "S",
-                        "value": 2174
+                        "value": 17750
                     },
                     "crit": {
-                        "class": "S",
+                        "class": "SSS",
                         "value": 11
                     }
                 },
                 "lv": 202,
-                "kind": "weapon",
-                "implicit": [
-                    {
-                        "HP": 1634
-                    },
-                    {
-                        "HP": 2183
-                    },
-                    {
-                        "ARMOR_RATE": 21.22
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "024",
-                "name": "死亡之刃",
-                "desc": "死亡之刃",
-                "rank": 5,
-                "attr": {
-                    "attack": {
-                        "class": "B",
-                        "value": 4902
-                    },
-                    "damage": {
-                        "class": "SS",
-                        "value": 98.3
-                    },
-                    "crit": {
-                        "class": "B",
-                        "value": 42.5
-                    }
-                },
-                "lv": 201,
-                "kind": "weapon",
-                "implicit": [
-                    {
-                        "DAMAGE_RATE": 27.36
-                    },
-                    {
-                        "ARMOR_RATE": 33.13
-                    },
-                    {
-                        "HP_RATE": 31.47
-                    },
-                    {
-                        "HP": 2180
-                    },
-                    {
-                        "ARMOR_RATE": 34.13
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "027",
-                "name": "神龙纳格林之刃",
-                "desc": "神龙纳格林之刃",
-                "rank": 5,
-                "attr": {
-                    "attack": {
-                        "class": "A",
-                        "value": 5260
-                    },
-                    "damage": {
-                        "class": "B",
-                        "value": 114
-                    }
-                },
-                "lv": 200,
-                "kind": "weapon",
-                "implicit": [
-                    {
-                        "DAMAGE_RATE": 36.57
-                    },
-                    {
-                        "ARMOR": 648
-                    },
-                    {
-                        "BLOCK": 458
-                    },
-                    {
-                        "HP_RATE": 21.11
-                    },
-                    {
-                        "HP_RATE": 27.28
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "328",
-                "name": "混沌",
-                "desc": "混沌",
-                "rank": 5,
-                "attr": {
-                    "damage": {
-                        "class": "B",
-                        "value": 117.2
-                    }
-                },
-                "lv": 204,
                 "kind": "ring",
                 "implicit": [
                     {
-                        "ATTACK_RATE": 30.74
+                        "DAMAGE_RATE": 35.48
                     },
                     {
-                        "CRIT_RATE": 23.28
+                        "ATTACK_RATE": 38.0
                     },
                     {
-                        "ATTACK": 799
+                        "ARMOR": 702
                     },
                     {
-                        "HP": 1907
-                    },
-                    {
-                        "DAMAGE_RATE": 22.45
+                        "ARMOR": 678
                     }
                 ]
             }
         ],
         [
             {
-                "ID": "226",
-                "name": "死神项链",
-                "desc": "死神项链",
+                "ID": "120",
+                "name": "剑豪盔甲",
+                "desc": "剑豪盔甲",
                 "rank": 5,
                 "attr": {
-                    "attack": {
-                        "class": "C",
-                        "value": 678
+                    "armor": {
+                        "class": "A",
+                        "value": 2782
                     },
                     "hp": {
-                        "class": "B",
-                        "value": 5112
-                    },
-                    "damage": {
-                        "class": "D",
-                        "value": 91.9
-                    }
-                },
-                "lv": 203,
-                "kind": "necklace",
-                "implicit": [
-                    {
-                        "HP_RATE": 37.24
-                    },
-                    {
-                        "CRIT_RATE": 16.06
-                    },
-                    {
-                        "ARMOR_RATE": 30.34
-                    },
-                    {
-                        "DAMAGE_RATE": 33.06
-                    },
-                    {
-                        "ATTACK": 785
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "225",
-                "name": "蓝色冰心骑士团项链",
-                "desc": "蓝色冰心骑士团项链",
-                "rank": 5,
-                "attr": {
-                    "hp": {
-                        "class": "SSS",
-                        "value": 6080
-                    },
-                    "damage": {
-                        "class": "C",
-                        "value": 107.6
-                    }
-                },
-                "lv": 209,
-                "kind": "necklace",
-                "implicit": [
-                    {
-                        "BLOCK": 447
-                    },
-                    {
-                        "DAMAGE_RATE": 29.96
-                    },
-                    {
-                        "DAMAGE_RATE": 26.68
-                    },
-                    {
-                        "ATTACK": 675
-                    },
-                    {
-                        "HP": 2163
-                    }
-                ]
-            }
-        ],
-        [
-            {
-                "ID": "226",
-                "name": "死神项链",
-                "desc": "死神项链",
-                "rank": 5,
-                "attr": {
-                    "attack": {
                         "class": "SS",
-                        "value": 775
-                    },
-                    "hp": {
-                        "class": "SSS",
-                        "value": 5993
-                    },
-                    "damage": {
-                        "class": "SS",
-                        "value": 88.9
+                        "value": 8695
                     }
                 },
-                "lv": 204,
-                "kind": "necklace",
+                "lv": 206,
+                "kind": "suit",
                 "implicit": [
                     {
-                        "ATTACK_RATE": 28.78
+                        "ATTACK": 1188
                     },
                     {
-                        "CRIT_RATE": 15.12
+                        "BLOCK": 753
                     },
                     {
-                        "ATTACK": 1150
+                        "HP": 1738
                     },
                     {
-                        "ATTACK_RATE": 31.44
+                        "BLOCK": 648
                     },
                     {
-                        "ATTACK": 1048
+                        "BLOCK": 430
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "321",
+                "name": "死神名片戒指",
+                "desc": "死神名片戒指",
+                "rank": 5,
+                "attr": {
+                    "hp": {
+                        "class": "S",
+                        "value": 88384
+                    },
+                    "damage": {
+                        "class": "A",
+                        "value": 95
+                    },
+                    "crit": {
+                        "class": "S",
+                        "value": 23.6
+                    }
+                },
+                "lv": 205,
+                "kind": "ring",
+                "implicit": [
+                    {
+                        "HP": 2017
+                    },
+                    {
+                        "ARMOR": 770
+                    },
+                    {
+                        "CRIT_RATE": 15.04
+                    },
+                    {
+                        "CRIT_RATE": 17.75
+                    },
+                    {
+                        "HP_RATE": 33.68
                     }
                 ]
             }
@@ -1179,35 +622,326 @@
                 "rank": 5,
                 "attr": {
                     "armor": {
-                        "class": "A",
-                        "value": 2674
+                        "class": "C",
+                        "value": 2476
                     },
                     "hp": {
-                        "class": "A",
-                        "value": 7844
+                        "class": "SSS",
+                        "value": 8806
                     },
                     "damage": {
-                        "class": "C",
-                        "value": 107.6
+                        "class": "S",
+                        "value": 103.6
                     }
                 },
-                "lv": 203,
+                "lv": 204,
                 "kind": "suit",
                 "implicit": [
                     {
+                        "HP": 2013
+                    },
+                    {
+                        "BLOCK": 626
+                    },
+                    {
+                        "ATTACK": 707
+                    },
+                    {
+                        "CRIT_RATE": 16.81
+                    },
+                    {
+                        "ATTACK": 930
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "025",
+                "name": "霜龙利刃",
+                "desc": "霜龙利刃",
+                "rank": 5,
+                "attr": {
+                    "attack": {
+                        "class": "SS",
+                        "value": 5489
+                    },
+                    "damage": {
+                        "class": "SS",
+                        "value": 98.3
+                    },
+                    "crit": {
+                        "class": "D",
+                        "value": 44.6
+                    }
+                },
+                "lv": 205,
+                "kind": "weapon",
+                "implicit": [
+                    {
+                        "ARMOR": 641
+                    },
+                    {
+                        "ATTACK_RATE": 35.52
+                    },
+                    {
+                        "ATTACK": 750
+                    },
+                    {
+                        "HP": 2226
+                    },
+                    {
+                        "ATTACK": 1020
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "006",
+                "name": "赤柳血刃",
+                "desc": "似乎会给使用者提供生命气息",
+                "rank": 2,
+                "attr": {
+                    "attack": {
+                        "class": "C",
+                        "value": 332
+                    },
+                    "hp": {
+                        "class": "C",
+                        "value": 281
+                    }
+                },
+                "lv": 202,
+                "kind": "weapon",
+                "implicit": [
+                    {
+                        "ATTACK": 822
+                    },
+                    {
+                        "ARMOR": 765
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "202",
+                "name": "冰龙凝雪",
+                "desc": "冰龙凝雪",
+                "rank": 3,
+                "attr": {
+                    "hp": {
+                        "class": "C",
+                        "value": 1454
+                    },
+                    "damage": {
+                        "class": "SSS",
+                        "value": 74
+                    },
+                    "crit": {
+                        "class": "S",
+                        "value": 11
+                    }
+                },
+                "lv": 208,
+                "kind": "necklace",
+                "implicit": [
+                    {
+                        "ARMOR": 738
+                    },
+                    {
+                        "BLOCK": 759
+                    },
+                    {
+                        "DAMAGE_RATE": 38.61
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "228",
+                "name": "强欲",
+                "desc": "强欲",
+                "rank": 5,
+                "attr": {
+                    "damage": {
+                        "class": "A",
+                        "value": 120.2
+                    }
+                },
+                "lv": 208,
+                "kind": "necklace",
+                "implicit": [
+                    {
+                        "ARMOR": 800
+                    },
+                    {
+                        "ATTACK": 825
+                    },
+                    {
+                        "ARMOR_RATE": 20.1
+                    },
+                    {
+                        "CRIT_RATE": 20.1
+                    },
+                    {
+                        "HP_RATE": 26.32
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "323",
+                "name": "月夜见尊的意志",
+                "desc": "月夜见尊的意志",
+                "rank": 5,
+                "attr": {
+                    "hp": {
+                        "class": "A",
+                        "value": 84840
+                    },
+                    "damage": {
+                        "class": "C",
+                        "value": 105.5
+                    }
+                },
+                "lv": 200,
+                "kind": "ring",
+                "implicit": [
+                    {
+                        "BLOCK": 404
+                    },
+                    {
+                        "ARMOR": 674
+                    },
+                    {
+                        "ATTACK_RATE": 24.92
+                    },
+                    {
+                        "ARMOR_RATE": 30.41
+                    },
+                    {
                         "ATTACK": 1130
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "029",
+                "name": "黑色冰虎刃",
+                "desc": "黑色冰虎刃",
+                "rank": 5,
+                "attr": {
+                    "attack": {
+                        "class": "B",
+                        "value": 4916
+                    },
+                    "armor": {
+                        "class": "C",
+                        "value": 1109
+                    },
+                    "hp": {
+                        "class": "C",
+                        "value": 6678
+                    }
+                },
+                "lv": 208,
+                "kind": "weapon",
+                "implicit": [
+                    {
+                        "ARMOR": 707
                     },
                     {
-                        "DAMAGE_RATE": 34.08
+                        "DAMAGE_RATE": 20.83
                     },
                     {
-                        "DAMAGE_RATE": 28.15
+                        "CRIT_RATE": 22.12
                     },
                     {
-                        "BLOCK": 767
+                        "ARMOR_RATE": 32.11
                     },
                     {
-                        "DAMAGE_RATE": 29.94
+                        "ARMOR": 767
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "204",
+                "name": "十字军项链",
+                "desc": "十字军佩戴的项链",
+                "rank": 3,
+                "attr": {
+                    "armor": {
+                        "class": "SSS",
+                        "value": 477
+                    },
+                    "hp": {
+                        "class": "S",
+                        "value": 1362
+                    },
+                    "block": {
+                        "class": "A",
+                        "value": 222
+                    }
+                },
+                "lv": 205,
+                "kind": "necklace",
+                "implicit": [
+                    {
+                        "HP_RATE": 22.29
+                    },
+                    {
+                        "DAMAGE_RATE": 20.23
+                    },
+                    {
+                        "HP_RATE": 24.32
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "124",
+                "name": "芬萨里尔追踪者",
+                "desc": "芬萨里尔追踪者",
+                "rank": 5,
+                "attr": {
+                    "attack": {
+                        "class": "D",
+                        "value": 1017
+                    },
+                    "armor": {
+                        "class": "B",
+                        "value": 2471
+                    },
+                    "damage": {
+                        "class": "D",
+                        "value": 104.6
+                    }
+                },
+                "lv": 201,
+                "kind": "suit",
+                "implicit": [
+                    {
+                        "ATTACK": 928
+                    },
+                    {
+                        "CRIT_RATE": 24.43
+                    },
+                    {
+                        "ARMOR_RATE": 20.45
+                    },
+                    {
+                        "ATTACK_RATE": 29.19
+                    },
+                    {
+                        "BLOCK": 410
                     }
                 ]
             }

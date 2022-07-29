@@ -3,7 +3,7 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.core.window import Window
-from kivy.properties import ListProperty
+from kivy.properties import ListProperty, ObjectProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.widget import Widget
@@ -22,6 +22,8 @@ Builder.load_string('''
 	font_name: 'fonts/DroidSansFallback.ttf'
 
 <ZoneInfo>:
+	btn_exit: btn_exit
+	btn_challenge: btn_challenge
 	size_hint: None, None
 	size: root.ww * 0.6, root.wh * 0.3
 	pos: [root.ww * 0.2, root.wh * 0.15]
@@ -36,6 +38,7 @@ Builder.load_string('''
 			size: self.size
 
 	InfoButton:
+		id: btn_exit
 		canvas:
 			Color:
 				rgba: 250/255, 148/255, 5/255, 1
@@ -51,6 +54,7 @@ Builder.load_string('''
 		width: root.width * 0.05
 		height: root.width * 0.05
 		on_press: root.hide_me()
+		#on_press: root.close()
 
 	InfoLabel:
 		text: f'当前副本: lv{root.level}_普通'
@@ -113,6 +117,8 @@ Builder.load_string('''
 
 class ZoneInfo(FloatLayout):
 
+	btn_exit = ObjectProperty(None)
+	btn_challenge = ObjectProperty(None)
 	ww, wh = Window.size[0], Window.size[1]
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
@@ -124,7 +130,15 @@ class ZoneInfo(FloatLayout):
 
 	def hide_me(self):
 		self.opacity = 0
-		self.disable = True
+		#self.disabled = True
+		#print(self.exit_btn)
+		#self.exit_btn.disabled = True
+		self.btn_challenge.disabled = True
+
+	def active_me(self):
+		self.opacity = 1
+		self.disabled = False
+		self.btn_challenge.disabled = False
 
 	def repeat(self, instance, value):
 		print(value)

@@ -139,22 +139,18 @@ class HomeWidget(Widget):
 
 		# setup zone info widget
 		self.zone_info = zone_info.ZoneInfo()
-		self.zone_info.disable = True
+		self.zone_info.disabled = True
 		self.zone_info.opacity = 0
 		self.add_widget(self.zone_info)
 
-		# setup dungeon
-		#self.dungeon = dungeon.Dungeon()
-		#self.dungeon.disable = True
-		#self.dungeon.opacity = 0
-		#self.add_widget(self.dungeon)
-		#self.dungeon.
-
 	def show_instance_info(self, lv):
 		print('Hello', lv)
+		#self.zone_info = zone_info.ZoneInfo()
 		self.zone_info.level = lv
-		self.zone_info.opacity = 1
-		self.zone_info.disable = False
+		self.zone_info.active_me()
+		#self.add_widget(self.zone_info)
+		#self.zone_info.opacity = 1
+		#self.zone_info.disabled = False
 
 	def create_zone(self, coordinates, r, lv):
 		n = lv

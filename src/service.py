@@ -21,17 +21,19 @@ class GameService(OSCThreadServer):
 
 		self.listen('localhost', port=3100, default=True)
 		self.bind(b'/instance_challenge', self.instance_challenge)
-		self.bind(b'/set_player', self.set_player)
 
 		#self.bind(b'/try_gold', self.try_gold)
 
-		self.init_data()
+		#self.init_data()
 		#hp = self.profile_data['current_hp']
+
 		#print("service_init() ", hp)
 		self.player = combat.Player()
+		self.bind(b'/set_player', self.set_player)
+
 		#enemy_obj = enemy.Enemy()
-		self.combat_model = combat.Combat(self.player)
-		self.combat_model.set_im(self.im)
+		#self.combat_model = combat.Combat(self.player)
+		#self.combat_model.set_im(self.im)
 
 		# define mobs
 		enemy_inst1, enemy_inst2 = enemy.Enemy(), enemy.Enemy()
@@ -81,12 +83,14 @@ class GameService(OSCThreadServer):
 		self.profile_data['current_instance_level'] = int(lv.decode('utf8'))
 		self.profile_data['current_instance'] = 'instance'
 
+		self.check_fight()
+
 	def try_gold(self):
 		self.fight()
 
 	def init_data(self):
-		init_data.check()
-		if platform == 'andoid':
+		#init_data.check()
+		if platform == 'android':
 			self.data_path = '/storage/emulated/0/BraveHeart/data'
 		else:
 			self.data_path = 'data'
@@ -105,6 +109,10 @@ class GameService(OSCThreadServer):
 
 		print(self.profile_data)
 		#print(self.item_data)
+
+		self.combat_model = combat.Combat(self.player)
+		self.combat_model.set_im(self.im)
+
 
 	def fight(self, obj):
 
@@ -136,16 +144,29 @@ class GameService(OSCThreadServer):
 		EQALL = ['weapon', 'suit', 'necklace', 'ring']
 		#print((result['items'][0][0]['kind']) in EQALL)
 
+		bag_index = -1
+		item_name = ''
 		if result['items'] != []:
 			if (result['items'][0][0]) and (result['items'][0][0]['kind']) in EQALL:
+				item_name = result['items'][0][0]["name"]
 				self.profile_data['bag'].append(result['items'][0])
+				bag_index = len(self.profile_data['bag']) - 1
 
 		# set cur_hp
-		self.player.set_hp(result['hp'])
+		#self.player.set_hp(result['hp'])
 
-		hp = str(result['hp']).encode('utf8')
+		damage = str(result['damage']).encode('utf8')
 		gold = str(result['gold']).encode('utf8')
-		CLIENT.send_message(b'/fight_report', [gold, hp])
+		where = instance.encode('utf8')
+		instance_level = str(level).encode('utf8')
+		who = str(obj.get_name()).encode('utf8')
+
+		print("BAG_INDEX: ", bag_index)
+		bag_index_str = str(bag_index).encode('utf8')
+		item_name_str = str(item_name).encode('utf8')
+
+		CLIENT.send_message(b'/fight_report', [gold, damage, where, \
+			instance_level, who, bag_index_str, item_name_str])
 
 	def check_data(self):
 		self.save_data()
@@ -153,18 +174,19 @@ class GameService(OSCThreadServer):
 	def save_data(self):
 		with open(self.profile_path, "w", encoding='utf-8') as f:
 			json.dump(self.profile_data, f, indent=4, ensure_ascii=False)
+		print('save done')
 
 if __name__ == '__main__':
 	loop = 0
 
 	server = GameService()
 
-	#server.init_data()
+	server.init_data()
 
 	while True:
 		print(f'[{loop}]service running...')
 		loop += 1
 		server.check_data()
-		if loop % 10 == 0:
-			server.check_fight()
+		#if loop % 10 == 0:
+			#server.check_fight()
 		sleep(1)

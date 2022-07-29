@@ -645,12 +645,12 @@ class CEBox(BoxLayout):
 class LVBox(BoxLayout):
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
-		print("LVBox: ", self.ids)
+		#print("LVBox: ", self.ids)
 
 class GoldBox(BoxLayout):
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
-		print("GoldBox: ", self.ids)
+		#print("GoldBox: ", self.ids)
 
 class RootWidget(Screen):
 	ww, wh = Window.size
@@ -702,7 +702,7 @@ class RootWidget(Screen):
 
 		# set hide and disabed
 		self.dungeon.opacity = 0
-		self.dungeon.disable = True
+		self.dungeon.disabled = True
 
 		self.add_widget(self.dungeon)
 
@@ -723,6 +723,12 @@ class RootWidget(Screen):
 		self.log_text += '[color=f16b07]欢迎你勇士, 点击地图上的副本开始战斗[/color]\n'
 		self.log_text += '[color=f16b07]系统地图右上角可以刷新当前副本[/color]\n'
 
+		# set data_path
+		if platform == 'android':
+			self.data_path = '/storage/emulated/0/BraveHeart/data'
+		else:
+			self.data_path = 'data'
+
 	def generate_instance(self, instance):
 		if self.home.ids.instance_level.text == '':
 			level = self.lv_box.player_level
@@ -733,17 +739,20 @@ class RootWidget(Screen):
 	def instance_challenge(self, instance):
 		print(self.home.zone_info.level)
 		self.home.opacity = 0
-		self.home.disable = True
+		#self.home.disabled = True
 
-		self.home.zone_info.opacity = 0
-		self.home.zone_info.disable = True
+		self.home.zone_info.hide_me()
+		#self.home.zone_info.opacity = 0
+		#self.home.zone_info.disabled = True
 
 		# check run once
 		self.dungeon.run_once = self.home.zone_info.run_once
 		print(self.dungeon.run_once)
 		self.dungeon.start()
-		self.dungeon.opacity = 1
-		self.dungeon.disable = False
+
+		self.dungeon.active_me()
+		#self.dungeon.opacity = 1
+		#self.dungeon.disabled = False
 
 		self.service_instance_challenge(self.home.zone_info.level)
 
@@ -819,12 +828,14 @@ class RootWidget(Screen):
 
 	def exit_dungeon(self, instance):
 		print("removed dungeon")
-		self.dungeon.opacity = 0
-		self.dungeon.disable = True
+		#self.dungeon.opacity = 0
+		#self.dungeon.disabled = True
+		self.dungeon.hide_me()
 		self.home.opacity = 1
-		self.home.disable = False
-		self.home.zone_info.opacity = 0
-		self.home.zone_info.disable = True
+		self.home.disabled = False
+		self.home.zone_info.hide_me()
+		#self.home.zone_info.opacity = 0
+		#self.home.zone_info.disabled = True
 		#self.remove_widget(self.dungeon)
 
 	def show_items(self):
@@ -898,16 +909,39 @@ class RootWidget(Screen):
 		App.get_running_app().client.send_message(\
 			b'/try_gold', [])
 
-	def fight_report(self, gold, hp):
+	def fight_report(self, gold, damage, where, instance_level, who, \
+						bag_index, item_name):
 		gold_decode = int(gold.decode('utf8'))
 		self.gold += gold_decode
 
-		cur_hp_decode = int(hp.decode('utf8'))
-		self.current_hp = cur_hp_decode
-		self.log_text += '系统: [color=f16b07]你已进入无尽 (lv=32)[/color]\n'
-		self.log_text += '系统: [color=ff0000]你遭遇了小幽灵(lv=32), 正在战斗中...[/color]\n'
-		self.log_text += f'系统: [color=00ff00]]获得了: 金币 {gold_decode}[/color]\n'
-		self.log_text += '系统: [color=0000ff]击杀了小幽灵(无尽层数:32), 受到1点伤害[/color]\n'
+		damage= int(damage.decode('utf8'))
+		self.current_hp -= damage
+
+		where = where.decode('utf8')
+		where_list = {'instance': '副本', 'westfall': '无尽', \
+						'trial': '试炼', 'starship': '星舰'}
+		where_desc = where_list[where]
+
+		instance_level = int(instance_level.decode('utf8'))
+		who = who.decode('utf8')
+
+		self.log_text += f'系统: [color=f16b07]你已进入{where_desc} (lv={instance_level})[/color]\n'
+		self.log_text += f'系统: [color=ff0000]你遭遇了{who}(lv={instance_level}), 正在战斗中...[/color]\n'
+		self.log_text += f'系统: [color=00ff00]获得了: 金币 {gold_decode}[/color]'
+
+		n_bag = int(bag_index.decode('utf8'))
+		if n_bag == -1:
+			self.log_text += '\n'
+		else:
+			item_name = item_name.decode('utf8')
+			#print(item)
+			self.log_text += f' {item_name}\n'
+		self.log_text += f'系统: [color=0000ff]击杀了{who}({where_desc}:{instance_level}), 受到{damage}点伤害[/color]\n'
+
+	def get_item_from_bag(self, n):
+		data = self.load_data()
+		print("BAG: ", data['bag'][n])
+		#return data['bag'][0][n]
 
 	def update(self, dt):
 		self.dungeon.ids.hero.move()
@@ -922,6 +956,7 @@ class GameApp(App):
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
 
+	def check_service(self):
 		if platform == 'android':
 			self.start_service()
 		elif platform in ('linux', 'win'):
@@ -953,6 +988,7 @@ class GameApp(App):
 		self.client = OSCClient(b'localhost', 3100)
 
 		root = RootWidget()
+		self.check_service()
 		# bind triggers
 		server.bind(b'/fight_report', root.fight_report)
 
