@@ -146,20 +146,11 @@ Builder.load_string('''
 		height: root.wh * 0.18 - 40
 		id: top_left
 		size_hint: None, None
-		#pos: [0, 0.5 * root.height]
-		#size: [0.5 * root.width, 0.5 * root.height]
 		window_width: 1440
 
 		# hp full: 100%
 		hp_remain: 100
 		canvas:
-			#Color:
-			#	rgba: 0, 0, 0, 1
-			#Rectangle:
-			#	pos: 0, 0
-			#	size: self.size
-
-			# draw hp bar
 			Color:
 				rgba: 1, 1, 1, 1
 			Rectangle:
@@ -196,8 +187,6 @@ Builder.load_string('''
 			size_hint: None, None
 			source: 'icons/attack.png'
 			pos_hint: {'x': 0, 'y': 0.55}
-			#size: [top_left.window_width/(top_left.window_width/80),\
-			#	top_left.window_width/(top_left.window_width/80)]
 
 		PFLabel:
 			id: show_attack
@@ -216,8 +205,6 @@ Builder.load_string('''
 			size_hint: None, None
 			source: 'icons/crit_rate.png'
 			pos_hint: {'x': 0.5, 'y': 0.55}
-			#size: [top_left.window_width/(top_left.window_width/80),\
-			#	top_left.window_width/(top_left.window_width/80)]
 
 		PFLabel:
 			id: show_critrate
@@ -373,7 +360,6 @@ Builder.load_string('''
 
 <LOGBox>:
 	log_text: self.parent.log_text
-	#log_text: '系统: 获得了: 金币 [color=00ff00]7154[/color]'
 	orientation: 'vertical'
 	canvas.before:
 		Color:
@@ -413,7 +399,6 @@ Builder.load_string('''
 			size_hint_y: None
 			height: self.texture_size[1]
 			text_size: self.width, None
-			#text: '系统: 获得了: 金币 [color=00ff00]7154[/color]'
 			text: root.log_text
 			padding: 5, 5
 
@@ -471,15 +456,11 @@ Builder.load_string('''
 	btn_text: ''
 	BoxLayout:
 		orientation: 'vertical'
-		#orientation: 'tb-lr'
 		pos: self.parent.pos
 		size: self.parent.size
 		Image:
 			source: root.btn_image
 			size_hint_y: 0.7
-			#width: 100
-			#height: 100
-			#size: 115, 122
 			allow_stretch: True
 		MenuLabel:
 			size_hint_y: 0.3
@@ -493,8 +474,6 @@ Builder.load_string('''
 	spacing: 60
 	MenuButton:
 		btn_text: '背包'
-		#center_y: self.parent.center_y
-		#background_color: 0, 0, 0, 1
 	MenuButton:
 		btn_text: '精气珠'
 		btn_image: 'icons/menu/mbead.png'
@@ -700,11 +679,6 @@ class RootWidget(Screen):
 		self.dungeon = Dungeon()
 		self.dungeon.ids.dungeon_exit.bind(on_press=self.exit_dungeon)
 
-		# set hide and disabed
-		#self.dungeon.hide_me()
-		#self.dungeon.opacity = 0
-		#self.dungeon.disabled = True
-
 		self.add_widget(self.dungeon)
 		self.dungeon.hide_me()
 
@@ -746,13 +720,9 @@ class RootWidget(Screen):
 		if not self.home.selected:
 			return
 
-		print(self.home.zone_info.level)
+		#print(self.home.zone_info.level)
 		self.home.opacity = 0
-		#self.home.disabled = True
-
 		self.home.zone_info.hide_me()
-		#self.home.zone_info.opacity = 0
-		#self.home.zone_info.disabled = True
 
 		# check run once
 		self.dungeon.run_once = self.home.zone_info.run_once
@@ -760,8 +730,6 @@ class RootWidget(Screen):
 		self.dungeon.start()
 
 		self.dungeon.active_me()
-		#self.dungeon.opacity = 1
-		#self.dungeon.disabled = False
 
 		self.instance = 'instance'
 		self.instance_level = self.home.zone_info.level
@@ -770,9 +738,7 @@ class RootWidget(Screen):
 						'trial': '试炼', 'starship': '星舰'}
 		where_desc = where_list[self.instance]
 
-		#self.log_text += f'系统: [color=f16b07]你已进入{where_desc} (lv={self.instance_level})[/color]\n'
 		self.show_log(f'系统: [color=f16b07]你已进入{where_desc} (lv={self.instance_level})[/color]\n')
-		#self.append_log(msg)
 		self.service_instance_challenge()
 
 	def init_player_data(self):
@@ -847,24 +813,12 @@ class RootWidget(Screen):
 
 	def exit_dungeon(self, instance):
 		print("removed dungeon")
-		#self.dungeon.opacity = 0
-		#self.dungeon.disabled = True
 		self.dungeon.hide_me()
 		self.home.opacity = 1
-		#self.home.disabled = False
 		self.home.zone_info.hide_me()
-		#self.home.zone_info.opacity = 0
-		#self.home.zone_info.disabled = True
-		#self.remove_widget(self.dungeon)
 		self.dungeon.actived = False
 
 	def show_items(self):
-
-		#init_data.check()
-
-		#self.item_data = self.load_data()['equipped']
-		#print(self.item_data)
-
 		item_weapon_data = self.item_data['weapon']
 		item_weapon = self.ids.eq_box.ids.weapon
 		item_weapon.ltext = item_weapon_data['name']
@@ -907,12 +861,9 @@ class RootWidget(Screen):
 	def service_instance_challenge(self):
 
 		instance_level = str(self.instance_level).encode('utf8')
-		#hp_str = str(self.current_hp).encode('utf8')
-		instance = str(self.instance).encode('utf8')
-		#App.get_running_app().client.send_message(\
-			#b'/instance_challenge', [hp_str, level_str])
 
-	#def service_set_player(self):
+		instance = str(self.instance).encode('utf8')
+
 		max_hp = str(self.max_hp).encode('utf8')
 		cur_hp = str(self.current_hp).encode('utf8')
 
@@ -926,10 +877,6 @@ class RootWidget(Screen):
 		App.get_running_app().client.send_message(\
 			b'/instance_challenge', [instance, instance_level, max_hp, \
 				cur_hp, ap, av, bv, fdi, cc, cd])
-
-	#def service_try_gold(self):
-	#	App.get_running_app().client.send_message(\
-	#		b'/try_gold', [])
 
 	def fight_report(self, win, gold, damage, where, instance_level, who, \
 						bag_index, item_name):
@@ -949,51 +896,29 @@ class RootWidget(Screen):
 		instance_level = int(instance_level.decode('utf8'))
 		who = who.decode('utf8')
 
-		#self.log_text += f'系统: [color=f16b07]你已进入{where_desc} (lv={instance_level})[/color]\n'
-		#self.log_text += f'系统: [color=ff0000]你遭遇了{who}(lv={instance_level}), 正在战斗中...[/color]\n'
 		self.show_log(f'系统: [color=ff0000]你遭遇了{who}(lv={instance_level}), 正在战斗中...[/color]\n')
-		#self.append_log(msg)
-
-		#self.log_text += f'系统: [color=00ff00]获得了: 金币 {gold_decode}[/color]'
-
-		#n_bag = int(bag_index.decode('utf8'))
-		#if n_bag == -1:
-			#self.log_text += '\n'
-		#else:
-			#item_name = item_name.decode('utf8')
-			#print(item)
-			#self.log_text += f' {item_name}\n'
 
 		win = win.decode('utf8')
 		if win == 'True':
-			#self.log_text += f'系统: [color=0000ff]击杀了{who}({where_desc}:{instance_level}), 受到{damage}点伤害[/color]\n'
-			#self.log_text += f'系统: [color=00ff00]获得了: 金币 {gold_decode}[/color]'
 			self.show_log(f'系统: [color=0000ff]击杀了{who}({where_desc}:{instance_level}), 受到{damage}点伤害[/color]\n')
-			#self.append_log(msg)
+
 			msg= f'系统: [color=00ff00]获得了: 金币 {gold_decode}[/color]'
 			n_bag = int(bag_index.decode('utf8'))
 			if n_bag == -1:
-				#self.log_text += '\n'
+
 				msg += '\n'
 			else:
 				item_name = item_name.decode('utf8')
-				#self.log_text += f' {item_name}\n'
+
 				msg += f' {item_name}\n'
-			#self.dungeon.current_enemy_die()
+
 			self.show_log(msg)
 			self.fight_status = 1
 		else:
 			# player defeat
-			#self.log_text += f'系统: [color=0000ff]击杀了{who}({where_desc}:{instance_level}), 受到{damage}点伤害[/color]\n'
 			self.show_log(f'系统: [color=0000ff]击杀了{who}({where_desc}:{instance_level}), 受到{damage}点伤害[/color]\n')
-			#self.append_log(msg)
-			#self.back_home()
-			self.fight_status = 2
-			#self.dungeon.reset_enemies()
-			#self.dungeon.hide_me()
 
-		# set wait_fight
-		#self.wait_fight = False
+			self.fight_status = 2
 
 	def check_obj(self):
 		if self.fight_status == 0:
@@ -1008,19 +933,13 @@ class RootWidget(Screen):
 	def back_home(self):
 		self.dungeon.reset_enemies()
 		self.dungeon.hide_me()
-		#self.home.active_me()
 
 	def get_item_from_bag(self, n):
 		data = self.load_data()
-		#print("BAG: ", data['bag'][n])
-		#return data['bag'][0][n]
 
 	def service_fighting(self):
 		# know index of enemies
 		enemy_index = self.dungeon.current_enemy_index
-		#self.log_text += f'系统: [color=ff0000]你遭遇了{who}(lv={instance_level}), 正在战斗中...[/color]\n'
-
-		#self.log_text += f'系统: [color=f16b07]你已进入{where_desc} (lv={instance_level})[/color]\n'
 
 		# send fighting to service
 		index = str(enemy_index).encode('utf8')
@@ -1028,21 +947,11 @@ class RootWidget(Screen):
 			b'/fighting', [index])
 
 	def service_init_done(self):
-		# set log
-		#print('service_init_done()')
-		#self.log_text += '系统: [color=0000ff]游戏进度已经保存[/color]\n'
-		#self.log_text += '系统: [color=0000ff]读取存档成功[/color]\n'
-		#self.log_text += '[color=f16b07]欢迎你勇士, 点击地图上的副本开始战斗[/color]\n'
-		#self.log_text += '[color=f16b07]系统地图右上角可以刷新当前副本[/color]\n'
 
 		self.show_log('系统: [color=0000ff]游戏进度已经保存[/color]\n')
-		#self.append_log(msg1)
 		self.show_log('系统: [color=0000ff]读取存档成功[/color]\n')
-		#self.append_log(msg2)
 		self.show_log('[color=f16b07]欢迎你勇士, 点击地图上的副本开始战斗[/color]\n')
-		#self.append_log(msg3)
 		self.show_log('[color=f16b07]系统地图右上角可以刷新当前副本[/color]\n')
-		#self.append_log(msg4)
 
 	def append_log(self, msg):
 		if len(self.log_list) >= 5:
@@ -1072,12 +981,6 @@ class RootWidget(Screen):
 			else:
 				self.check_obj()
 				self.fight_status = 0
-
-		#self.show_log()
-			#print('waiting')
-
-		# update gold
-		#self.service_try_gold()
 
 	def gold_test(self, gold):
 		self.gold = int(gold.decode('utf8'))
