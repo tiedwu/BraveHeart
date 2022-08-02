@@ -30,7 +30,8 @@ Builder.load_string('''
 	label_text: ''
 	level: 1
 	img_path: 'icons/main/flag_yellow.png'
-	Button:
+	ToggleButton:
+		group: 'select_zone'
 		canvas.before:
 			Color:
 				rgba: 1, 0, 0, 1
@@ -139,14 +140,17 @@ class HomeWidget(Widget):
 
 		# setup zone info widget
 		self.zone_info = zone_info.ZoneInfo()
-		self.zone_info.disabled = True
+		#self.zone_info.disabled = True
 		self.zone_info.opacity = 0
 		self.add_widget(self.zone_info)
+
+		self.selected = False
 
 	def show_instance_info(self, lv):
 		print('Hello', lv)
 		#self.zone_info = zone_info.ZoneInfo()
 		self.zone_info.level = lv
+		self.selected = True
 		self.zone_info.active_me()
 		#self.add_widget(self.zone_info)
 		#self.zone_info.opacity = 1
@@ -158,6 +162,10 @@ class HomeWidget(Widget):
 			zone = ZoneWidget(pos=(x - r, y - r), size=(r, r), level=n)
 			n += 1
 			self.zone_widget.add_widget(zone)
+
+	def active_me(self):
+		self.opacity = 1
+		#self.disabled = False 
 
 	def random_generate(self, level=1):
 

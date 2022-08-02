@@ -29,7 +29,7 @@ class GameService(OSCThreadServer):
 
 		#print("service_init() ", hp)
 		self.player = combat.Player()
-		self.bind(b'/set_player', self.set_player)
+		#self.bind(b'/set_player', self.set_player)
 
 		#enemy_obj = enemy.Enemy()
 		#self.combat_model = combat.Combat(self.player)
@@ -64,6 +64,8 @@ class GameService(OSCThreadServer):
 		# n mobs
 		self.index_enemy = 0
 
+		self.bind(b'/fighting', self.check_fight)
+
 	def set_player(self, max_hp, cur_hp, ap, av, bv, fdi, cc, cd):
 		self.player.set_hp(int(cur_hp.decode('utf8')))
 		self.player.set_maxhp(int(max_hp.decode('utf8')))
@@ -76,14 +78,20 @@ class GameService(OSCThreadServer):
 
 		self.combat_model.set_player(self.player)
 
-	def instance_challenge(self, hp, lv):
-		print("service(): instance_challenge()", hp, lv)
+	def instance_challenge(self, instance, lv, max_hp, cur_hp, ap, av, \
+			bv, fdi, cc, cd):
+		print("service(): instance_challenge()")
 
-		self.profile_data['current_hp'] = int(hp.decode('utf8'))
 		self.profile_data['current_instance_level'] = int(lv.decode('utf8'))
-		self.profile_data['current_instance'] = 'instance'
+		self.profile_data['current_instance'] = instance.decode('utf8')
 
-		self.check_fight()
+		print(self.profile_data['current_instance'])
+		self.save_data()
+
+		#self.profile_data['current_hp'] = int(hp.decode('utf8'))
+		self.set_player(max_hp, cur_hp, ap, av, bv, fdi, cc, cd)
+
+		#self.check_fight()
 
 	def try_gold(self):
 		self.fight()
@@ -113,6 +121,9 @@ class GameService(OSCThreadServer):
 		self.combat_model = combat.Combat(self.player)
 		self.combat_model.set_im(self.im)
 
+		# send ready to main
+		CLIENT.send_message(b'/init_done', [])
+
 
 	def fight(self, obj):
 
@@ -124,17 +135,30 @@ class GameService(OSCThreadServer):
 	def reset_enemies(self):
 		self.index_enemy = 0
 
-	def check_fight(self):
+	def check_fight(self, index):
 		#print("do_fight()")
 		instance = self.profile_data['current_instance']
-		instance = 'instance'
+		#instance = 'instance'
 		level = self.profile_data['current_instance_level']
-		level = 200
+		#level = 200
 		self.current_enemies = self.enemies[instance]
-		obj = self.current_enemies[self.index_enemy]
+
+		enemy_index = int(index.decode('utf8'))
+
+		#obj = self.current_enemies[self.index_enemy]
+		obj = self.current_enemies[enemy_index]
+
 		obj.set_lv(level)
 		result = self.fight(obj)
 		print(f'fight to [{self.index_enemy}] enemy', result)
+
+		if not result['result']:
+			damage = str(self.player.max_hp).encode('utf8')
+			win = 'False'
+		else:
+			damage = str(result['damage']).encode('utf8')
+			win = 'True'
+
 		self.index_enemy += 1
 		if self.index_enemy >= 5:
 			self.index_enemy = 0
@@ -155,7 +179,6 @@ class GameService(OSCThreadServer):
 		# set cur_hp
 		#self.player.set_hp(result['hp'])
 
-		damage = str(result['damage']).encode('utf8')
 		gold = str(result['gold']).encode('utf8')
 		where = instance.encode('utf8')
 		instance_level = str(level).encode('utf8')
@@ -165,7 +188,12 @@ class GameService(OSCThreadServer):
 		bag_index_str = str(bag_index).encode('utf8')
 		item_name_str = str(item_name).encode('utf8')
 
-		CLIENT.send_message(b'/fight_report', [gold, damage, where, \
+		win = win.encode('utf8')
+
+		# save data
+		self.save_data()
+
+		CLIENT.send_message(b'/fight_report', [win, gold, damage, where, \
 			instance_level, who, bag_index_str, item_name_str])
 
 	def check_data(self):
@@ -175,6 +203,16 @@ class GameService(OSCThreadServer):
 		with open(self.profile_path, "w", encoding='utf-8') as f:
 			json.dump(self.profile_data, f, indent=4, ensure_ascii=False)
 		print('save done')
+
+	def gold_test(self):
+		self.profile_data['gold'] += 1
+
+		gold = str(self.profile_data['gold']).encode('utf8')
+
+		# to main
+		CLIENT.send_message(b'/gold_test', [gold])
+
+		print(f'GOLD: {self.profile_data["gold"]}')
 
 if __name__ == '__main__':
 	loop = 0
@@ -186,7 +224,7 @@ if __name__ == '__main__':
 	while True:
 		print(f'[{loop}]service running...')
 		loop += 1
-		server.check_data()
+		#server.gold_test()
 		#if loop % 10 == 0:
 			#server.check_fight()
 		sleep(1)

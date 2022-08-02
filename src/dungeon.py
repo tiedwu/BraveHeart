@@ -44,7 +44,7 @@ Builder.load_string('''
 
 <Dungeon>:
 	mob1: mob1
-	mob2: mob2
+	#mob2: mob2
 	mob3: mob3
 	mob4: mob4
 	mob5: mob5
@@ -65,9 +65,9 @@ Builder.load_string('''
 		Mob:
 			id: mob1
 			pos: root.ww * 0.05 + (root.dw * 1 / 6), root.mob_y
-		Mob:
-			id: mob2
-			pos: root.ww * 0.05 + (root.dw * 2 / 6), root.mob_y
+		#Mob:
+		#	id: mob2
+		#	pos: root.ww * 0.05 + (root.dw * 2 / 6), root.mob_y
 		Mob:
 			id: mob3
 			pos: root.ww * 0.05 + (root.dw * 2 / 6), root.mob_y
@@ -110,6 +110,7 @@ class Hero(Widget):
 		super().__init__(**kwargs)
 		self.velocity = [1, 0]
 		self.run_once = False
+		#self.actived = False
 
 	def set_run_once():
 		self.run_once = True
@@ -118,6 +119,7 @@ class Hero(Widget):
 		self.run_once = False
 
 	def start(self):
+		#self.actived = True
 		self.pos = self.ww * 0.05, self.hero_y
 
 	def move(self):
@@ -158,50 +160,86 @@ class Dungeon(Widget):
 		super().__init__(**kwargs)
 		#print('screen size: ', self.ww, self.wh)
 		#print('map size: ', self.dw, self.dh)
-		self.enemies = [self.mob1, self.mob2, self.mob3, self.mob4, 
-				self.mob5, self.boss]
+		#self.enemies = [self.mob1, self.mob2, self.mob3, self.mob4, 
+				#self.mob5, self.boss]
+		self.enemies = [self.mob1, self.mob3, self.mob4, self.mob5, self.boss]
+
 
 		self.run_once = True
+		self.actived = False
+		self.current_enemy_index = 0
 
 	def start(self):
+		self.actived = True
+		self.uncheck = False
 		self.hero.start()
 		self.reset_enemies()
 
+	#1. check_collision
+	#2. fight
+	#3. if WIN=True: enemy_died
+
 	def check_collision(self):
+		#COLLISION = False
 
 		if self.hero.turnover:
-
+			print('turn over!')
 			if self.run_once:
-				self.opacity = 0
-				self.disabled = True
+				#self.opacity = 0
+				#self.disabled = True
+				self.hide_me()
 
-				self.parent.home.opacity = 1
-				self.parent.home.disabled = False
+				#self.parent.home.opacity = 1
+				#self.parent.home.disabled = False
+				self.parent.home.active_me()
 			else:
-				self.reset_enemies()
+				self.start()
 			self.hero.turnover = False
 
-		for e in self.enemies:
-			if self.hero.pos >= e.pos:
-				e.opacity = 0
-				e.disabled = True
+
+		#print(f'check collision: index={self.current_enemy_index}')
+		if self.uncheck:
+			return False
+		if self.hero.pos >= self.enemies[self.current_enemy_index].pos:
+			if self.current_enemy_index == 4:
+				self.uncheck = True
+			return True
+		#for index in range(len(self.enemies)):
+		#	if self.hero.pos >= self.enemies[index].pos:
+		#		self.current_enemy_index = index
+		#		return True
+
+				# enemy died
+				#e.opacity = 0
+				#e.disabled = True
+
+		return False
+
+	def current_enemy_die(self):
+		print(f'Enemy Index: {self.current_enemy_index}')
+		self.enemy_die(self.current_enemy_index)
+		self.current_enemy_index += 1
+		if self.current_enemy_index >= 5:
+			self.current_enemy_index = 0
 
 	def enemy_die(self, enemy_id):
+		print(f'enemy die: {enemy_id}')
 		self.enemies[enemy_id].opacity = 0
 		self.enemies[enemy_id].disabled = True
 
 	def reset_enemies(self):
+		self.current_enemy_index = 0
 		for e in self.enemies:
 			e.opacity = 1
 			e.disabled = False
 
 	def active_me(self):
 		self.opacity = 1
-		self.disabled = False
+		#self.disabled = False
 
 	def hide_me(self):
 		self.opacity = 0
-		self.disabled = True
+		#self.disabled = True
 
 class AwesomeApp(App):
 	def build(self):

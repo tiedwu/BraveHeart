@@ -61,8 +61,9 @@ class Combat():
 		self.im = im
 
 	def calc(self):
-		result = {'damage': 0, 'gold': 0, 'items': []}
 		win = True
+		result = {'result': win, 'damage': 0, 'gold': 0, 'items': []}
+		#win = True
 		total_damage = 0
 		cur_hp = self.player.current_hp
 		while True:
@@ -126,7 +127,11 @@ class Combat():
 				item = self.im.random_eq(all, self.enemy.lv, 1, ranks)
 				result['items'].append(item)
 
+		else:
+			result['damage'] = 1
+
 		print(win)
+		result['result'] = win
 		return result
 
 	def get_chance(self):
@@ -161,3 +166,13 @@ if __name__ == '__main__':
 	mn_str = str(mn)
 	mn_list = list(mn_str)
 	print(mn_list)
+
+	w = False
+	wstr = str(w).encode('utf8')
+	decode_wstr = wstr.decode('utf8')
+	yn = bool(decode_wstr)
+	print(yn)
+
+	a = [1, 2, 3, 4, 5]
+	a.pop(0)
+	print(len(a))

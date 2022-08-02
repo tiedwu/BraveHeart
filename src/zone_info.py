@@ -129,20 +129,23 @@ class ZoneInfo(FloatLayout):
 		print(self.pos)
 
 	def hide_me(self):
+		print('close zone info', self.parent)
+		self.parent.selected = False
 		self.opacity = 0
 		#self.disabled = True
 		#print(self.exit_btn)
 		#self.exit_btn.disabled = True
-		self.btn_challenge.disabled = True
+		#self.btn_challenge.disabled = True
 
 	def active_me(self):
 		self.opacity = 1
-		self.disabled = False
-		self.btn_challenge.disabled = False
+		#self.disabled = False
+		#self.btn_challenge.disabled = False
 
 	def repeat(self, instance, value):
 		print(value)
 		self.run_once = not value
+		self.parent.parent.dungeon.run_once = self.run_once
 
 class Root(Screen):
 	pass
