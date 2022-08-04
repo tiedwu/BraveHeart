@@ -31,6 +31,7 @@ import item_effect
 
 from dungeon import Dungeon
 from home import HomeWidget
+from bag import Bag
 
 ratio = 1
 
@@ -454,6 +455,7 @@ Builder.load_string('''
 	background_color: 0, 0, 0, 1
 	btn_image: 'icons/menu/bag.png'
 	btn_text: ''
+	on_press: root.parent.parent.show_bag()
 	BoxLayout:
 		orientation: 'vertical'
 		pos: self.parent.pos
@@ -675,6 +677,9 @@ class RootWidget(Screen):
 
 		self.init_player_data()
 
+		# add bag
+		self.bag = Bag()
+
 		# add dungeon
 		self.dungeon = Dungeon()
 		self.dungeon.ids.dungeon_exit.bind(on_press=self.exit_dungeon)
@@ -708,6 +713,18 @@ class RootWidget(Screen):
 
 		# LOG
 		self.log_list = []
+
+	def show_bag(self):
+		print('show_bag()')
+		data = self.load_data()
+		backpack_data = data['bag']
+		self.bag.init_bag(backpack_data)
+		self.add_widget(self.bag)
+
+	def close_bag(self):
+		print('close_bag()')
+		if self.bag:
+			self.remove_widget(self.bag)
 
 	def generate_instance(self, instance):
 		if self.home.ids.instance_level.text == '':
