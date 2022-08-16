@@ -30,7 +30,7 @@
     "drp": 0,
     "dops": 0,
     "ce": 0,
-    "gold": 2984155,
+    "gold": 11114,
     "equipped": {
         "weapon": {
             "ID": "001",
@@ -46,7 +46,7 @@
             "lv": 1,
             "implicit": [
                 {
-                    "CRIT_RATE": 21.03
+                    "ATTACK_RATE": 34.18
                 }
             ]
         },
@@ -64,7 +64,7 @@
             "lv": 1,
             "implicit": [
                 {
-                    "ARMOR_RATE": 21.9
+                    "ATTACK_RATE": 39.21
                 }
             ]
         },
@@ -82,7 +82,7 @@
             "lv": 1,
             "implicit": [
                 {
-                    "ATTACK_RATE": 26.08
+                    "BLOCK": 2
                 }
             ]
         },
@@ -100,14 +100,337 @@
             "lv": 1,
             "implicit": [
                 {
-                    "DAMAGE_RATE": 23.11
+                    "BLOCK": 2
                 }
             ]
         }
     },
-    "bag": [],
+    "bag": [
+        [
+            {
+                "ID": "225",
+                "name": "蓝色冰心骑士团项链",
+                "desc": "蓝色冰心骑士团项链",
+                "rank": 5,
+                "attr": {
+                    "hp": {
+                        "class": "C",
+                        "value": 4744
+                    },
+                    "damage": {
+                        "class": "D",
+                        "value": 105.6
+                    }
+                },
+                "lv": 12,
+                "kind": "necklace",
+                "implicit": [
+                    {
+                        "DAMAGE_RATE": 31.29
+                    },
+                    {
+                        "HP_RATE": 21.29
+                    },
+                    {
+                        "HP_RATE": 28.93
+                    },
+                    {
+                        "ARMOR": 37
+                    },
+                    {
+                        "HP_RATE": 36.7
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "328",
+                "name": "混沌",
+                "desc": "混沌",
+                "rank": 5,
+                "attr": {
+                    "damage": {
+                        "class": "B",
+                        "value": 120.2
+                    }
+                },
+                "lv": 19,
+                "kind": "ring",
+                "implicit": [
+                    {
+                        "ATTACK_RATE": 33.81
+                    },
+                    {
+                        "HP": 168
+                    },
+                    {
+                        "ARMOR_RATE": 32.87
+                    },
+                    {
+                        "HP_RATE": 31.31
+                    },
+                    {
+                        "DAMAGE_RATE": 32.29
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "204",
+                "name": "十字军项链",
+                "desc": "十字军佩戴的项链",
+                "rank": 2,
+                "attr": {
+                    "armor": {
+                        "class": "SSS",
+                        "value": 171
+                    },
+                    "hp": {
+                        "class": "SSS",
+                        "value": 666
+                    },
+                    "block": {
+                        "class": "S",
+                        "value": 18
+                    }
+                },
+                "lv": 12,
+                "kind": "necklace",
+                "implicit": [
+                    {
+                        "ATTACK": 49
+                    },
+                    {
+                        "ATTACK": 40
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "005",
+                "name": "冰晶之刃",
+                "desc": "剑锋覆盖者冰晶, 碰到的敌人都会被冻住",
+                "rank": 2,
+                "attr": {
+                    "attack": {
+                        "class": "A",
+                        "value": 460
+                    },
+                    "damage": {
+                        "class": "D",
+                        "value": 73
+                    }
+                },
+                "lv": 17,
+                "kind": "weapon",
+                "implicit": [
+                    {
+                        "ATTACK": 99
+                    },
+                    {
+                        "CRIT_RATE": 21.19
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "026",
+                "name": "阿加雷斯血色巨剑",
+                "desc": "阿加雷斯血色巨剑",
+                "rank": 5,
+                "attr": {
+                    "attack": {
+                        "class": "SSS",
+                        "value": 5325
+                    },
+                    "damage": {
+                        "class": "SS",
+                        "value": 100.4
+                    },
+                    "crit": {
+                        "class": "C",
+                        "value": 42.5
+                    }
+                },
+                "lv": 14,
+                "kind": "weapon",
+                "implicit": [
+                    {
+                        "CRIT_RATE": 24.24
+                    },
+                    {
+                        "ARMOR": 52
+                    },
+                    {
+                        "ARMOR": 43
+                    },
+                    {
+                        "ATTACK": 67
+                    },
+                    {
+                        "ATTACK": 73
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "321",
+                "name": "死神名片戒指",
+                "desc": "死神名片戒指",
+                "rank": 5,
+                "attr": {
+                    "hp": {
+                        "class": "D",
+                        "value": 73812
+                    },
+                    "damage": {
+                        "class": "B",
+                        "value": 94
+                    },
+                    "crit": {
+                        "class": "SSS",
+                        "value": 23.6
+                    }
+                },
+                "lv": 14,
+                "kind": "ring",
+                "implicit": [
+                    {
+                        "CRIT_RATE": 19.24
+                    },
+                    {
+                        "DAMAGE_RATE": 23.71
+                    },
+                    {
+                        "ATTACK_RATE": 39.77
+                    },
+                    {
+                        "ARMOR_RATE": 32.27
+                    },
+                    {
+                        "ARMOR": 43
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "105",
+                "name": "紫金守护胸甲",
+                "desc": "够肉才能输出",
+                "rank": 2,
+                "attr": {
+                    "armor": {
+                        "class": "A",
+                        "value": 197
+                    },
+                    "hp": {
+                        "class": "S",
+                        "value": 778
+                    }
+                },
+                "lv": 17,
+                "kind": "suit",
+                "implicit": [
+                    {
+                        "HP_RATE": 30.99
+                    },
+                    {
+                        "ATTACK": 93
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "225",
+                "name": "蓝色冰心骑士团项链",
+                "desc": "蓝色冰心骑士团项链",
+                "rank": 5,
+                "attr": {
+                    "hp": {
+                        "class": "SSS",
+                        "value": 5846
+                    },
+                    "damage": {
+                        "class": "D",
+                        "value": 104.6
+                    }
+                },
+                "lv": 14,
+                "kind": "necklace",
+                "implicit": [
+                    {
+                        "CRIT_RATE": 19.57
+                    },
+                    {
+                        "ATTACK_RATE": 36.12
+                    },
+                    {
+                        "BLOCK": 32
+                    },
+                    {
+                        "CRIT_RATE": 15.06
+                    },
+                    {
+                        "ARMOR": 54
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "ID": "326",
+                "name": "金色幸运戒指",
+                "desc": "金色幸运戒指",
+                "rank": 5,
+                "attr": {
+                    "hp": {
+                        "class": "D",
+                        "value": 73807
+                    },
+                    "damage": {
+                        "class": "SSS",
+                        "value": 92.9
+                    },
+                    "crit": {
+                        "class": "S",
+                        "value": 21.5
+                    },
+                    "gold": {
+                        "class": "D",
+                        "value": 1.3
+                    }
+                },
+                "lv": 11,
+                "kind": "ring",
+                "implicit": [
+                    {
+                        "CRIT_RATE": 18.35
+                    },
+                    {
+                        "ATTACK": 49
+                    },
+                    {
+                        "ARMOR": 41
+                    },
+                    {
+                        "BLOCK": 43
+                    },
+                    {
+                        "BLOCK": 24
+                    }
+                ]
+            }
+        ]
+    ],
     "crystal": 0,
     "current_hp": 0,
-    "current_instance": "",
-    "current_instance_level": 0
+    "current_instance": "instance",
+    "current_instance_level": 10
 }

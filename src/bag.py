@@ -4,10 +4,14 @@ from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import Screen
 from kivy.core.window import Window
 from kivy.properties import ObjectProperty
+from kivy.utils import  platform
 
 #Window.size = [800, 1000]
 Window.size = [1440, 2911]
 
+from item_info import ItemInfo
+
+import json
 
 Builder.load_string('''
 #:set button_border_width 1
@@ -457,12 +461,58 @@ class Bag(Widget):
 		#self.next_position = 0
 		# occupied: [{'position_id': 0, 'item': item}]
 		self.occupied = []
+		self.info_widget = Widget()
+		self.add_widget(self.info_widget)
+
+	def get_item(self, index):
+		file = 'data/profile.json'
+		if platform == 'android':
+			file = f'/storage/emulated/0/BraveHeart/{file}'
+		with open(file, "r") as f:
+			data = json.load(f)
+		item = data['bag'][index]
+		print("[bag.py(get_item)]Got Item: ", item)
+		return item
 
 	def show_item_info(self, index):
 		print(f'[bag.py]show_item_info: {index}')
 
+		#info_startx = 70
+		screen_width = 1440
+		info_width = 690
+		info_startx = (screen_width - info_width) / 2
+		#info_width = 690
+		btnbox_xoffset = 27
+		btnbox_startx = info_startx + info_width + btnbox_xoffset
+
+		info_endy = self.rim_starty
+		#print(self.rim_starty)
+		info_height = 1250
+		info_starty = info_endy - info_height
+		#info_endy = info_starty + info_height
+		btnbox_yoffset = 240
+		btnbox_endy = info_endy - btnbox_yoffset
+		btnbox_width = 255
+		btnbox_height = 815
+		btnbox_starty = btnbox_endy - btnbox_height
+
+		item = self.get_item(index)
+
+		ii = ItemInfo(item=item, size=(1200, 1300), pos=(50, 50), \
+						   info_size=(info_width, info_height), \
+						   box_size=(btnbox_width, btnbox_height), \
+						   info_pos=(info_startx, info_starty), \
+						   btnbox_xoffset=btnbox_xoffset, \
+						   btnbox_yoffset=btnbox_yoffset)
+
+		self.info_widget.clear_widgets()
+		self.remove_widget(self.info_widget)
+		self.info_widget.add_widget(ii)
+		self.add_widget(self.info_widget)
+
 	def hide_me(self):
 		#self.opacity = 0
+		self.info_widget.clear_widgets()
 		self.parent.close_bag()
 
 	def init_bag(self, bag_data):
