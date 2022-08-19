@@ -10,6 +10,7 @@ from kivy.utils import  platform
 Window.size = [1440, 2911]
 
 from item_info import ItemInfo
+from item_comparison import CompInfo
 
 import json
 
@@ -464,18 +465,49 @@ class Bag(Widget):
 		self.info_widget = Widget()
 		self.add_widget(self.info_widget)
 
-	def get_item(self, index):
+		self.compare_widget = Widget()
+		self.add_widget(self.compare_widget)
+
+	def get_items(self, index):
 		file = 'data/profile.json'
 		if platform == 'android':
 			file = f'/storage/emulated/0/BraveHeart/{file}'
 		with open(file, "r") as f:
 			data = json.load(f)
 		item = data['bag'][index]
+		equipped = data['equipped']
 		print("[bag.py(get_item)]Got Item: ", item)
-		return item
+		return equipped, item
+
+	def exit_compare(self, instance):
+		print(f'[bag.py]exit_compare()')
+		self.compare_widget.clear_widgets()
+		self.remove_widget(self.compare_widget)
+
+	def compare(self, instance):
+		print(f'[bag.py]compare: {self.index}')
+
+		item_backpack = self.item
+		kind = self.item['kind']
+
+		item_equipped = self.equipped[kind]
+
+		info_width = 690
+		info_endy = 1905
+		xpad = 5
+		ci = CompInfo(kind, item_equipped, item_backpack, info_width, info_endy, xpad)
+		ci.ids.btn_exit.bind(on_release=self.exit_compare)
+
+		self.info_widget.clear_widgets()
+		self.compare_widget.clear_widgets()
+		self.remove_widget(self.compare_widget)
+		self.compare_widget.add_widget(ci)
+		self.add_widget(self.compare_widget)
 
 	def show_item_info(self, index):
 		print(f'[bag.py]show_item_info: {index}')
+
+		self.index = index
 
 		#info_startx = 70
 		screen_width = 1440
@@ -496,7 +528,9 @@ class Bag(Widget):
 		btnbox_height = 815
 		btnbox_starty = btnbox_endy - btnbox_height
 
-		item = self.get_item(index)
+		self.equipped, item = self.get_items(index)
+
+		self.item = item[0]
 
 		ii = ItemInfo(item=item, size=(1200, 1300), pos=(50, 50), \
 						   info_size=(info_width, info_height), \
@@ -504,6 +538,9 @@ class Bag(Widget):
 						   info_pos=(info_startx, info_starty), \
 						   btnbox_xoffset=btnbox_xoffset, \
 						   btnbox_yoffset=btnbox_yoffset)
+
+		print(f'[bag.py]show_item_info: ii.ids {ii.ids}')
+		ii.ids.btn_compare.bind(on_release=self.compare)
 
 		self.info_widget.clear_widgets()
 		self.remove_widget(self.info_widget)

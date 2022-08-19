@@ -1,12 +1,14 @@
+# item equipped vs assigned
+# same top y(1320) with item info
+
 from kivy.app import App
+from kivy.lang import Builder
 from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
-from kivy.lang import Builder
-from kivy.properties import NumericProperty, ListProperty, ObjectProperty
 from kivy.uix.label import Label
+from kivy.properties import NumericProperty, ListProperty, ObjectProperty, StringProperty
 
 import translate
-
 
 Builder.load_string('''
 
@@ -14,25 +16,14 @@ Builder.load_string('''
 	font_name: 'fonts/DroidSansFallback.ttf'
 	font_size: '13sp'
 
-<IIButton@ToggleButton>:
-	font_name: 'fonts/DroidSansFallback.ttf'
-	#size_hint: None, None
-	group: 'iib_select'
-	background_normal: ''
-	background_color: 0, 0, 0, 0
-
-<ItemInfo>:
+<InfoWidget>:
 	size_hint: None, None
 	size: root.size
 	pos: root.pos
 	btnbox_width: root.btnbox_width
 	btnbox_height: root.btnbox_height
 	btnbox_startx: root.btnbox_startx
-	btnbox_endx: root.btnbox_endx
 	btnbox_starty: root.btnbox_starty
-	btnbox_endy: root.btnbox_endy
-	#box_size: [255, 815]
-	#info_size: [690, 1250]
 	info_width: root.info_width
 	info_height: root.info_height
 	info_startx: root.info_startx
@@ -44,20 +35,13 @@ Builder.load_string('''
 	image_pos: (root.image_startx, root.image_starty)
 
 	rim_width: root.rim_width
-	#separate_line_width: 4
+	#rim_width: 6
 	separate_line_startx: root.separate_line_startx
 	separate_line_width: root.separate_line_width
 	separate_line_endx: root.separate_line_endx
 	separate_line_1st_y: root.separate_line_1st_y
 	separate_line_2nd_y: root.separate_line_2nd_y
 	separate_line_3rd_y: root.separate_line_3rd_y
-	
-	btnbox_line_width: root.btnbox_line_width
-	bb_separate_starty_line1: root.bb_separate_starty_line1
-	bb_separate_starty_line2: root.bb_separate_starty_line2
-	bb_separate_starty_line3: root.bb_separate_starty_line3
-	bb_separate_starty_line4: root.bb_separate_starty_line4
-	bb_separate_starty_line5: root.bb_separate_starty_line5
 
 	item_name: 'sword'
 	item_rank: ''
@@ -71,10 +55,8 @@ Builder.load_string('''
 			size: self.size
 
 	Widget:
-		#orientation: 'vertical'
 		size_hint: None, None
 		size: (root.info_width, root.info_height)
-		#pos: 70, 100
 		pos: [root.info_startx, root.info_starty]
 		linew: 1
 		canvas.before:
@@ -96,10 +78,8 @@ Builder.load_string('''
 
 			# 1st separate line
 			Color:
-				#rgba: 1, 1, 1, 1
 				rgba: 255/255, 215/255, 0, 1
 			Line:
-				#width: 4
 				width: root.separate_line_width
 				points:root.separate_line_startx, root.separate_line_1st_y, \
 				 	root.separate_line_endx, root.separate_line_1st_y
@@ -129,8 +109,7 @@ Builder.load_string('''
 			source: self.parent.parent.image_source
 			allow_stretch: True
 			pos: self.parent.parent.image_pos
-			#pos_hint: {'x': 0.1, 'y': 0.5}
-			#pos: 500, 600
+
 		IILabel:
 			id: lbl_name
 			text: root.item_name
@@ -139,12 +118,9 @@ Builder.load_string('''
 			valign: 'middle'
 			halign: 'left'
 			width: 450
-			#pos: self.parent.parent.itemname_pos
-
 
 		# part #2: show rank
 		IILabel:
-		#Button
 			id: lbl_rank
 			text: root.item_rank
 			size_hint: None, None
@@ -164,7 +140,6 @@ Builder.load_string('''
 
 		# show item level
 		IILabel:
-		#Button
 			id: lbl_level
 			text: f'lv{root.item_level}'
 			text_size: self.size
@@ -175,123 +150,55 @@ Builder.load_string('''
 			width: 400
 
 		# desc
-		#Button:
 		IILabel:
-		#Button:
 			font_name: 'fonts/DroidSansFallback.ttf'
 			font_size: '13sp'
 			id: lbl_desc
 			text: f'{root.item_desc}'
-			#text: ' ' * 10 + f'        aaa' + 'xxxxxxxxxxxxxx' * 5
-			#text: " " * 15 +'aaaaaxxxxxx' * 3
 			text_size: self.width, None
 			valign: 'middle'
 			halign: 'left'
 			size_hint: 1, None
 			height: self.texture_size[1]
 			do_wrap: True
-			#height: 200
-			#width: 450
 			multiline: True
-
-	BoxLayout:
-		orientation: 'vertical'
-		size_hint: None, None
-		#width: root.btnbox_width
-		#height: root.btnbox_height
-		size: (root.btnbox_width, root.btnbox_height)
-		#pos: 800, 100
-		pos: [root.btnbox_startx, root.btnbox_starty]
-		canvas.before:
-			Color:
-				rgba: 119/255, 102/255, 74/255, 1
-
-			RoundedRectangle:
-				pos: self.pos
-				size: self.size
-				radius: [18]
 			
-			#rim
+		
+
+<CompInfo>:
+	btn_startx: root.btn_startx
+	btn_starty: root.btn_starty
+	btn_width: root.btn_width
+	btn_height: root.btn_height
+	btn_rim_width: root.btn_rim_width
+	Button:
+		canvas.after:
 			Color:
 				rgba: 1, 1, 1, 1
 			Line:
-				width: root.btnbox_line_width
+				width: root.btn_rim_width
 				rounded_rectangle: (self.pos[0], self.pos[1], \
 					self.size[0], self.size[1], 18)
 					
-			# 1st separate line
-			Color:
-				rgba: 1, 1, 1, 1
-				#rgba: 255/255, 215/255, 0, 1
-			Line:
-				width: root.btnbox_line_width
-				points:root.btnbox_startx, root.bb_separate_starty_line1, \
-				 	root.btnbox_endx, root.bb_separate_starty_line1
-				 	
-			# 1st separate line
-			Color:
-				rgba: 1, 1, 1, 1
-				#rgba: 255/255, 215/255, 0, 1
-			Line:
-				width: root.btnbox_line_width
-				points:root.btnbox_startx, root.bb_separate_starty_line1, \
-				 	root.btnbox_endx, root.bb_separate_starty_line1
-				 	
-			# 2nd separate line
-			Color:
-				rgba: 1, 1, 1, 1
-				#rgba: 255/255, 215/255, 0, 1
-			Line:
-				width: root.btnbox_line_width
-				points:root.btnbox_startx, root.bb_separate_starty_line2, \
-				 	root.btnbox_endx, root.bb_separate_starty_line2
-				 	
-			# 3rd separate line
-			Color:
-				rgba: 1, 1, 1, 1
-				#rgba: 255/255, 215/255, 0, 1
-			Line:
-				width: root.btnbox_line_width
-				points:root.btnbox_startx, root.bb_separate_starty_line3, \
-				 	root.btnbox_endx, root.bb_separate_starty_line3
-				 	
-			# 4th separate line
-			Color:
-				rgba: 1, 1, 1, 1
-				#rgba: 255/255, 215/255, 0, 1
-			Line:
-				width: root.btnbox_line_width
-				points:root.btnbox_startx, root.bb_separate_starty_line4, \
-				 	root.btnbox_endx, root.bb_separate_starty_line4
-				 	
-			# 5th separate line
-			Color:
-				rgba: 1, 1, 1, 1
-				#rgba: 255/255, 215/255, 0, 1
-			Line:
-				width: root.btnbox_line_width
-				points:root.btnbox_startx, root.bb_separate_starty_line5, \
-				 	root.btnbox_endx, root.bb_separate_starty_line5	
-				
-		IIButton:
-			id: btn_compare
-			text: '对比'
-			#on_press: self.parent.parent.parent.compare()
+		font_name: 'fonts/DroidSansFallback.ttf'
+		id: btn_exit
+		text: '关闭对比'
+		size_hint: None, None
+		#pos: 100, 100
+		pos: root.btn_startx, root.btn_starty
+		width: root.btn_width
+		#width: 100
+		height: root.btn_height
+		#height: 300
+		background_normal: ''
+		background_color: 0, 0, 0, 0.5
 
-		IIButton:
-			text: '装备'
+<CompInfo2>:
+	Button:
+		text: 'Hello'
 
-		IIButton:
-			text: '强化'
-
-		IIButton:
-			text: '重铸'
-
-		IIButton:
-			text: '锁定'
-
-		IIButton:
-			text: '出售'
+	
+<Root>:
 
 ''')
 
@@ -306,17 +213,13 @@ class ATTRLabel(Label):
 		self.valign = 'middle'
 		self.halign = 'left'
 
-class ItemInfo(Widget):
-
-	box_size = ListProperty()
+class InfoWidget(Widget):
 	info_width = NumericProperty()
 	info_height = NumericProperty()
 	btnbox_width = NumericProperty()
 	btnbox_height = NumericProperty()
 	btnbox_startx = NumericProperty()
-	btnbox_endx = NumericProperty()
 	btnbox_starty = NumericProperty()
-	btnbox_endy = NumericProperty()
 	info_startx = NumericProperty()
 	info_starty = NumericProperty()
 
@@ -337,40 +240,28 @@ class ItemInfo(Widget):
 
 	item_level = NumericProperty(0)
 	item_attrs = ObjectProperty()
-	#item_desc = StringProperty()
 
-	btnbox_line_width = NumericProperty(2)
-	bb_separate_starty_line1 = NumericProperty()
-	bb_separate_starty_line2 = NumericProperty()
-	bb_separate_starty_line3 = NumericProperty()
-	bb_separate_starty_line4 = NumericProperty()
-	bb_separate_starty_line5 = NumericProperty()
-
-	def __init__(self, item, info_size, box_size, info_pos, btnbox_xoffset, \
-					btnbox_yoffset, **kwargs):
+	# item_desc = StringProperty()
+	def __init__(self, kind, item, info_width, info_endy, info_startx, **kwargs):
 		super().__init__(**kwargs)
 
-		self.size = kwargs['size']
-		self.pos = kwargs['pos']
+		#self.size = kwargs['size']
+		#self.pos = kwargs['pos']
 
-		self.info_width, self.info_height = info_size[0], info_size[1]
-		self.btnbox_width, self.btnbox_height = box_size[0], box_size[1]
-		self.info_startx, self.info_starty = info_pos[0], info_pos[1]
+		self.kind = kind
+		self.info_width = info_width
+		self.info_startx = info_startx
+		self.item = item
+		#self.info_height = info_height
+		self.info_endy = info_endy
 
-		self.btnbox_startx = self.info_startx + self.info_width + \
-								btnbox_xoffset
-		self.btnbox_endx = self.btnbox_startx + self.btnbox_width
-
-		info_endy = self.info_starty + self.info_height
 		print(f'[item_info]__init__(): info_endy={info_endy}')
-		btnbox_endy = info_endy - btnbox_yoffset
-		self.btnbox_endy = btnbox_endy
-		self.btnbox_starty = btnbox_endy - self.btnbox_height
 
 		self.set_item(item)
 
 		self.image_width, self.image_height = 142, 142
 		image_xoffset, image_yoffset = 52, 60
+
 		self.image_startx = self.info_startx + image_xoffset
 		self.image_starty = info_endy - image_yoffset - self.image_height
 
@@ -378,13 +269,11 @@ class ItemInfo(Widget):
 		name_startx = self.image_startx + self.image_width + name_xoffset
 		name_starty = self.image_starty + self.image_height / 4
 		self.ids.lbl_name.pos = (name_startx, name_starty)
-		self.count = 6
 
 		rim_offset = 30
 		self.separate_line_startx = self.info_startx + rim_offset
-		#self.separate_line_width = 4
 		self.separate_line_endx = self.info_startx + self.info_width - \
-			rim_offset
+								  rim_offset
 		separate_line_1st_yoffset = 28
 		self.separate_line_1st_y = self.image_starty - separate_line_1st_yoffset
 
@@ -435,7 +324,7 @@ class ItemInfo(Widget):
 		imp_starty = implicit_endy
 
 		imp_xoffset = 20
-		imp_startx = attr_startx + imp_xoffset 
+		imp_startx = attr_startx + imp_xoffset
 
 		# implicit
 		for imp in self.item_implicit:
@@ -452,22 +341,22 @@ class ItemInfo(Widget):
 
 		# desc
 		desc_xoffset = 5
-		#desc_startx = imp_startx + desc_xoffset # 1st line
+		# desc_startx = imp_startx + desc_xoffset # 1st line
 		desc_startx = attr_startx
 		desc_endx = kind_endx
 		desc_width = desc_endx - desc_startx
 		self.ids.lbl_desc.width = desc_width
 
-		#self.item_desc = ' ' * 2 + self.item_desc
+		# self.item_desc = ' ' * 2 + self.item_desc
 		self.item_desc = '☆' * 2 + self.item_desc
 		lines, text = self.wrap_line(self.item_desc)
 		self.item_desc = text
-		print(f'lines: {lines}')
+		#print(f'lines: {lines}')
 
 		desc_height = implicit_yoffset * lines
-		#desc_height = self.ids.lbl_desc.height
+		# desc_height = self.ids.lbl_desc.height
 		self.ids.lbl_desc.height = desc_height
-		#print(f'DESC HEIGHT: {self.ids.lbl_desc.height}')
+		# print(f'DESC HEIGHT: {self.ids.lbl_desc.height}')
 		line_space = 20
 		desc_starty = self.separate_line_3rd_y - desc_height - line_space
 		self.ids.lbl_desc.pos = (desc_startx, desc_starty)
@@ -476,17 +365,6 @@ class ItemInfo(Widget):
 		frame_space = 50
 		self.info_starty = desc_starty - frame_space
 		self.info_height = info_endy - self.info_starty
-
-		#self.btnbox_line_width = 2
-
-		total_line_width = (self.count + 1) * self.btnbox_line_width
-		btn_height = (self.btnbox_height - total_line_width) / self.count # between lines
-		# btnbox separate line
-		self.bb_separate_starty_line1 = self.btnbox_endy - self.btnbox_line_width - btn_height - self.btnbox_line_width
-		self.bb_separate_starty_line2 = self.bb_separate_starty_line1 - btn_height - self.btnbox_line_width
-		self.bb_separate_starty_line3 = self.bb_separate_starty_line2 - btn_height - self.btnbox_line_width
-		self.bb_separate_starty_line4 = self.bb_separate_starty_line3 - btn_height - self.btnbox_line_width
-		self.bb_separate_starty_line5 = self.bb_separate_starty_line4 - btn_height - self.btnbox_line_width
 
 	def wrap_line(self, desc):
 		text = ''
@@ -512,107 +390,110 @@ class ItemInfo(Widget):
 		else:
 			text = desc
 		return n+1, text
-		#self.deal_info_desc()
-
-	#def deal_info_rank(self):
-		#pass
-		#rank_startx = 100
-		#rank_starty = 350
-
-	#def deal_info_attr(self):
-		#self.separate_line_2nd_y = 900
-
-	#def deal_info_implicit(self):
-		#self.separate_line_3rd_y = 500
-
-	#def deal_info_desc(self):
-		# rechange the size
-		#pass
 
 	def set_item(self, item):
 		print(item)
 
 		print(self.ids.lbl_name)
-		kind = item[0]["kind"]
+		#kind = self.kind
 
 		# item image
-		idx = item[0]["ID"]
-		self.image_source = f'icons/item/{kind}/{idx}.jpg'
+		idx = item["ID"]
+		self.image_source = f'icons/item/{self.kind}/{idx}.jpg'
 
 		# item name
-		self.item_name = item[0]["name"]
+		self.item_name = item["name"]
 
 		# item rank
-		self.item_rank = translate.item_rank[item[0]["rank"]-1]
+		self.item_rank = translate.item_rank[item["rank"]-1]
 
 		# item kind
-		self.item_kind = translate.item_kind[item[0]["kind"]]
+		self.item_kind = translate.item_kind[self.kind]
+		#self.item_kind = self.kind
 
 		# item_level
-		self.item_level = item[0]["lv"]
+		self.item_level = item["lv"]
 
 		# item attrs
-		self.item_attrs = item[0]["attr"]
+		self.item_attrs = item["attr"]
 
 		# item implicit
-		self.item_implicit = item[0]["implicit"]
+		self.item_implicit = item["implicit"]
 
 		# item_desc
-		self.item_desc = item[0]["desc"]
+		self.item_desc = item["desc"]
+
+class CompInfo(Widget):
+	btn_startx = NumericProperty()
+	btn_starty = NumericProperty()
+	btn_width = NumericProperty()
+	btn_height = NumericProperty()
+
+	btn_rim_width = NumericProperty(2)
+
+	def __init__(self, kind, item_equipped, item_backpack, info_width, info_endy, xpad, **kwargs):
+		super().__init__(**kwargs)
+		self.equipped_startx = xpad
+		self.kind = kind
+		self.info_width = info_width
+		self.info_endy = info_endy
+		self.item_equipped = item_equipped
+
+		#self.ids.equipped = InfoWidget(item=item_equipped, info_width=info_width, info_endy=info_endy, info_startx=equipped_startx)
+		item_equipped_info = InfoWidget(kind=kind, item=item_equipped, info_width=info_width, info_endy=info_endy, info_startx=self.equipped_startx)
+		self.add_widget(item_equipped_info)
+
+		screen_width = 1440
+		assigned_startx = screen_width - xpad - info_width
+		item_backpack_info = InfoWidget(kind=kind, item=item_backpack, info_width=info_width, info_endy=info_endy, info_startx=assigned_startx)
+		self.add_widget(item_backpack_info)
+
+		self.btn_width, self.btn_height = 267, 104
+		screen_height = 2911
+		btn_endy = screen_height - 851
+		self.btn_startx = 604
+		self.btn_starty = btn_endy - self.btn_height
+
+
+class CompInfo2(Widget):
+	def __init__(self, arg1, arg2, **kwargs):
+		super().__init__(**kwargs)
+		print(arg1, arg2)
+
+def get_items(idx):
+	import json
+	file = 'data/profile.json'
+	with open(file, "r") as f:
+		data = json.load(f)
+
+	item = data['bag'][idx][0]
+	kind = item['kind']
+	equipped = data['equipped'][kind]
+
+	return kind, equipped, item
 
 class Root(Screen):
-
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
-		#self.ii = ItemInfo(size=(1200, 1300), pos=(10, 10))
-
-		info_startx = 70
 		info_width = 690
-		btnbox_xoffset = 27
-		btnbox_startx = info_startx + info_width + btnbox_xoffset
-		info_starty = 70
-		info_height = 1250
-		info_endy = info_starty + info_height
-		btnbox_yoffset = 240
-		btnbox_endy = info_endy - btnbox_yoffset
-		btnbox_width = 255
-		btnbox_height = 815
-		btnbox_starty = btnbox_endy - btnbox_height
+		info_endy = 1320
+		xpad = 5
 
-		item = self.get_item()
+		idx = 3
+		kind, item_equipped, item_backpack = get_items(idx)
 
-		self.ii = ItemInfo(item=item, size=(1200, 1300), pos=(50, 50), \
-						info_size=(info_width, info_height), \
-						box_size=(btnbox_width, btnbox_height), \
-						info_pos=(info_startx, info_starty), \
-						btnbox_xoffset=btnbox_xoffset, \
-						btnbox_yoffset=btnbox_yoffset)
+		#print(item_equipped)
+		#print(item_backpack)
 
-		self.add_widget(self.ii)
-
-	def get_item(self):
-
-		# read from prifile
-		import json
-		profile = 'data/profile.json'
-		with open(profile, 'r') as f:
-			data = json.load(f)
-		index = 3
-		item = data['bag'][index]
-
-		return item
-		#self.ii.set_item(item)
-		#self.add_widget(self.ii)
+		ci = CompInfo(kind, item_equipped, item_backpack, info_width, info_endy, xpad)
+		#arg1 = 1
+		#c = CompInfo2(item_equipped, item_backpack)
+		self.add_widget(ci)
+		#self.add_widget(c)
 
 class MainApp(App):
 	def build(self):
-		root = Root()
-		#root.display()
-		return root
+		return Root()
 
 if __name__ == '__main__':
-
-	from kivy.core.window import Window
-	Window.clearcolor = 1, 1, 1, 1
-	Window.size = [1500, 1400]
 	MainApp().run()
