@@ -714,6 +714,9 @@ class RootWidget(Screen):
 		# LOG
 		self.log_list = []
 
+	def item_wear(self):
+		print(f'[main.py]item_wear()')
+
 	def show_bag(self):
 		print('show_bag()')
 		data = self.load_data()

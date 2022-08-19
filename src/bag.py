@@ -504,6 +504,14 @@ class Bag(Widget):
 		self.compare_widget.add_widget(ci)
 		self.add_widget(self.compare_widget)
 
+	def wear(self, instance):
+		print(f'[bag.py]wear: {self.index} ({self.parent})')
+		self.parent.item_wear()
+
+		# backpack index replace to old item equipped
+		# wear self.item[0]
+		# self.update_backpack()
+
 	def show_item_info(self, index):
 		print(f'[bag.py]show_item_info: {index}')
 
@@ -541,6 +549,7 @@ class Bag(Widget):
 
 		print(f'[bag.py]show_item_info: ii.ids {ii.ids}')
 		ii.ids.btn_compare.bind(on_release=self.compare)
+		ii.ids.btn_wear.bind(on_release=self.wear)
 
 		self.info_widget.clear_widgets()
 		self.remove_widget(self.info_widget)

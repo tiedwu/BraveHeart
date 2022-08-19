@@ -279,6 +279,7 @@ Builder.load_string('''
 			#on_press: self.parent.parent.parent.compare()
 
 		IIButton:
+			id: btn_wear
 			text: '装备'
 
 		IIButton:
