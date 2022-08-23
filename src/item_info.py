@@ -2,7 +2,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
 from kivy.lang import Builder
-from kivy.properties import NumericProperty, ListProperty, ObjectProperty
+from kivy.properties import NumericProperty, ListProperty, ObjectProperty, StringProperty
 from kivy.uix.label import Label
 
 import translate
@@ -289,7 +289,9 @@ Builder.load_string('''
 			text: '重铸'
 
 		IIButton:
-			text: '锁定'
+			id: btn_lock
+			#text: '锁定'
+			text: root.lock_desc
 
 		IIButton:
 			text: '出售'
@@ -347,6 +349,7 @@ class ItemInfo(Widget):
 	bb_separate_starty_line4 = NumericProperty()
 	bb_separate_starty_line5 = NumericProperty()
 
+	lock_desc = StringProperty()
 	def __init__(self, item, info_size, box_size, info_pos, btnbox_xoffset, \
 					btnbox_yoffset, **kwargs):
 		super().__init__(**kwargs)
@@ -489,6 +492,11 @@ class ItemInfo(Widget):
 		self.bb_separate_starty_line4 = self.bb_separate_starty_line3 - btn_height - self.btnbox_line_width
 		self.bb_separate_starty_line5 = self.bb_separate_starty_line4 - btn_height - self.btnbox_line_width
 
+		# lock desc
+		self.lock_desc = "锁定"
+		if self.item_lock:
+			self.lock_desc = "解锁"
+
 	def wrap_line(self, desc):
 		text = ''
 		#desc = "abcdefghijk"
@@ -513,22 +521,6 @@ class ItemInfo(Widget):
 		else:
 			text = desc
 		return n+1, text
-		#self.deal_info_desc()
-
-	#def deal_info_rank(self):
-		#pass
-		#rank_startx = 100
-		#rank_starty = 350
-
-	#def deal_info_attr(self):
-		#self.separate_line_2nd_y = 900
-
-	#def deal_info_implicit(self):
-		#self.separate_line_3rd_y = 500
-
-	#def deal_info_desc(self):
-		# rechange the size
-		#pass
 
 	def set_item(self, item):
 		print(item)
@@ -560,6 +552,9 @@ class ItemInfo(Widget):
 
 		# item_desc
 		self.item_desc = item[0]["desc"]
+
+		# item lock
+		self.item_lock = item[0]["lock"]
 
 class Root(Screen):
 

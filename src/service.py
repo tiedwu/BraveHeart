@@ -22,6 +22,7 @@ class GameService(OSCThreadServer):
 		self.listen('localhost', port=3100, default=True)
 		self.bind(b'/instance_challenge', self.instance_challenge)
 		self.bind(b'/item_swap', self.item_swap)
+		self.bind(b'/item_check_lock', self.item_check_lock)
 
 		#self.bind(b'/try_gold', self.try_gold)
 
@@ -197,6 +198,20 @@ class GameService(OSCThreadServer):
 		CLIENT.send_message(b'/fight_report', [win, gold, damage, where, \
 			instance_level, who, bag_index_str, item_name_str])
 
+	def item_check_lock(self, index):
+		index_decode = int(index.decode('utf8'))
+		print(f'[service.py]check_lock({index_decode})')
+		item = self.profile_data['bag'][index_decode][0]
+		lock = item["lock"]
+
+		lock = not lock
+		item["lock"] = lock
+		temp = []
+		temp.append(item)
+		self.profile_data['bag'][index_decode] = temp
+		self.save_data()
+		# sync to main
+		CLIENT.send_message(b'/item_lock_checked', [])
 
 	def item_swap(self, index):
 		index_decode = int(index.decode('utf8'))

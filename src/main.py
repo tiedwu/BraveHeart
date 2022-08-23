@@ -720,6 +720,13 @@ class RootWidget(Screen):
 		index_str = str(index).encode('utf8')
 		App.get_running_app().client.send_message( \
 			b'/item_swap', [index_str])
+		
+	def item_check_lock(self, index):
+		print(f'[main.py]check_lock({index})')
+
+		index_str = str(index).encode('utf8')
+		App.get_running_app().client.send_message( \
+			b'/item_check_lock', [index_str])
 
 	def show_bag(self):
 		print('show_bag()')
@@ -906,6 +913,9 @@ class RootWidget(Screen):
 			b'/instance_challenge', [instance, instance_level, max_hp, \
 				cur_hp, ap, av, bv, fdi, cc, cd])
 
+	def item_lock_checked(self):
+		self.bag.update_item_lock()
+
 	def item_activate(self):
 		self.player_load_data()
 
@@ -1067,6 +1077,7 @@ class GameApp(App):
 		server.bind(b'/fight_report', root.fight_report)
 		server.bind(b'/gold_test', root.gold_test)
 		server.bind(b'/item_activate', root.item_activate)
+		server.bind(b'/item_lock_checked', root.item_lock_checked)
 
 		#root.max_hp = 12334
 		#root.current_hp = 123

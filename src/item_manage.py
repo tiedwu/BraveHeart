@@ -131,6 +131,7 @@ class ItemManager():
 
 		item['attr'] = self.get_attrs(item['rank'], item['lv'], attrs)
 		item['kind'] = kind
+		item['lock'] = False
 		#item['attr'] = attrs
 
 		# set implicit
@@ -172,6 +173,7 @@ class ItemManager():
 			# 选择级别
 			rank = random.choice(item['rank'])
 			item['rank'] = rank
+			item['lock'] = False
 			#print(rank)
 
 			# 选择属性品质 （SSS, SS, S, A, B, C, D）

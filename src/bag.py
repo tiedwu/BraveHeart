@@ -3,7 +3,7 @@ from kivy.lang import Builder
 from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import Screen
 from kivy.core.window import Window
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, ListProperty
 from kivy.utils import  platform
 
 #Window.size = [800, 1000]
@@ -25,6 +25,9 @@ Builder.load_string('''
 	pos: self.pos
 	item_image: ''
 	backpack_index: 0
+	
+	#bg_colr: root.bg_color
+	#lock_color: root.lock_color
 	canvas.after:
 		Color:
 			rgba: 1, 1, 1, 1
@@ -37,6 +40,41 @@ Builder.load_string('''
 		size: self.parent.size
 		pos: self.parent.pos
 		on_press: self.parent.parent.show_item_info(root.backpack_index)
+		canvas.after:
+			Color:
+				#rgba: 1, 0, 0, 0.6
+				rgba: self.parent.bg_color
+			Triangle:
+				points: self.parent.pos[0] + self.parent.size[0] * 0.3, self.parent.pos[1] + self.parent.size[1],\
+					self.parent.pos[0] + self.parent.size[0], self.parent.pos[1] + self.parent.size[1],\
+					self.parent.pos[0] + self.parent.size[0], self.parent.pos[1] + self.parent.size[1] * 0.3
+					
+			# rectangle:
+			Color:
+				#rgba: 1, 1, 1, 0.6
+				rgba: self.parent.lock_color
+			Line:
+				width: 2
+				rounded_rectangle: (self.parent.pos[0] + self.parent.size[0] * 0.7, \
+					self.parent.pos[1] + self.parent.size[1] * 0.57, \
+					self.parent.size[0] * 0.25, self.parent.size[1] * 0.2, 2)
+			Line:
+				width: 2
+				ellipse: (self.parent.pos[0] + self.parent.size[0] * 0.8, \
+					self.parent.pos[1] + self.parent.size[1] * 0.66, \
+					self.parent.size[0] * 0.05, self.parent.size[1] * 0.05)
+			Line:
+				width: 2
+				points: (self.parent.pos[0] + self.parent.size[0] * 0.825, \
+					self.parent.pos[1] + self.parent.size[1] * 0.66, \
+					self.parent.pos[0] + self.parent.size[0] * 0.825, \
+					self.parent.pos[1] + self.parent.size[1] * 0.62)
+			Line:
+				width: 2
+				ellipse: (self.parent.pos[0] + self.parent.size[0] * 0.75, \
+					self.parent.pos[1] + self.parent.size[1] * 0.695, \
+					self.size[0] * 0.15, self.size[1] * 0.15, 90, -90)
+				
 		Image:
 			size_hint: None, None
 			size: self.parent.size
@@ -302,11 +340,23 @@ Builder.load_string('''
 ''')
 
 class BagItem(Widget):
-	def __init__(self, item_image, backpack_index, **kwargs):
+
+	bg_color = ListProperty()
+	lock_color = ListProperty()
+	def __init__(self, lock, item_image, backpack_index, **kwargs):
 		super().__init__(**kwargs)
 		#print(**kwargs)
 		self.item_image = item_image
 		self.backpack_index = backpack_index
+
+		self.bg_color = (0, 0, 0, 0)
+		self.lock_color = (0, 0, 0, 0)
+		self.lock = lock
+		print(f'[bag.py] __init__() lock={lock}')
+		#lock = True
+		if self.lock:
+			self.bg_color = (1, 0, 0, 0.6)
+			self.lock_color = (1, 1, 1, 0.6)
 
 class Bag(Widget):
 
@@ -557,11 +607,19 @@ class Bag(Widget):
 		print(f'[bag.py]show_item_info: ii.ids {ii.ids}')
 		ii.ids.btn_compare.bind(on_release=self.compare)
 		ii.ids.btn_wear.bind(on_release=self.wear)
+		ii.ids.btn_lock.bind(on_release=self.check_lock)
 
 		self.info_widget.clear_widgets()
 		self.remove_widget(self.info_widget)
 		self.info_widget.add_widget(ii)
 		self.add_widget(self.info_widget)
+
+	def check_lock(self, instance):
+		print(f'[bag.py] check_lock()')
+		# close item_info
+		self.info_widget.clear_widgets()
+		self.remove_widget(self.info_widget)
+		self.parent.item_check_lock(self.index)
 
 	def hide_me(self):
 		#self.opacity = 0
@@ -594,7 +652,8 @@ class Bag(Widget):
 		print(f'[bag.py] add_item() item_image={item_image}')
 		item_id = str(pos_index)
 
-		bi = BagItem(pos=self.bag_storage[pos_index], \
+		lock = item[0]["lock"]
+		bi = BagItem(lock=lock, pos=self.bag_storage[pos_index], \
 						item_image=item_image, backpack_index=pos_index)
 		self.grid_items.append(bi)
 		#self.add_widget(BagItem(pos=self.bag_storage[pos_index], \
@@ -619,11 +678,18 @@ class Bag(Widget):
 		item_image = f'icons/item/{item[0]["kind"]}/{item[0]["ID"]}.jpg'
 		self.grid_items[self.index].item_image = item_image
 
-
-		
-		#self.clear_widgets()
-		#self.reset_items()
-		#print(self.ids)
+	def update_item_lock(self):
+		print(f'[bag.py]update_item_lock: {self.index}')
+		item = self.get_update_item()
+		self.occupied[self.index] = item
+		lock = item[0]["lock"]
+		#self.grid_items[self.index].lock = lock
+		if lock:
+			self.grid_items[self.index].bg_color = (1, 0, 0, 0.6)
+			self.grid_items[self.index].lock_color = (1, 1, 1, 0.6)
+		else:
+			self.grid_items[self.index].bg_color = (0, 0, 0, 0)
+			self.grid_items[self.index].lock_color = (0, 0, 0, 0)
 
 	# position means position-th instead of index
 	def remove_item(self, position):
