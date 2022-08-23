@@ -468,6 +468,8 @@ class Bag(Widget):
 		self.compare_widget = Widget()
 		self.add_widget(self.compare_widget)
 
+		self.grid_items = []
+
 	def get_items(self, index):
 		file = 'data/profile.json'
 		if platform == 'android':
@@ -506,7 +508,10 @@ class Bag(Widget):
 
 	def wear(self, instance):
 		print(f'[bag.py]wear: {self.index} ({self.parent})')
-		self.parent.item_wear()
+		# close item_info
+		self.info_widget.clear_widgets()
+		self.remove_widget(self.info_widget)
+		self.parent.item_wear(self.index)
 
 		# backpack index replace to old item equipped
 		# wear self.item[0]
@@ -539,6 +544,8 @@ class Bag(Widget):
 		self.equipped, item = self.get_items(index)
 
 		self.item = item[0]
+		self.kind = self.item['kind']
+		self.image_id = self.item["ID"]
 
 		ii = ItemInfo(item=item, size=(1200, 1300), pos=(50, 50), \
 						   info_size=(info_width, info_height), \
@@ -566,6 +573,7 @@ class Bag(Widget):
 		print("init_bag()")
 
 		self.occupied = []
+		self.grid_items = []
 		for item in bag_data:
 			self.add_item(item)
 			self.occupied.append(item)
@@ -583,12 +591,39 @@ class Bag(Widget):
 			pos_index -= 1
 
 		item_image = f'icons/item/{item[0]["kind"]}/{item[0]["ID"]}.jpg'
+		print(f'[bag.py] add_item() item_image={item_image}')
+		item_id = str(pos_index)
 
+		bi = BagItem(pos=self.bag_storage[pos_index], \
+						item_image=item_image, backpack_index=pos_index)
+		self.grid_items.append(bi)
+		#self.add_widget(BagItem(pos=self.bag_storage[pos_index], \
+		#				item_image=item_image, backpack_index=pos_index))
 
-		self.add_widget(BagItem(pos=self.bag_storage[pos_index], \
-						item_image=item_image, backpack_index=pos_index))
-
+		self.add_widget(bi)
 		# send to server to update json in main.py
+
+	def get_update_item(self):
+		file = 'data/profile.json'
+		if platform == 'android':
+			file = f'/storage/emulated/0/BraveHeart/{file}'
+		with open(file, "r") as f:
+			data = json.load(f)
+		item = data['bag'][self.index]
+		return item
+
+	def update_item(self):
+		print(f'[bag.py]update_item: {self.index}')
+		item = self.get_update_item()
+		self.occupied[self.index] = item
+		item_image = f'icons/item/{item[0]["kind"]}/{item[0]["ID"]}.jpg'
+		self.grid_items[self.index].item_image = item_image
+
+
+		
+		#self.clear_widgets()
+		#self.reset_items()
+		#print(self.ids)
 
 	# position means position-th instead of index
 	def remove_item(self, position):

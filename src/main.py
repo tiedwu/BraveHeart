@@ -714,13 +714,18 @@ class RootWidget(Screen):
 		# LOG
 		self.log_list = []
 
-	def item_wear(self):
-		print(f'[main.py]item_wear()')
+	def item_wear(self, index):
+		print(f'[main.py]item_wear({index})')
+
+		index_str = str(index).encode('utf8')
+		App.get_running_app().client.send_message( \
+			b'/item_swap', [index_str])
 
 	def show_bag(self):
 		print('show_bag()')
 		data = self.load_data()
 		backpack_data = data['bag']
+		self.remove_widget(self.bag)
 		self.bag.init_bag(backpack_data)
 		self.add_widget(self.bag)
 
@@ -761,9 +766,7 @@ class RootWidget(Screen):
 		self.show_log(f'系统: [color=f16b07]你已进入{where_desc} (lv={self.instance_level})[/color]\n')
 		self.service_instance_challenge()
 
-	def init_player_data(self):
-		init_data.check()
-
+	def player_load_data(self):
 		self.player_data = self.load_data()
 
 		# set lv_box
@@ -777,6 +780,11 @@ class RootWidget(Screen):
 
 		self.ie = item_effect.ItemEffect(self.item_data)
 		self.make_effect()
+
+	def init_player_data(self):
+		init_data.check()
+
+		self.player_load_data()
 
 	def make_effect(self):
 		#self.ie = item_effect.ItemEffect(self.item_data)
@@ -843,25 +851,25 @@ class RootWidget(Screen):
 		item_weapon = self.ids.eq_box.ids.weapon
 		item_weapon.ltext = item_weapon_data['name']
 		item_weapon.item_id = item_weapon_data['ID']
-		item_weapon.item_image = 'icons/weapon.jpg'
+		item_weapon.item_image = f'icons/item/weapon/{item_weapon.item_id}.jpg'
 
 		item_suit_data = self.item_data['suit']
 		item_suit = self.ids.eq_box.ids.suit
 		item_suit.ltext = item_suit_data['name']
 		item_suit.item_id = item_suit_data['ID']
-		item_suit.item_image = 'icons/suit.jpg'
+		item_suit.item_image = f'icons/item/suit/{item_suit.item_id}.jpg'
 
 		item_necklace_data = self.item_data['necklace']
 		item_necklace = self.ids.eq_box.ids.necklace
 		item_necklace.ltext = item_necklace_data['name']
 		item_necklace.item_id = item_necklace_data['ID']
-		item_necklace.item_image = 'icons/necklace.png'
+		item_necklace.item_image = f'icons/item/necklace/{item_necklace.item_id}.jpg'
 
 		item_ring_data = self.item_data['ring']
 		item_ring = self.ids.eq_box.ids.ring
 		item_ring.ltext = item_ring_data['name']
 		item_ring.item_id = item_ring_data['ID']
-		item_ring.item_image = 'icons/ring.jfif'
+		item_ring.item_image = f'icons/item/ring/{item_ring.item_id}.jpg'
 
 	def load_data(self):
 		data = {}
@@ -897,6 +905,17 @@ class RootWidget(Screen):
 		App.get_running_app().client.send_message(\
 			b'/instance_challenge', [instance, instance_level, max_hp, \
 				cur_hp, ap, av, bv, fdi, cc, cd])
+
+	def item_activate(self):
+		self.player_load_data()
+
+		# backpack to update item
+		self.bag.update_item()
+		#kind = self.bag.kind
+		#id = self.bag.image_id
+		#image = f'icons/item/{kind}/{id}.jpg'
+		#print(f'[main.py] item_activate image={image}')
+		#self.bag.grid_items[self.bag.index].item_image = image
 
 	def fight_report(self, win, gold, damage, where, instance_level, who, \
 						bag_index, item_name):
@@ -1047,6 +1066,7 @@ class GameApp(App):
 		# bind triggers
 		server.bind(b'/fight_report', root.fight_report)
 		server.bind(b'/gold_test', root.gold_test)
+		server.bind(b'/item_activate', root.item_activate)
 
 		#root.max_hp = 12334
 		#root.current_hp = 123

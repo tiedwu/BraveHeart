@@ -130,6 +130,7 @@ class ItemManager():
 				attrs[key]['class'] = 'D'
 
 		item['attr'] = self.get_attrs(item['rank'], item['lv'], attrs)
+		item['kind'] = kind
 		#item['attr'] = attrs
 
 		# set implicit
