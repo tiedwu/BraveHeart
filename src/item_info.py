@@ -283,6 +283,7 @@ Builder.load_string('''
 			text: '装备'
 
 		IIButton:
+			id: btn_item_enforce
 			text: '强化'
 
 		IIButton:
@@ -593,7 +594,7 @@ class Root(Screen):
 		profile = 'data/profile.json'
 		with open(profile, 'r') as f:
 			data = json.load(f)
-		index = 3
+		index = 0
 		item = data['bag'][index]
 
 		return item

@@ -1,4 +1,4 @@
-__version__ = '0.2'
+__version__ = '0.3'
 
 from kivy.app import App
 from kivy.lang import Builder
@@ -32,6 +32,7 @@ import item_effect
 from dungeon import Dungeon
 from home import HomeWidget
 from bag import Bag
+from item_enforce import ItemEnforce
 
 ratio = 1
 
@@ -727,6 +728,17 @@ class RootWidget(Screen):
 		index_str = str(index).encode('utf8')
 		App.get_running_app().client.send_message( \
 			b'/item_check_lock', [index_str])
+
+	def enforce_item(self, index):
+		print(f'[main.py]enforce_item({index})')
+
+		index_str = str(index).encode('utf8')
+
+		self.ie = ItemEnforce(ww=1440, wh=2911, width=1225, backpack_idx=index)
+		self.add_widget(self.ie)
+
+		#App.get_running_app().client.send_message( \
+		#	b'/item_swap', [index_str])
 
 	def show_bag(self):
 		print('show_bag()')

@@ -567,6 +567,14 @@ class Bag(Widget):
 		# wear self.item[0]
 		# self.update_backpack()
 
+	def enforce_item(self, instance):
+		print(f'[bag.py]enforce_item: {self.index} ({self.parent})')
+
+		# close item_info
+		self.info_widget.clear_widgets()
+		self.remove_widget(self.info_widget)
+		self.parent.enforce_item(self.index)
+
 	def show_item_info(self, index):
 		print(f'[bag.py]show_item_info: {index}')
 
@@ -608,6 +616,7 @@ class Bag(Widget):
 		ii.ids.btn_compare.bind(on_release=self.compare)
 		ii.ids.btn_wear.bind(on_release=self.wear)
 		ii.ids.btn_lock.bind(on_release=self.check_lock)
+		ii.ids.btn_item_enforce.bind(on_release=self.enforce_item)
 
 		self.info_widget.clear_widgets()
 		self.remove_widget(self.info_widget)
