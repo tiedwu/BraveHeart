@@ -12,6 +12,7 @@ import init_data
 from item_manage import ItemManager
 import combat
 import enemy
+import item_value
 
 CLIENT = OSCClient('localhost', 3102)
 
@@ -23,6 +24,7 @@ class GameService(OSCThreadServer):
 		self.bind(b'/instance_challenge', self.instance_challenge)
 		self.bind(b'/item_swap', self.item_swap)
 		self.bind(b'/item_check_lock', self.item_check_lock)
+		self.bind(b'/item_sell', self.item_sell)
 
 		#self.bind(b'/try_gold', self.try_gold)
 
@@ -212,6 +214,24 @@ class GameService(OSCThreadServer):
 		self.save_data()
 		# sync to main
 		CLIENT.send_message(b'/item_lock_checked', [])
+
+	def item_sell(self, index):
+		index_decode = int(index.decode('utf8'))
+		print(f'[service.py]GameService.item_sell(index={index_decode})')
+
+		# update data
+		item = self.profile_data['bag'].pop(index_decode)
+		print(f'[service.py]GameService.item_sell(item={item})')
+
+		# gold up
+		value = item_value.item_valuation(item[0]['lv'], item[0]['rank'])
+		print(f'[service.py]GameService.item_sell(value={value})')
+
+		self.profile_data['gold'] += value
+		self.save_data()
+
+		value_encode = str(value).encode('utf8')
+		CLIENT.send_message(b'/earn_gold', [value_encode])
 
 	def item_swap(self, index):
 		index_decode = int(index.decode('utf8'))

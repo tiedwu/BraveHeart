@@ -15,6 +15,7 @@ from kivy.graphics import *
 
 import json
 import translate
+from functools import partial
 
 Builder.load_string('''
 
@@ -148,6 +149,7 @@ Builder.load_string('''
 		center_y: root.title_starty + root.title_height / 2
 		color: 193/255, 170/255, 154/255, 1
 	Button:
+		id: btn_exit_item_enforce
 		size_hint: None, None
 		size: 74, 74
 		center_x: root.widget_startx + root.widget_width * 0.95
@@ -322,15 +324,64 @@ class DLabel(Label):
 			Rectangle(pos=self.pos, size=self.size)
 
 class ImplicitLabel(Label):
-	def __init__(self, **kwagrs):
-		super().__init__(**kwagrs)
+	def __init__(self, **kwargs):
+		super().__init__(**kwargs)
 		self.font_size = '11sp'
 		self.size_hint = None, None
 		self.font_name = 'fonts/DroidSansFallback.ttf'
+		self.locked = False
 
 		with self.canvas.before:
 			Color(16/255, 16/255, 16/255, 1)
 			Rectangle(pos=self.pos, size=self.size)
+
+	def check_lock(self):
+		if self.locked:
+			height = self.size[1]
+			width = height
+			p1_x = self.pos[0] + self.size[0] - self.size[1]
+			rect_xpad = 5
+			rect_endx = self.pos[0] + self.size[0] - rect_xpad
+			rect_startx = p1_x + width / 2 + rect_xpad
+			rect_width = rect_endx - rect_startx
+			rect_starty = self.pos[1] + height / 2
+			rect_height = rect_width * 0.8
+			print(f'[item_enforce.py] ImplicitLabel check_lock()')
+			hole_r = rect_height * 0.1
+			hole_startx = rect_startx + (rect_width - 2 * hole_r) / 2
+			hole_starty = rect_starty + 0.5 * rect_height
+			line_startx = hole_startx + hole_r
+			line_endy = hole_starty
+			line_length = 2 * hole_r
+			line_starty = line_endy - line_length
+			handle_r = rect_width / 2 * 0.7
+			handle_startx = rect_startx + (rect_width - 2 * handle_r) / 2
+			handle_starty = rect_starty + rect_height - handle_r
+			with self.canvas.after:
+				Color(1, 0, 0, 0.6)
+				Triangle(points=[p1_x, \
+								self.pos[1] + self.size[1], \
+								self.pos[0] + self.size[0], \
+								self.pos[1] + self.size[1], \
+								self.pos[0] + self.size[0], \
+								self.pos[1]])
+
+				Color(1, 1, 1, 0.6)
+				Line(rounded_rectangle=[rect_startx, rect_starty, rect_width, rect_height, 2], width=2)
+
+				# keyhole
+				Line(ellipse=[hole_startx, hole_starty, 2 * hole_r, 2 * hole_r], width=2)
+				Line(points=[line_startx, line_starty, line_startx, line_endy], width=2)
+				
+				# handle
+				Line(ellipse=[handle_startx, handle_starty, 2 * handle_r, 2 * handle_r, 90, -90], width=2)
+				#Line(ellipse=[self.pos[0] + self.size[0] * 0.75, \
+				#		self.pos[1] + self.size[1] * 0.695, \
+				#		self.size[0] * 0.15, self.size[1] * 0.15, 90, -90], \
+				#		width=2)
+		else:
+			if self.canvas.after:
+				self.canvas.after.clear()
 
 class UpArrowImage(Image):
 	def __init__(self, **kwargs):
@@ -370,10 +421,33 @@ class LockButton(Button):
 		self.background_normal = ''
 		self.background_color = (16 / 255, 16 / 255, 16 / 255, 1)
 		self.font_size = '11sp'
+		self.locked = False
+		#self.bind(on_press=self.select)
 
+		#color = Color(62/255, 123/255, 107/255)
+		#with self.canvas.after:
+		#	Color(62/255, 123/255, 107/255, 0.8)
+		#	Line(rectangle=[self.pos[0], self.pos[1], self.size[0], self.size[1]], width=3)
 		#with self.canvas.after:
 		#	Color(1, 1, 1, 1)
 		#	Line(rounded_rectangle=[self.pos[0], self.pos[1], self.size[0], self.size[1], 18], width=2)
+
+		#if not self.selected:
+		#	self.canvas.after.clear()
+	def select(self):
+		with self.canvas.after:
+			Color(62/255, 123/255, 107/255, 0.8)
+			Line(rectangle=[self.pos[0], self.pos[1], self.size[0], self.size[1]], width=3)
+
+	def unselect(self):
+		if self.canvas.after:
+			self.canvas.after.clear()
+
+	def display_text(self):
+		if self.locked:
+			self.text = "解锁"
+		else:
+			self.text = "锁定"
 
 class ATTRLabel(Label):
 	def __init__(self, **kwargs):
@@ -747,6 +821,8 @@ class ItemEnforce(Widget):
 		btn_lock_height = 70
 		btn_lock_startx = btn_lock_endx - btn_lock_width
 
+		self.btn_locks = []
+		self.lbl_implicits = []
 		for imp in implicits:
 			k, v = list(imp.keys())[0], list(imp.values())[0]
 			label_text = f'{translate.item_implicit[k]}: +{v}'
@@ -758,12 +834,20 @@ class ItemEnforce(Widget):
 			#imp_starty = imp_starty - implicit_yoffset
 			#implicit = ATTRLabel(text=label_text, pos=(imp_startx, imp_starty))
 			self.add_widget(lbl_implicit)
+			self.lbl_implicits.append(lbl_implicit)
 			#text = translate.item_implicit[k]
 			#print(f'[item_enforce.py] __init__(text={text})')
 			btn_lock = LockButton(text='锁定', pos=(btn_lock_startx, lbl_implicit_starty), \
 						   width=btn_lock_width, height=btn_lock_height)
 			self.add_widget(btn_lock)
+			self.btn_locks.append(btn_lock)
 
+		btn_index = 0
+		for btn in self.btn_locks:
+			# partial(self.on_anything, "1", "2", monthy="python")
+			#btn.bind(on_press=partial(self.btn_lock_select, "1", "2", monthy="python"))
+			btn.bind(on_press=partial(self.btn_lock_select, index=btn_index))
+			btn_index += 1
 		self.widget_bg_starty = lbl_implicit_starty - implicits_yspace
 		self.widget_bg_height = title_endy - self.widget_bg_starty
 
@@ -774,6 +858,19 @@ class ItemEnforce(Widget):
 		print(self.title_startx, self.title_starty, self.title_width, self.title_height)
 
 
+	#def btn_lock_select(self, *args, **kwargs):
+	#	print(f'[item_enforce.py] btn_lock_select(index={str(args)}, {str(kwargs)})')
+
+	def btn_lock_select(self, *args, **kwargs):
+		index = kwargs["index"]
+		print(f'[item_enforce.py] btn_lock_select(index={index})')
+		self.btn_locks[index].select()
+		self.btn_locks[index].locked = not self.btn_locks[index].locked
+		self.btn_locks[index].display_text()
+
+		# lock image display
+		self.lbl_implicits[index].locked = not self.lbl_implicits[index].locked
+		self.lbl_implicits[index].check_lock()
 
 
 	def from_backpack(self, idx):

@@ -287,6 +287,7 @@ Builder.load_string('''
 			text: '强化'
 
 		IIButton:
+			id:btn_item_rebuild
 			text: '重铸'
 
 		IIButton:
@@ -295,6 +296,7 @@ Builder.load_string('''
 			text: root.lock_desc
 
 		IIButton:
+			id: btn_item_sell
 			text: '出售'
 
 ''')

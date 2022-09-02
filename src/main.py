@@ -365,7 +365,8 @@ Builder.load_string('''
 	orientation: 'vertical'
 	canvas.before:
 		Color:
-			rgba: 240/255, 166/255, 29/255, 0.2
+			#rgba: 240/255, 166/255, 29/255, 0.2
+			rgba: 14/255, 28/255, 11/255, 1
 		Rectangle:
 			pos: self.pos
 			size: self.size
@@ -678,8 +679,9 @@ class RootWidget(Screen):
 
 		self.init_player_data()
 
-		# add bag
+		# load backpack
 		self.bag = Bag()
+		self.load_backpack()
 
 		# add dungeon
 		self.dungeon = Dungeon()
@@ -715,6 +717,10 @@ class RootWidget(Screen):
 		# LOG
 		self.log_list = []
 
+		# check if renew item display
+		self._backpack_add_item_required = False
+		self.backpack_max_cap = 36
+
 	def item_wear(self, index):
 		print(f'[main.py]item_wear({index})')
 
@@ -735,17 +741,35 @@ class RootWidget(Screen):
 		index_str = str(index).encode('utf8')
 
 		self.ie = ItemEnforce(ww=1440, wh=2911, width=1225, backpack_idx=index)
+		self.ie.ids.btn_exit_item_enforce.bind(on_release=self.exit_item_enforce)
 		self.add_widget(self.ie)
 
 		#App.get_running_app().client.send_message( \
 		#	b'/item_swap', [index_str])
 
-	def show_bag(self):
-		print('show_bag()')
+	def exit_item_enforce(self, instance):
+		self.remove_widget(self.ie)
+
+	def item_sell(self, index):
+		print(f'[main.py] RootWidget.item_sell(index={index})')
+		# send to service
+		index_str = str(index).encode('utf8')
+		App.get_running_app().client.send_message( \
+			b'/item_sell', [index_str])
+
+		self.bag.remove_item(index+1)
+
+	def load_backpack(self):
 		data = self.load_data()
 		backpack_data = data['bag']
-		self.remove_widget(self.bag)
 		self.bag.init_bag(backpack_data)
+
+	def show_bag(self):
+		#print('show_bag()')
+		#data = self.load_data()
+		#backpack_data = data['bag']
+		self.remove_widget(self.bag)
+		#self.bag.init_bag(backpack_data)
 		self.add_widget(self.bag)
 
 	def close_bag(self):
@@ -762,6 +786,10 @@ class RootWidget(Screen):
 
 	def instance_challenge(self, instance):
 		if not self.home.selected:
+			return
+
+		if len(self.bag.occupied) >= 36:
+			self.show_log(f'系统: [color=f16b07]请先清理背包哦, 不然无法进行重复挑战[/color]\n')
 			return
 
 		#print(self.home.zone_info.level)
@@ -859,7 +887,10 @@ class RootWidget(Screen):
 		self.gold = self.player_data['gold']
 
 	def exit_dungeon(self, instance):
-		print("removed dungeon")
+		self._exit_dungeon(self)
+
+	def _exit_dungeon(self):
+		#print("removed dungeon")
 		self.dungeon.hide_me()
 		self.home.opacity = 1
 		self.home.zone_info.hide_me()
@@ -939,6 +970,11 @@ class RootWidget(Screen):
 		#print(f'[main.py] item_activate image={image}')
 		#self.bag.grid_items[self.bag.index].item_image = image
 
+	def earn_gold(self, gold):
+		gold_decode = int(gold.decode('utf8'))
+		self.gold += gold_decode
+		self.show_log(f'系统: [color=00ff00]出售装备获得金币 {gold_decode}[/color]')
+
 	def fight_report(self, win, gold, damage, where, instance_level, who, \
 						bag_index, item_name):
 		gold_decode = int(gold.decode('utf8'))
@@ -973,6 +1009,13 @@ class RootWidget(Screen):
 
 				msg += f' {item_name}\n'
 
+				# update bag
+				if self.bag:
+					self._backpack_add_item_required = True
+					self._backpack_add_item_index = n_bag
+					#self.backpack_add_item(n_bag)
+					#self.bag.backpack_add_item(n_bag)
+
 			self.show_log(msg)
 			self.fight_status = 1
 		else:
@@ -980,6 +1023,9 @@ class RootWidget(Screen):
 			self.show_log(f'系统: [color=0000ff]击杀了{who}({where_desc}:{instance_level}), 受到{damage}点伤害[/color]\n')
 
 			self.fight_status = 2
+
+	def backpack_add_item(self, index):
+		self.bag.backpack_add_item(index)
 
 	def check_obj(self):
 		if self.fight_status == 0:
@@ -1032,6 +1078,11 @@ class RootWidget(Screen):
 	def update(self, dt):
 		#self.gold += 1
 		if (self.dungeon.actived):
+			if len(self.bag.occupied) >= 36:
+				self.show_log(f'系统: [color=f16b07]请先清理背包哦, 不然无法进行重复挑战[/color]\n')
+				self._exit_dungeon()
+				return
+
 			if not self.wait_fight:
 				self.dungeon.ids.hero.move()
 				collision = self.dungeon.check_collision()
@@ -1042,6 +1093,10 @@ class RootWidget(Screen):
 			else:
 				self.check_obj()
 				self.fight_status = 0
+		# display backpack item
+		if self._backpack_add_item_required and len(self.bag.occupied) < self.backpack_max_cap:
+			self.backpack_add_item(self._backpack_add_item_index)
+			self._backpack_add_item_required = False
 
 	def gold_test(self, gold):
 		self.gold = int(gold.decode('utf8'))
@@ -1090,6 +1145,7 @@ class GameApp(App):
 		server.bind(b'/gold_test', root.gold_test)
 		server.bind(b'/item_activate', root.item_activate)
 		server.bind(b'/item_lock_checked', root.item_lock_checked)
+		server.bind(b'/earn_gold', root.earn_gold)
 
 		#root.max_hp = 12334
 		#root.current_hp = 123

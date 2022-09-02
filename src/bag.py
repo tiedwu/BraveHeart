@@ -13,6 +13,7 @@ from item_info import ItemInfo
 from item_comparison import CompInfo
 
 import json
+from functools import partial
 
 Builder.load_string('''
 #:set button_border_width 1
@@ -352,7 +353,7 @@ class BagItem(Widget):
 		self.bg_color = (0, 0, 0, 0)
 		self.lock_color = (0, 0, 0, 0)
 		self.lock = lock
-		print(f'[bag.py] __init__() lock={lock}')
+		#print(f'[bag.py] __init__() lock={lock}')
 		#lock = True
 		if self.lock:
 			self.bg_color = (1, 0, 0, 0.6)
@@ -617,11 +618,18 @@ class Bag(Widget):
 		ii.ids.btn_wear.bind(on_release=self.wear)
 		ii.ids.btn_lock.bind(on_release=self.check_lock)
 		ii.ids.btn_item_enforce.bind(on_release=self.enforce_item)
+		ii.ids.btn_item_rebuild.bind(on_release=self.enforce_item)
+		ii.ids.btn_item_sell.bind(on_release=partial(self.sell_item, index=self.index))
 
 		self.info_widget.clear_widgets()
 		self.remove_widget(self.info_widget)
 		self.info_widget.add_widget(ii)
 		self.add_widget(self.info_widget)
+
+	def sell_item(self, *args, **kwargs):
+		index = kwargs["index"]
+		print(f'[bag.py] Bag.sell_item(index={index})')
+		self.parent.item_sell(index)
 
 	def check_lock(self, instance):
 		print(f'[bag.py] check_lock()')
@@ -637,29 +645,43 @@ class Bag(Widget):
 
 	def init_bag(self, bag_data):
 		# init bag by read bag json
-		print("init_bag()")
+		#print("init_bag()")
 
 		self.occupied = []
 		self.grid_items = []
 		for item in bag_data:
 			self.add_item(item)
 			self.occupied.append(item)
+			
+	def backpack_add_item(self, index):
+		file = 'data/profile.json'
+		if platform == 'android':
+			file = f'/storage/emulated/0/BraveHeart/{file}'
+		with open(file, "r") as f:
+			data = json.load(f)
+		item = data['bag'][index]
+		self.occupied.append(item)
+		self.add_item_by_index(item, index)
 
-	def reset_items(self):
-		for item in self.occupied:
-			print(item)
-			self.add_item(item, insert=True)
+	def add_item_by_index(self, item, index):
+		item_image = f'icons/item/{item[0]["kind"]}/{item[0]["ID"]}.jpg'
+		lock = item[0]["lock"]
+		bi = BagItem(lock=lock, pos=self.bag_storage[index], \
+					 item_image=item_image, backpack_index=index)
+		self.grid_items.append(bi)
+		self.add_widget(bi)
 
 	def add_item(self, item, insert=False):
-		print("add_item() ", item)
+		#print("add_item() ", item)
 
 		pos_index = len(self.occupied)
+
 		if insert:
 			pos_index -= 1
 
 		item_image = f'icons/item/{item[0]["kind"]}/{item[0]["ID"]}.jpg'
-		print(f'[bag.py] add_item() item_image={item_image}')
-		item_id = str(pos_index)
+		#print(f'[bag.py] add_item() item_image={item_image}')
+		#self.occupied.append(item)
 
 		lock = item[0]["lock"]
 		bi = BagItem(lock=lock, pos=self.bag_storage[pos_index], \
@@ -702,18 +724,27 @@ class Bag(Widget):
 
 	# position means position-th instead of index
 	def remove_item(self, position):
-		print("remove_item()")
+		print(f'[bag.py] Bag.remove_item(position={position})')
 		#print(self.children)
-
+		print(f'[bag.py] Bag.remove_item(len_occupied={len(self.occupied)})')
 		self.occupied.pop(position-1)
+		print(f'[bag.py] Bag.remove_item(len_occupied={len(self.occupied)})')
 		#print(self.occupied)
 
 		# clear all grids
-		self.clear_widgets()
+		for item in self.grid_items:
+			self.remove_widget(item)
 
-		# reset items
-		self.reset_items()
+		self.grid_items = []
+		index = 0
+		for item in self.occupied:
+			# print(item)
+			self.add_item_by_index(item, index)
+			index += 1
 
+		# close info widget
+		self.info_widget.clear_widgets()
+		self.remove_widget(self.info_widget)
 	#def on_size(self, *args):
 		#print("Bag(on_size): ", *args)
 		#print(self.parent.height)
