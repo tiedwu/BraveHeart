@@ -32,6 +32,7 @@ import item_effect
 from dungeon import Dungeon
 from home import HomeWidget
 from bag import Bag
+from bead_box import BeadWidget
 from item_enforce import ItemEnforce
 
 ratio = 1
@@ -457,7 +458,7 @@ Builder.load_string('''
 	background_color: 0, 0, 0, 1
 	btn_image: 'icons/menu/bag.png'
 	btn_text: ''
-	on_press: root.parent.parent.show_bag()
+	
 	BoxLayout:
 		orientation: 'vertical'
 		pos: self.parent.pos
@@ -478,9 +479,12 @@ Builder.load_string('''
 	spacing: 60
 	MenuButton:
 		btn_text: '背包'
+		btn_image: 'icons/menu/bag.png'
+		on_press: self.parent.parent.show_bag()
 	MenuButton:
 		btn_text: '精气珠'
 		btn_image: 'icons/menu/mbead.png'
+		on_press: self.parent.parent.show_beadbox()
 	MenuButton:
 		btn_text: '宠物'
 		btn_image: 'icons/menu/pet.png'
@@ -681,6 +685,12 @@ class RootWidget(Screen):
 
 		# load backpack
 		self.bag = Bag()
+		#from kivy.core.window import Window
+		# get screen_size
+		#screen_width, screen_height = Window.size[0], Window.size[1]
+		#print(f'[main.py] __init__(screen_width={screen_width}, screen_height={screen_height})')
+
+		self.beadbox = BeadWidget(screen_width=self.ww, screen_height=self.wh)
 		self.load_backpack()
 
 		# add dungeon
@@ -720,6 +730,9 @@ class RootWidget(Screen):
 		# check if renew item display
 		self._backpack_add_item_required = False
 		self.backpack_max_cap = 36
+
+	def show_beadbox(self):
+		self.add_widget(self.beadbox)
 
 	def item_wear(self, index):
 		print(f'[main.py]item_wear({index})')
